@@ -1,683 +1,438 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>TEAM SNEXTY | ACCESS</title>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            min-height: 100vh;
-            overflow: hidden;
-            font-family: Arial, Helvetica, sans-serif;
-            color: white;
-
-            background:
-                radial-gradient(
-                    circle at 50% 35%,
-                    #123b75 0%,
-                    #071a35 28%,
-                    #02050b 65%,
-                    #000000 100%
-                );
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* =========================
-           BACKGROUND
-        ========================= */
-
-        .background {
-            position: fixed;
-            inset: 0;
-            overflow: hidden;
-            z-index: 0;
-        }
-
-        .light {
-            position: absolute;
-            width: 350px;
-            height: 350px;
-            border-radius: 50%;
-
-            background: #006eff;
-            filter: blur(130px);
-            opacity: 0.22;
-
-            animation: lightMove 8s infinite alternate ease-in-out;
-        }
-
-        .light.one {
-            top: -150px;
-            left: -100px;
-        }
-
-        .light.two {
-            right: -150px;
-            bottom: -100px;
-
-            background: #164cff;
-
-            animation-delay: 2s;
-        }
-
-        @keyframes lightMove {
-            from {
-                transform: translate(0, 0) scale(1);
-            }
-
-            to {
-                transform: translate(120px, 80px) scale(1.3);
-            }
-        }
-
-        /* Garis dekorasi */
-
-        .line {
-            position: absolute;
-            height: 1px;
-            width: 35%;
-
-            background: linear-gradient(
-                90deg,
-                transparent,
-                #178cff,
-                transparent
-            );
-
-            opacity: 0.5;
-        }
-
-        .line.left {
-            left: -5%;
-            top: 25%;
-            transform: rotate(-25deg);
-        }
-
-        .line.right {
-            right: -5%;
-            bottom: 25%;
-            transform: rotate(-25deg);
-        }
-
-        /* =========================
-           LOGIN CONTAINER
-        ========================= */
-
-        .container {
-            width: 92%;
-            max-width: 430px;
-
-            position: relative;
-            z-index: 5;
-
-            padding: 34px 28px 30px;
-
-            border-radius: 28px;
-
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(18, 39, 70, 0.88),
-                    rgba(2, 7, 15, 0.94)
-                );
-
-            border: 1px solid rgba(80, 155, 255, 0.35);
-
-            box-shadow:
-                0 0 20px rgba(0, 105, 255, 0.18),
-                0 0 70px rgba(0, 70, 180, 0.15),
-                inset 0 1px 0 rgba(255,255,255,0.08);
-
-            backdrop-filter: blur(20px);
-
-            animation: appear 1s ease;
-        }
-
-        @keyframes appear {
-            from {
-                opacity: 0;
-                transform: translateY(25px) scale(0.96);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        /* garis biru atas */
-
-        .top-light {
-            position: absolute;
-            top: -1px;
-            left: 15%;
-            width: 70%;
-            height: 2px;
-
-            background: linear-gradient(
-                90deg,
-                transparent,
-                #42a5ff,
-                white,
-                #42a5ff,
-                transparent
-            );
-
-            box-shadow: 0 0 15px #168cff;
-        }
-
-        /* =========================
-           LOGO
-        ========================= */
-
-        .logo-box {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .logo {
-            width: 125px;
-            height: 125px;
-
-            object-fit: contain;
-
-            filter:
-                drop-shadow(0 0 8px #168cff)
-                drop-shadow(0 0 25px rgba(0,100,255,0.5));
-
-            animation: logoFloat 4s infinite ease-in-out;
-        }
-
-        @keyframes logoFloat {
-            0%, 100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-7px);
-            }
-        }
-
-        /* =========================
-           TEXT
-        ========================= */
-
-        .mini-title {
-            text-align: center;
-
-            font-size: 11px;
-            letter-spacing: 5px;
-
-            color: #65b6ff;
-
-            margin-bottom: 9px;
-        }
-
-        h1 {
-            text-align: center;
-
-            font-size: 34px;
-            letter-spacing: 5px;
-
-            font-weight: 900;
-
-            background: linear-gradient(
-                180deg,
-                #ffffff,
-                #dcecff 45%,
-                #7f9dbd
-            );
-
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-
-            text-shadow: 0 0 20px rgba(255,255,255,0.15);
-        }
-
-        .subtitle {
-            text-align: center;
-
-            color: #8295ad;
-
-            font-size: 12px;
-            letter-spacing: 2px;
-
-            margin-top: 8px;
-            margin-bottom: 30px;
-        }
-
-        /* =========================
-           PASSWORD
-        ========================= */
-
-        .input-title {
-            font-size: 10px;
-            letter-spacing: 2px;
-
-            color: #7091b5;
-
-            margin-bottom: 8px;
-        }
-
-        .input-container {
-            position: relative;
-        }
-
-        input {
-            width: 100%;
-            height: 54px;
-
-            padding: 0 50px 0 18px;
-
-            border-radius: 14px;
-
-            border: 1px solid #21476f;
-
-            outline: none;
-
-            background: rgba(0, 8, 18, 0.8);
-
-            color: white;
-
-            font-size: 15px;
-            letter-spacing: 2px;
-
-            transition: 0.3s;
-        }
-
-        input::placeholder {
-            color: #52677e;
-            letter-spacing: 1px;
-        }
-
-        input:focus {
-            border-color: #218cff;
-
-            box-shadow:
-                0 0 0 2px rgba(33,140,255,0.08),
-                0 0 25px rgba(0,115,255,0.18);
-        }
-
-        .eye {
-            position: absolute;
-
-            right: 17px;
-            top: 17px;
-
-            cursor: pointer;
-
-            color: #7591ad;
-
-            font-size: 19px;
-
-            transition: 0.2s;
-        }
-
-        .eye:hover {
-            color: white;
-        }
-
-        /* =========================
-           BUTTON
-        ========================= */
-
-        .login-btn {
-            width: 100%;
-            height: 55px;
-
-            margin-top: 18px;
-
-            border: none;
-            border-radius: 14px;
-
-            cursor: pointer;
-
-            color: white;
-
-            font-size: 14px;
-            font-weight: bold;
-
-            letter-spacing: 3px;
-
-            background:
-                linear-gradient(
-                    100deg,
-                    #0756bd,
-                    #168cff,
-                    #b9ddff
-                );
-
-            background-size: 200% 100%;
-
-            box-shadow:
-                0 0 20px rgba(0,119,255,0.35);
-
-            transition: 0.3s;
-
-            animation: buttonGlow 4s infinite alternate;
-        }
-
-        @keyframes buttonGlow {
-            from {
-                background-position: 0% 50%;
-            }
-
-            to {
-                background-position: 100% 50%;
-            }
-        }
-
-        .login-btn:hover {
-            transform: translateY(-2px);
-
-            box-shadow:
-                0 0 35px rgba(0,140,255,0.55);
-        }
-
-        .login-btn:active {
-            transform: scale(0.97);
-        }
-
-        /* =========================
-           MESSAGE
-        ========================= */
-
-        #message {
-            height: 20px;
-
-            margin-top: 15px;
-
-            text-align: center;
-
-            font-size: 12px;
-            letter-spacing: 1px;
-        }
-
-        /* =========================
-           FOOTER
-        ========================= */
-
-        .footer {
-            display: flex;
-
-            justify-content: center;
-            align-items: center;
-
-            gap: 10px;
-
-            margin-top: 25px;
-
-            color: #52677e;
-
-            font-size: 9px;
-            letter-spacing: 3px;
-        }
-
-        .dot {
-            width: 5px;
-            height: 5px;
-
-            border-radius: 50%;
-
-            background: #168cff;
-
-            box-shadow: 0 0 8px #168cff;
-        }
-
-        /* =========================
-           MOBILE
-        ========================= */
-
-        @media (max-width: 480px) {
-
-            .container {
-                padding: 30px 22px 25px;
-            }
-
-            .logo {
-                width: 110px;
-                height: 110px;
-            }
-
-            h1 {
-                font-size: 29px;
-            }
-
-            .subtitle {
-                font-size: 10px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>TEAM SNEXTY | ACCESS</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      color: white;
+
+      background:
+        radial-gradient(circle at 50% 25%, #123c7355, transparent 30%),
+        radial-gradient(circle at 15% 90%, #0066ff44, transparent 30%),
+        #02050a;
+    }
+
+    /* BLUE LIGHT */
+    .light {
+      position: fixed;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: #006eff;
+      filter: blur(120px);
+      opacity: .22;
+      animation: lightMove 8s infinite alternate ease-in-out;
+    }
+
+    .light.one {
+      top: -100px;
+      left: -80px;
+    }
+
+    .light.two {
+      right: -100px;
+      bottom: -100px;
+      animation-delay: 2s;
+    }
+
+    @keyframes lightMove {
+      from {
+        transform: translate(0, 0);
+      }
+      to {
+        transform: translate(100px, 80px);
+      }
+    }
+
+    /* BACKGROUND LINES */
+    .line {
+      position: fixed;
+      width: 500px;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        #168cff,
+        transparent
+      );
+      opacity: .25;
+      transform: rotate(-35deg);
+    }
+
+    .line.one {
+      left: -170px;
+      top: 20%;
+    }
+
+    .line.two {
+      right: -170px;
+      bottom: 20%;
+    }
+
+    /* MAIN */
+    .container {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .content {
+      width: 92%;
+      max-width: 470px;
+      text-align: center;
+    }
+
+    /* LOGO */
+    .logo-wrap {
+      width: 180px;
+      height: 180px;
+      margin: 0 auto 18px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      border-radius: 50%;
+
+      box-shadow:
+        0 0 15px #087cff,
+        0 0 45px #087cff66,
+        0 0 90px #087cff22;
+
+      animation: logoGlow 3s infinite alternate;
+    }
+
+    .logo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    @keyframes logoGlow {
+      from {
+        filter: brightness(1);
+      }
+      to {
+        filter: brightness(1.15);
+      }
+    }
+
+    .small-title {
+      color: #5faeff;
+      font-size: 12px;
+      letter-spacing: 7px;
+      margin-bottom: 5px;
+    }
+
+    h1 {
+      font-size: 42px;
+      letter-spacing: 8px;
+
+      background: linear-gradient(
+        180deg,
+        #ffffff,
+        #dce8f5 45%,
+        #7994b2
+      );
+
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+
+      text-shadow: 0 0 25px #ffffff22;
+    }
+
+    .subtitle {
+      margin-top: 8px;
+      color: #8c9aaa;
+      font-size: 12px;
+      letter-spacing: 3px;
+    }
+
+    /* PASSWORD PANEL */
+    .panel {
+      margin-top: 30px;
+      padding: 28px;
+
+      background:
+        linear-gradient(
+          145deg,
+          #0c1928dd,
+          #02060ddd
+        );
+
+      border: 1px solid #167eff88;
+      border-radius: 20px;
+
+      box-shadow:
+        0 0 25px #006eff22,
+        inset 0 0 30px #006eff0d;
+    }
+
+    .input-box {
+      position: relative;
+    }
+
+    input {
+      width: 100%;
+      height: 55px;
+
+      padding: 0 50px 0 18px;
+
+      border-radius: 12px;
+      border: 1px solid #28547d;
+
+      outline: none;
+
+      background: #01050a;
+      color: white;
+
+      font-size: 15px;
+      letter-spacing: 1px;
+
+      transition: .3s;
+    }
+
+    input:focus {
+      border-color: #168cff;
+      box-shadow:
+        0 0 15px #168cff33,
+        inset 0 0 10px #168cff11;
+    }
+
+    input::placeholder {
+      color: #657384;
+    }
+
+    .eye {
+      position: absolute;
+      right: 17px;
+      top: 17px;
+
+      color: #7e9ab5;
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    /* BUTTON */
+    button {
+      width: 100%;
+      height: 55px;
+
+      margin-top: 15px;
+
+      border: 1px solid #5eb2ff;
+      border-radius: 12px;
+
+      color: white;
+      font-size: 15px;
+      font-weight: bold;
+      letter-spacing: 4px;
+
+      background:
+        linear-gradient(
+          90deg,
+          #0645a5,
+          #168cff,
+          #0645a5
+        );
+
+      box-shadow:
+        0 0 20px #168cff55;
+
+      cursor: pointer;
+      transition: .25s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 0 35px #168cff99;
+    }
+
+    button:active {
+      transform: scale(.97);
+    }
+
+    #message {
+      min-height: 20px;
+      margin-top: 14px;
+      font-size: 13px;
+    }
+
+    .bottom {
+      margin-top: 22px;
+      color: #506070;
+      font-size: 9px;
+      letter-spacing: 4px;
+    }
+
+    .bottom span {
+      color: #238cff;
+    }
+
+    /* MOBILE */
+    @media (max-width: 500px) {
+
+      .logo-wrap {
+        width: 145px;
+        height: 145px;
+      }
+
+      h1 {
+        font-size: 34px;
+        letter-spacing: 6px;
+      }
+
+      .panel {
+        padding: 22px;
+      }
+
+      .subtitle {
+        font-size: 10px;
+        letter-spacing: 2px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-    <!-- BACKGROUND -->
+  <div class="light one"></div>
+  <div class="light two"></div>
 
-    <div class="background">
+  <div class="line one"></div>
+  <div class="line two"></div>
 
-        <div class="light one"></div>
-        <div class="light two"></div>
+  <main class="container">
 
-        <div class="line left"></div>
-        <div class="line right"></div>
+    <div class="content">
 
-    </div>
+      <!-- LOGO TEAM SNEXTY -->
+      <div class="logo-wrap">
+        <img src="logo.png" alt="TEAM SNEXTY">
+      </div>
 
+      <div class="small-title">
+        TEAM SNEXTY
+      </div>
 
-    <!-- LOGIN -->
+      <h1>ACCESS</h1>
 
-    <main class="container">
+      <p class="subtitle">
+        MASUKKAN KATA SANDI UNTUK MELANJUTKAN
+      </p>
 
-        <div class="top-light"></div>
+      <div class="panel">
 
+        <div class="input-box">
 
-        <!-- LOGO -->
+          <input
+            type="password"
+            id="password"
+            placeholder="Kata sandi..."
+            autocomplete="off"
+          >
 
-        <div class="logo-box">
-
-            <img
-                src="logo.png"
-                alt="TEAM SNEXTY"
-                class="logo"
-            >
-
-        </div>
-
-
-        <!-- TITLE -->
-
-        <div class="mini-title">
-            TEAM SNEXTY
-        </div>
-
-        <h1>
-            ACCESS
-        </h1>
-
-        <p class="subtitle">
-            PRIVATE NETWORK • AUTHORIZED USERS
-        </p>
-
-
-        <!-- PASSWORD -->
-
-        <div class="input-title">
-            ACCESS KEY
-        </div>
-
-        <div class="input-container">
-
-            <input
-                id="password"
-                type="password"
-                placeholder="Masukkan kata sandi"
-                autocomplete="off"
-            >
-
-            <span
-                class="eye"
-                onclick="togglePassword()"
-                id="eye"
-            >
-                ◉
-            </span>
+          <span
+            class="eye"
+            onclick="togglePassword()"
+          >◉</span>
 
         </div>
 
-
-        <!-- BUTTON -->
-
-        <button
-            class="login-btn"
-            onclick="login()"
-        >
-            MASUK&nbsp;&nbsp; →
+        <button onclick="login()">
+          MASUK →
         </button>
-
-
-        <!-- MESSAGE -->
 
         <div id="message"></div>
 
-
-        <!-- FOOTER -->
-
-        <div class="footer">
-
-            <span class="dot"></span>
-
-            SECURE CONNECTION
-
-            <span class="dot"></span>
-
+        <div class="bottom">
+          <span>◆</span>
+          ONLY AUTHORIZED USERS
+          <span>◆</span>
         </div>
 
-    </main>
+      </div>
+
+    </div>
+
+  </main>
 
 
-    <script>
+  <script>
 
-        /* =========================
-           PASSWORD
-        ========================= */
+    function togglePassword() {
 
-        const correctPassword = "123456";
+      const input =
+        document.getElementById("password");
 
+      if (input.type === "password") {
 
-        /* =========================
-           SHOW / HIDE PASSWORD
-        ========================= */
+        input.type = "text";
 
-        function togglePassword() {
+      } else {
 
-            const input =
-                document.getElementById("password");
+        input.type = "password";
 
-            const eye =
-                document.getElementById("eye");
-
-            if (input.type === "password") {
-
-                input.type = "text";
-
-                eye.innerHTML = "◉";
-
-            } else {
-
-                input.type = "password";
-
-                eye.innerHTML = "◉";
-
-            }
-
-        }
+      }
+    }
 
 
-        /* =========================
-           LOGIN
-        ========================= */
+    function login() {
 
-        function login() {
+      const password =
+        document.getElementById("password").value;
 
-            const password =
-                document.getElementById("password").value;
-
-            const message =
-                document.getElementById("message");
+      const message =
+        document.getElementById("message");
 
 
-            if (password === correctPassword) {
+      /* PASSWORD */
 
-                message.style.color = "#69b9ff";
-
-                message.innerHTML =
-                    "✓ ACCESS GRANTED";
+      const correctPassword = "123456";
 
 
-                setTimeout(function() {
+      if (password === correctPassword) {
 
-                    window.location.href = "home.html";
+        message.style.color = "#62ff9a";
 
-                }, 800);
+        message.innerText =
+          "✓ ACCESS GRANTED";
 
+        setTimeout(() => {
 
-            } else {
+          window.location.href = "home.html";
 
-                message.style.color = "#ff6178";
+        }, 800);
 
-                message.innerHTML =
-                    "✕ ACCESS DENIED";
+      } else {
 
+        message.style.color = "#ff526d";
 
-                const box =
-                    document.querySelector(".container");
+        message.innerText =
+          "✕ KATA SANDI SALAH";
 
-                box.animate(
-                    [
-                        { transform: "translateX(0)" },
-                        { transform: "translateX(-8px)" },
-                        { transform: "translateX(8px)" },
-                        { transform: "translateX(-5px)" },
-                        { transform: "translateX(0)" }
-                    ],
-                    {
-                        duration: 350
-                    }
-                );
+      }
+    }
 
-            }
-
-        }
-
-
-        /* ENTER = LOGIN */
-
-        document
-            .getElementById("password")
-            .addEventListener("keydown", function(event) {
-
-                if (event.key === "Enter") {
-
-                    login();
-
-                }
-
-            });
-
-    </script>
+  </script>
 
 </body>
-  </html>
+</html>
