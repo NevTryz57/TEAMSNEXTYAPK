@@ -632,6 +632,82 @@ function leaveRoom(){
   window.location.href = "index.html";
 }
 </script>
+  <!-- LiveKit -->
+<script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.min.js"></script>
 
+<div id="voice-chat">
+  <h2>TNEX Voice Chat</h2>
+
+  <input id="nameInput" type="text" placeholder="Nama kamu">
+
+  <button id="joinBtn">🎙️ Join Voice Chat</button>
+  <button id="leaveBtn" style="display:none;">🚪 Leave</button>
+
+  <p id="status">Belum terhubung</p>
+</div>
+
+<script>
+const TOKEN_SERVER_ID = "tnexvoicechat-1mbm19";
+
+let room = null;
+
+const nameInput = document.getElementById("nameInput");
+const joinBtn = document.getElementById("joinBtn");
+const leaveBtn = document.getElementById("leaveBtn");
+const status = document.getElementById("status");
+
+joinBtn.onclick = async () => {
+  const name = nameInput.value.trim();
+
+  if (!name) {
+    alert("Masukkan nama dulu!");
+    return;
+  }
+
+  try {
+    status.textContent = "Menghubungkan...";
+
+    const tokenSource =
+      LivekitClient.TokenSource.developmentTokenServer(
+        TOKEN_SERVER_ID
+      );
+
+    const credentials = await tokenSource.fetch({
+      roomName: "tnex-lobby",
+      participantName: name
+    });
+
+    room = new LivekitClient.Room();
+
+    await room.connect(
+      credentials.serverUrl,
+      credentials.participantToken
+    );
+
+    await room.localParticipant.setMicrophoneEnabled(true);
+
+    status.textContent = "🟢 Terhubung sebagai " + name;
+
+    joinBtn.style.display = "none";
+    leaveBtn.style.display = "inline-block";
+
+  } catch (error) {
+    console.error(error);
+    status.textContent = "❌ Gagal terhubung";
+    alert("Gagal masuk voice chat: " + error.message);
+  }
+};
+
+leaveBtn.onclick = async () => {
+  if (room) {
+    await room.disconnect();
+    room = null;
+  }
+
+  status.textContent = "Belum terhubung";
+  joinBtn.style.display = "inline-block";
+  leaveBtn.style.display = "none";
+};
+</script>
 </body>
 </html>
