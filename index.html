@@ -3,994 +3,466 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>TEAM SNEXTY | SECURE ACCESS</title>
+<meta name="theme-color" content="#050914">
+<title>TEAM SNEXTY | ACCESS</title>
 
 <style>
 *{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-:root{
-  --navy:#020817;
-  --blue:#087cff;
-  --cyan:#00d9ff;
-  --white:#f5f9ff;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 html,body{
-  width:100%;
-  height:100%;
+    width:100%;
+    min-height:100%;
 }
 
 body{
-  overflow:hidden;
-  font-family:Arial,Helvetica,sans-serif;
-  color:white;
-  background:
-    radial-gradient(circle at 50% 45%,#0a3566 0%,transparent 25%),
-    radial-gradient(circle at 0% 100%,#063d79 0%,transparent 30%),
-    #01030a;
+    overflow:hidden;
+    font-family:Arial,Helvetica,sans-serif;
+    color:white;
+    background:
+        radial-gradient(circle at 50% 35%,#102d55 0%,#07101f 28%,#03050a 70%);
 }
 
-/* ==================================================
-   BACKGROUND
-================================================== */
+/* GRID RINGAN */
 
-.background{
-  position:fixed;
-  inset:0;
-  overflow:hidden;
-  pointer-events:none;
-}
-
-/* grid */
 .grid{
-  position:absolute;
-  width:200%;
-  height:200%;
-  left:-50%;
-  top:-25%;
-
-  background-image:
-    linear-gradient(#168cff13 1px,transparent 1px),
-    linear-gradient(90deg,#168cff13 1px,transparent 1px);
-
-  background-size:50px 50px;
-
-  transform:
-    perspective(500px)
-    rotateX(62deg);
-
-  transform-origin:center center;
-
-  animation:gridMove 7s linear infinite;
+    position:fixed;
+    inset:0;
+    opacity:.16;
+    background-image:
+        linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+    background-size:50px 50px;
+    transform:perspective(500px) rotateX(58deg) scale(1.5);
+    transform-origin:center bottom;
 }
 
-@keyframes gridMove{
-  to{
-    background-position:0 50px;
-  }
-}
+/* GLOW */
 
-/* glow */
 .glow{
-  position:absolute;
-  border-radius:50%;
-  filter:blur(110px);
+    position:fixed;
+    width:300px;
+    height:300px;
+    left:50%;
+    top:40%;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    background:rgba(20,110,255,.16);
+    filter:blur(45px);
+    animation:pulse 4s ease-in-out infinite;
 }
 
-.glow1{
-  width:400px;
-  height:400px;
-  background:#006eff;
-  opacity:.16;
-  left:-170px;
-  top:-170px;
-  animation:glowOne 9s infinite alternate ease-in-out;
+@keyframes pulse{
+    0%,100%{opacity:.55;transform:translate(-50%,-50%) scale(.9)}
+    50%{opacity:1;transform:translate(-50%,-50%) scale(1.08)}
 }
 
-.glow2{
-  width:420px;
-  height:420px;
-  background:#00bfff;
-  opacity:.10;
-  right:-200px;
-  bottom:-200px;
-  animation:glowTwo 11s infinite alternate ease-in-out;
-}
+/* LIGHT LINE */
 
-@keyframes glowOne{
-  to{
-    transform:translate(220px,180px);
-  }
-}
-
-@keyframes glowTwo{
-  to{
-    transform:translate(-180px,-150px);
-  }
-}
-
-/* ==================================================
-   PARTICLES
-================================================== */
-
-.particles{
-  position:absolute;
-  inset:0;
-}
-
-.particle{
-  position:absolute;
-  width:2px;
-  height:2px;
-  border-radius:50%;
-
-  background:#73c7ff;
-
-  box-shadow:
-    0 0 6px #168cff,
-    0 0 14px #168cff;
-
-  animation:particleUp linear infinite;
-}
-
-.p1{left:8%;top:90%;animation-duration:7s}
-.p2{left:18%;top:70%;animation-duration:9s}
-.p3{left:28%;top:85%;animation-duration:6s}
-.p4{left:39%;top:65%;animation-duration:11s}
-.p5{left:50%;top:92%;animation-duration:8s}
-.p6{left:61%;top:75%;animation-duration:10s}
-.p7{left:72%;top:88%;animation-duration:7s}
-.p8{left:83%;top:68%;animation-duration:9s}
-.p9{left:93%;top:82%;animation-duration:6s}
-.p10{left:45%;top:45%;animation-duration:8s}
-.p11{left:67%;top:35%;animation-duration:10s}
-.p12{left:14%;top:35%;animation-duration:8s}
-
-@keyframes particleUp{
-  0%{
-    transform:translateY(80px) scale(.3);
-    opacity:0;
-  }
-
-  20%{
-    opacity:1;
-  }
-
-  80%{
-    opacity:1;
-  }
-
-  100%{
-    transform:translateY(-500px) scale(1.5);
-    opacity:0;
-  }
-}
-
-/* ==================================================
-   DIAGONAL LIGHT
-================================================== */
-
-.beam{
-  position:absolute;
-  width:800px;
-  height:1px;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      #168cff,
-      #ffffff,
-      #168cff,
-      transparent
+.light{
+    position:fixed;
+    width:1px;
+    height:120%;
+    left:50%;
+    top:-10%;
+    background:linear-gradient(
+        transparent,
+        rgba(255,255,255,.45),
+        transparent
     );
-
-  opacity:.18;
-
-  transform:rotate(-35deg);
-
-  animation:beamMove 6s linear infinite;
+    transform:rotate(28deg);
+    opacity:.35;
+    animation:lightMove 6s ease-in-out infinite;
 }
 
-.beam1{
-  top:15%;
-  left:-500px;
+@keyframes lightMove{
+    0%,100%{margin-left:-250px;opacity:0}
+    50%{margin-left:250px;opacity:.5}
 }
 
-.beam2{
-  bottom:20%;
-  right:-500px;
-  animation-delay:3s;
-}
-
-@keyframes beamMove{
-  from{
-    transform:rotate(-35deg) translateX(0);
-  }
-
-  to{
-    transform:rotate(-35deg) translateX(900px);
-  }
-}
-
-/* ==================================================
-   SCANLINES
-================================================== */
-
-.scanlines{
-  position:fixed;
-  inset:0;
-
-  background:
-    repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent 4px,
-      #ffffff04 5px
-    );
-
-  pointer-events:none;
-  z-index:20;
-}
-
-/* ==================================================
-   TOP HEADER
-================================================== */
+/* HEADER */
 
 .header{
-  position:fixed;
-
-  top:25px;
-  left:30px;
-  right:30px;
-
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-
-  z-index:10;
-}
-
-.team{
-  font-size:10px;
-  font-weight:bold;
-  letter-spacing:5px;
-
-  color:#dcecff;
-
-  text-shadow:
-    0 0 12px #168cff66;
-}
-
-.est{
-  font-size:9px;
-  letter-spacing:3px;
-  color:#607f9f;
-}
-
-/* ==================================================
-   MAIN
-================================================== */
-
-.main{
-  position:relative;
-  z-index:5;
-
-  width:100%;
-  height:100%;
-
-  display:flex;
-  justify-content:center;
-  align-items:center;
-
-  padding:20px;
-}
-
-/* rotating circles */
-
-.ring{
-  position:absolute;
-
-  width:520px;
-  height:520px;
-
-  border-radius:50%;
-
-  border:1px solid #168cff22;
-
-  box-shadow:
-    0 0 40px #168cff0c,
-    inset 0 0 40px #168cff08;
-
-  animation:rotate 20s linear infinite;
-}
-
-.ring::before{
-  content:"";
-
-  position:absolute;
-  inset:28px;
-
-  border-radius:50%;
-
-  border:1px dashed #168cff28;
-}
-
-.ring::after{
-  content:"";
-
-  position:absolute;
-  inset:75px;
-
-  border-radius:50%;
-
-  border:
-    1px solid #ffffff0c;
-
-  animation:rotate 10s linear infinite reverse;
-}
-
-@keyframes rotate{
-  to{
-    transform:rotate(360deg);
-  }
-}
-
-/* ==================================================
-   CONTENT
-================================================== */
-
-.content{
-  width:min(430px,92vw);
-  text-align:center;
-
-  animation:appear 1.2s cubic-bezier(.2,.8,.2,1);
-}
-
-@keyframes appear{
-  from{
-    opacity:0;
-    transform:translateY(35px) scale(.94);
-  }
-
-  to{
-    opacity:1;
-    transform:translateY(0) scale(1);
-  }
-}
-
-/* ==================================================
-   BRAND
-================================================== */
-
-.brand-small{
-  font-size:10px;
-  letter-spacing:8px;
-
-  color:#54b7ff;
-
-  margin-bottom:10px;
-
-  text-shadow:
-    0 0 15px #168cff88;
+    position:absolute;
+    top:28px;
+    left:35px;
+    right:35px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    z-index:5;
 }
 
 .brand{
-  font-size:38px;
-  font-weight:900;
-
-  letter-spacing:6px;
-
-  background:
-    linear-gradient(
-      180deg,
-      #ffffff 0%,
-      #ffffff 30%,
-      #d9e7f4 55%,
-      #7c96ad 100%
-    );
-
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-
-  filter:
-    drop-shadow(0 0 12px #ffffff22);
+    font-size:17px;
+    font-weight:bold;
+    letter-spacing:4px;
+    background:linear-gradient(90deg,#fff,#9daabd,#fff);
+    -webkit-background-clip:text;
+    color:transparent;
 }
 
-.line{
-  width:120px;
-  height:2px;
-
-  margin:15px auto;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      #168cff,
-      #ffffff,
-      #168cff,
-      transparent
-    );
-
-  box-shadow:
-    0 0 12px #168cff;
+.est{
+    font-size:9px;
+    letter-spacing:3px;
+    color:#68758b;
 }
 
-/* ==================================================
-   ACCESS
-================================================== */
+/* MAIN */
 
-.access{
-  font-size:48px;
-  font-weight:900;
+.main{
+    position:relative;
+    z-index:3;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
 
-  letter-spacing:11px;
+/* CONTENT */
 
-  background:
-    linear-gradient(
-      180deg,
-      #ffffff,
-      #d7e6f5,
-      #6f8da8
-    );
+.content{
+    width:100%;
+    max-width:450px;
+    text-align:center;
+}
 
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
+.tag{
+    display:inline-block;
+    padding:7px 13px;
+    border:1px solid rgba(80,160,255,.35);
+    border-radius:30px;
+    color:#78bfff;
+    font-size:9px;
+    letter-spacing:2px;
+    background:rgba(30,100,200,.07);
+    margin-bottom:22px;
+}
 
-  text-shadow:
-    0 0 30px #168cff22;
+.title{
+    font-size:clamp(38px,11vw,64px);
+    line-height:.9;
+    font-weight:900;
+    letter-spacing:-3px;
+}
+
+.title .white{
+    background:linear-gradient(180deg,#fff,#9ba8b9);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.title .blue{
+    color:#3293ff;
+    text-shadow:0 0 25px rgba(40,140,255,.35);
 }
 
 .subtitle{
-  margin-top:8px;
-
-  color:#71869d;
-
-  font-size:9px;
-
-  letter-spacing:3px;
+    margin-top:18px;
+    color:#8c99ab;
+    font-size:11px;
+    letter-spacing:2px;
 }
 
-/* ==================================================
-   LOGIN PANEL
-================================================== */
+/* LOGIN */
 
-.panel{
-  position:relative;
-
-  margin-top:28px;
-
-  padding:27px;
-
-  border-radius:20px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #0a1a2cdd,
-      #02050bdd
-    );
-
-  border:
-    1px solid #168cff55;
-
-  backdrop-filter:blur(25px);
-
-  box-shadow:
-    0 0 30px #006eff1c,
-    0 0 100px #006eff0b,
-    inset 0 0 40px #168cff08;
+.login{
+    margin:30px auto 0;
+    width:100%;
+    padding:20px;
+    border:1px solid rgba(100,160,255,.16);
+    border-radius:20px;
+    background:rgba(5,10,20,.78);
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.4),
+        inset 0 1px rgba(255,255,255,.05);
+    backdrop-filter:blur(10px);
 }
 
-/* panel corners */
-
-.panel::before,
-.panel::after{
-  content:"";
-
-  position:absolute;
-
-  width:32px;
-  height:32px;
-
-  border-color:#168cff;
+.label{
+    text-align:left;
+    color:#69778c;
+    font-size:9px;
+    letter-spacing:2px;
+    margin-bottom:9px;
 }
 
-.panel::before{
-  top:-1px;
-  left:-1px;
-
-  border-top:2px solid;
-  border-left:2px solid;
-
-  border-radius:20px 0 0 0;
-}
-
-.panel::after{
-  bottom:-1px;
-  right:-1px;
-
-  border-bottom:2px solid;
-  border-right:2px solid;
-
-  border-radius:0 0 20px 0;
-}
-
-/* ==================================================
-   INPUT
-================================================== */
-
-.input{
-  position:relative;
+.input-wrap{
+    position:relative;
 }
 
 input{
-  width:100%;
-  height:57px;
-
-  padding:
-    0 50px 0 18px;
-
-  border-radius:12px;
-
-  border:
-    1px solid #294b6b;
-
-  outline:none;
-
-  background:#01050a;
-
-  color:#fff;
-
-  font-size:14px;
-
-  letter-spacing:1px;
-
-  transition:.3s;
+    width:100%;
+    height:52px;
+    padding:0 48px 0 15px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,.09);
+    outline:none;
+    background:#080e19;
+    color:white;
+    font-size:14px;
+    transition:.2s;
 }
 
 input:focus{
-  border-color:#168cff;
-
-  box-shadow:
-    0 0 20px #168cff35,
-    inset 0 0 15px #168cff0d;
-}
-
-input::placeholder{
-  color:#536b82;
+    border-color:#287fff;
+    box-shadow:0 0 0 3px rgba(40,127,255,.08);
 }
 
 .eye{
-  position:absolute;
-
-  right:17px;
-  top:18px;
-
-  color:#7291ad;
-
-  cursor:pointer;
-
-  transition:.2s;
+    position:absolute;
+    right:15px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#718097;
+    cursor:pointer;
+    user-select:none;
 }
 
-.eye:hover{
-  color:#ffffff;
-  text-shadow:0 0 10px #168cff;
-}
-
-/* ==================================================
-   BUTTON
-================================================== */
+/* BUTTON */
 
 button{
-  position:relative;
-
-  overflow:hidden;
-
-  width:100%;
-  height:57px;
-
-  margin-top:14px;
-
-  border-radius:12px;
-
-  border:
-    1px solid #72c7ff;
-
-  color:#fff;
-
-  font-size:13px;
-
-  font-weight:bold;
-
-  letter-spacing:5px;
-
-  background:
-    linear-gradient(
-      100deg,
-      #03275d,
-      #075dce,
-      #168cff,
-      #dcecff,
-      #168cff,
-      #075dce,
-      #03275d
+    width:100%;
+    height:52px;
+    margin-top:12px;
+    border:0;
+    border-radius:12px;
+    cursor:pointer;
+    color:white;
+    font-weight:bold;
+    letter-spacing:2px;
+    background:linear-gradient(
+        100deg,
+        #0d55c9,
+        #1689ff,
+        #0d55c9
     );
-
-  background-size:350% 100%;
-
-  cursor:pointer;
-
-  box-shadow:
-    0 0 25px #168cff55;
-
-  animation:
-    buttonFlow 5s linear infinite;
-
-  transition:.25s;
+    background-size:200% 100%;
+    animation:buttonMove 3s linear infinite;
+    box-shadow:0 10px 30px rgba(10,100,255,.2);
 }
 
-@keyframes buttonFlow{
-  0%{
-    background-position:0% 50%;
-  }
-
-  100%{
-    background-position:350% 50%;
-  }
-}
-
-button::after{
-  content:"";
-
-  position:absolute;
-
-  top:0;
-  left:-120%;
-
-  width:60%;
-  height:100%;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      #ffffff99,
-      transparent
-    );
-
-  transform:skewX(-25deg);
-
-  animation:shine 2.8s infinite;
-}
-
-@keyframes shine{
-  0%{
-    left:-120%;
-  }
-
-  45%{
-    left:140%;
-  }
-
-  100%{
-    left:140%;
-  }
-}
-
-button:hover{
-  transform:translateY(-2px);
-
-  box-shadow:
-    0 0 35px #168cffaa;
+@keyframes buttonMove{
+    0%{background-position:0%}
+    100%{background-position:200%}
 }
 
 button:active{
-  transform:scale(.96);
+    transform:scale(.98);
 }
 
-/* ==================================================
-   MESSAGE
-================================================== */
+/* STATUS */
 
-#message{
-  min-height:18px;
-
-  margin-top:14px;
-
-  font-size:11px;
-
-  letter-spacing:1px;
+.status{
+    min-height:18px;
+    margin-top:12px;
+    font-size:10px;
+    color:#68768b;
 }
 
-/* ==================================================
-   FOOTER
-================================================== */
+.success{
+    color:#62ffad;
+}
+
+.error{
+    color:#ff6675;
+}
 
 .footer{
-  margin-top:22px;
-
-  color:#50677e;
-
-  font-size:8px;
-
-  letter-spacing:4px;
+    margin-top:18px;
+    color:#465266;
+    font-size:8px;
+    letter-spacing:2px;
 }
 
-.footer span{
-  color:#168cff;
-
-  text-shadow:
-    0 0 8px #168cff;
-}
-
-/* ==================================================
-   MOBILE
-================================================== */
+/* MOBILE */
 
 @media(max-width:500px){
 
-  .header{
-    top:18px;
-    left:18px;
-    right:18px;
-  }
+    .header{
+        top:20px;
+        left:20px;
+        right:20px;
+    }
 
-  .team{
-    font-size:8px;
-    letter-spacing:3px;
-  }
+    .brand{
+        font-size:13px;
+        letter-spacing:3px;
+    }
 
-  .est{
-    font-size:7px;
-  }
+    .est{
+        font-size:7px;
+    }
 
-  .ring{
-    width:350px;
-    height:350px;
-  }
+    .login{
+        margin-top:25px;
+        padding:16px;
+    }
 
-  .brand{
-    font-size:29px;
-    letter-spacing:4px;
-  }
+    .title{
+        font-size:48px;
+    }
 
-  .access{
-    font-size:39px;
-    letter-spacing:7px;
-  }
+    .subtitle{
+        font-size:9px;
+    }
+}
 
-  .subtitle{
-    font-size:7px;
-    letter-spacing:2px;
-  }
+/* REDUCE MOTION */
 
-  .panel{
-    padding:22px;
-  }
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+        animation:none !important;
+        transition:none !important;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<!-- ================= BACKGROUND ================= -->
-
-<div class="background">
-
-  <div class="grid"></div>
-
-  <div class="glow glow1"></div>
-  <div class="glow glow2"></div>
-
-  <div class="beam beam1"></div>
-  <div class="beam beam2"></div>
-
-  <div class="particles">
-    <i class="particle p1"></i>
-    <i class="particle p2"></i>
-    <i class="particle p3"></i>
-    <i class="particle p4"></i>
-    <i class="particle p5"></i>
-    <i class="particle p6"></i>
-    <i class="particle p7"></i>
-    <i class="particle p8"></i>
-    <i class="particle p9"></i>
-    <i class="particle p10"></i>
-    <i class="particle p11"></i>
-    <i class="particle p12"></i>
-  </div>
-
-</div>
-
-<div class="scanlines"></div>
-
-
-<!-- ================= HEADER ================= -->
+<div class="grid"></div>
+<div class="glow"></div>
+<div class="light"></div>
 
 <header class="header">
-
-  <div class="team">
-    TEAM SNEXTY
-  </div>
-
-  <div class="est">
-    EST. 2023
-  </div>
-
+    <div class="brand">TEAM SNEXTY</div>
+    <div class="est">SECURE SYSTEM</div>
 </header>
-
-
-<!-- ================= MAIN ================= -->
 
 <main class="main">
 
-  <div class="ring"></div>
+    <div class="content">
 
-  <section class="content">
+        <div class="tag">
+            SECURE ACCESS • ONLINE
+        </div>
 
-    <div class="brand-small">
-      MORE THAN A TEAM
-    </div>
+        <h1 class="title">
+            <span class="white">TEAM</span><br>
+            <span class="blue">SNEXTY</span>
+        </h1>
 
-    <div class="brand">
-      TEAM SNEXTY
-    </div>
+        <p class="subtitle">
+            MORE THAN A TEAM — ONE GOAL
+        </p>
 
-    <div class="line"></div>
+        <div class="login">
 
-    <div class="access">
-      ACCESS
-    </div>
+            <div class="label">
+                ENTER ACCESS PASSWORD
+            </div>
 
-    <div class="subtitle">
-      MASUKKAN KATA SANDI UNTUK MELANJUTKAN
-    </div>
+            <div class="input-wrap">
 
+                <input
+                    id="password"
+                    type="password"
+                    placeholder="Masukkan kata sandi"
+                    autocomplete="off"
+                >
 
-    <!-- LOGIN -->
+                <span
+                    class="eye"
+                    onclick="togglePassword()"
+                    id="eye">
+                    ◉
+                </span>
 
-    <div class="panel">
+            </div>
 
-      <div class="input">
+            <button onclick="login()">
+                UNLOCK →
+            </button>
 
-        <input
-          id="password"
-          type="password"
-          placeholder="ENTER ACCESS KEY"
-          autocomplete="off"
-        >
+            <div
+                class="status"
+                id="status">
+            </div>
 
-        <span
-          class="eye"
-          onclick="togglePassword()"
-        >
-          ◉
-        </span>
+            <div class="footer">
+                AUTHORIZED TEAM MEMBERS ONLY
+            </div>
 
-      </div>
-
-
-      <button onclick="login()">
-        UNLOCK&nbsp;&nbsp;→
-      </button>
-
-
-      <div id="message"></div>
-
-
-      <div class="footer">
-        <span>◆</span>
-        AUTHORIZED USERS ONLY
-        <span>◆</span>
-      </div>
+        </div>
 
     </div>
-
-  </section>
 
 </main>
 
-
 <script>
 
-/* ==============================
-   SHOW / HIDE PASSWORD
-============================== */
+const correctPassword = "123456";
+
+const passwordInput =
+    document.getElementById("password");
+
+const statusText =
+    document.getElementById("status");
 
 function togglePassword(){
 
-  const input =
-    document.getElementById("password");
+    if(passwordInput.type === "password"){
+        passwordInput.type = "text";
+    }else{
+        passwordInput.type = "password";
+    }
 
-  const eye =
-    document.querySelector(".eye");
-
-  if(input.type === "password"){
-
-    input.type = "text";
-
-    eye.innerText = "◎";
-
-  }else{
-
-    input.type = "password";
-
-    eye.innerText = "◉";
-
-  }
 }
-
-
-/* ==============================
-   LOGIN
-============================== */
 
 function login(){
 
-  const password =
-    document.getElementById("password").value;
+    const password =
+        passwordInput.value.trim();
 
-  const message =
-    document.getElementById("message");
+    if(password === correctPassword){
 
-  /*
-    PASSWORD SEMENTARA
-    GANTI "123456" SESUAI PASSWORD KAMU
-  */
+        statusText.textContent =
+            "✓ ACCESS GRANTED";
 
-  const correctPassword = "123456";
+        statusText.className =
+            "status success";
 
+        setTimeout(function(){
 
-  if(password === correctPassword){
+            window.location.href =
+                "home.html";
 
-    message.style.color = "#65ff9a";
+        },600);
 
-    message.innerHTML =
-      "✓ ACCESS GRANTED";
+    }else{
 
+        statusText.textContent =
+            "✕ ACCESS DENIED — WRONG PASSWORD";
 
-    setTimeout(function(){
+        statusText.className =
+            "status error";
 
-      window.location.href =
-        "home.html";
+        passwordInput.value = "";
 
-    },800);
-
-
-  }else{
-
-    message.style.color =
-      "#ff526d";
-
-    message.innerHTML =
-      "✕ ACCESS DENIED — WRONG KEY";
-
-  }
-
-}
-
-
-/* ENTER = LOGIN */
-
-document
-  .getElementById("password")
-  .addEventListener("keydown",function(event){
-
-    if(event.key === "Enter"){
-
-      login();
+        passwordInput.focus();
 
     }
 
-  });
+}
+
+passwordInput.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Enter"){
+            login();
+        }
+
+    }
+);
 
 </script>
 
