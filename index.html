@@ -1,438 +1,140 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>TEAM SNEXTY | ACCESS</title>
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      min-height: 100vh;
-      overflow: hidden;
-      font-family: Arial, sans-serif;
-      color: white;
-
-      background:
-        radial-gradient(circle at 50% 25%, #123c7355, transparent 30%),
-        radial-gradient(circle at 15% 90%, #0066ff44, transparent 30%),
-        #02050a;
-    }
-
-    /* BLUE LIGHT */
-    .light {
-      position: fixed;
-      width: 280px;
-      height: 280px;
-      border-radius: 50%;
-      background: #006eff;
-      filter: blur(120px);
-      opacity: .22;
-      animation: lightMove 8s infinite alternate ease-in-out;
-    }
-
-    .light.one {
-      top: -100px;
-      left: -80px;
-    }
-
-    .light.two {
-      right: -100px;
-      bottom: -100px;
-      animation-delay: 2s;
-    }
-
-    @keyframes lightMove {
-      from {
-        transform: translate(0, 0);
-      }
-      to {
-        transform: translate(100px, 80px);
-      }
-    }
-
-    /* BACKGROUND LINES */
-    .line {
-      position: fixed;
-      width: 500px;
-      height: 2px;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        #168cff,
-        transparent
-      );
-      opacity: .25;
-      transform: rotate(-35deg);
-    }
-
-    .line.one {
-      left: -170px;
-      top: 20%;
-    }
-
-    .line.two {
-      right: -170px;
-      bottom: 20%;
-    }
-
-    /* MAIN */
-    .container {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      z-index: 2;
-    }
-
-    .content {
-      width: 92%;
-      max-width: 470px;
-      text-align: center;
-    }
-
-    /* LOGO */
-    .logo-wrap {
-      width: 180px;
-      height: 180px;
-      margin: 0 auto 18px;
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      border-radius: 50%;
-
-      box-shadow:
-        0 0 15px #087cff,
-        0 0 45px #087cff66,
-        0 0 90px #087cff22;
-
-      animation: logoGlow 3s infinite alternate;
-    }
-
-    .logo-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      border-radius: 50%;
-    }
-
-    @keyframes logoGlow {
-      from {
-        filter: brightness(1);
-      }
-      to {
-        filter: brightness(1.15);
-      }
-    }
-
-    .small-title {
-      color: #5faeff;
-      font-size: 12px;
-      letter-spacing: 7px;
-      margin-bottom: 5px;
-    }
-
-    h1 {
-      font-size: 42px;
-      letter-spacing: 8px;
-
-      background: linear-gradient(
-        180deg,
-        #ffffff,
-        #dce8f5 45%,
-        #7994b2
-      );
-
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-
-      text-shadow: 0 0 25px #ffffff22;
-    }
-
-    .subtitle {
-      margin-top: 8px;
-      color: #8c9aaa;
-      font-size: 12px;
-      letter-spacing: 3px;
-    }
-
-    /* PASSWORD PANEL */
-    .panel {
-      margin-top: 30px;
-      padding: 28px;
-
-      background:
-        linear-gradient(
-          145deg,
-          #0c1928dd,
-          #02060ddd
-        );
-
-      border: 1px solid #167eff88;
-      border-radius: 20px;
-
-      box-shadow:
-        0 0 25px #006eff22,
-        inset 0 0 30px #006eff0d;
-    }
-
-    .input-box {
-      position: relative;
-    }
-
-    input {
-      width: 100%;
-      height: 55px;
-
-      padding: 0 50px 0 18px;
-
-      border-radius: 12px;
-      border: 1px solid #28547d;
-
-      outline: none;
-
-      background: #01050a;
-      color: white;
-
-      font-size: 15px;
-      letter-spacing: 1px;
-
-      transition: .3s;
-    }
-
-    input:focus {
-      border-color: #168cff;
-      box-shadow:
-        0 0 15px #168cff33,
-        inset 0 0 10px #168cff11;
-    }
-
-    input::placeholder {
-      color: #657384;
-    }
-
-    .eye {
-      position: absolute;
-      right: 17px;
-      top: 17px;
-
-      color: #7e9ab5;
-      cursor: pointer;
-      font-size: 20px;
-    }
-
-    /* BUTTON */
-    button {
-      width: 100%;
-      height: 55px;
-
-      margin-top: 15px;
-
-      border: 1px solid #5eb2ff;
-      border-radius: 12px;
-
-      color: white;
-      font-size: 15px;
-      font-weight: bold;
-      letter-spacing: 4px;
-
-      background:
-        linear-gradient(
-          90deg,
-          #0645a5,
-          #168cff,
-          #0645a5
-        );
-
-      box-shadow:
-        0 0 20px #168cff55;
-
-      cursor: pointer;
-      transition: .25s;
-    }
-
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow:
-        0 0 35px #168cff99;
-    }
-
-    button:active {
-      transform: scale(.97);
-    }
-
-    #message {
-      min-height: 20px;
-      margin-top: 14px;
-      font-size: 13px;
-    }
-
-    .bottom {
-      margin-top: 22px;
-      color: #506070;
-      font-size: 9px;
-      letter-spacing: 4px;
-    }
-
-    .bottom span {
-      color: #238cff;
-    }
-
-    /* MOBILE */
-    @media (max-width: 500px) {
-
-      .logo-wrap {
-        width: 145px;
-        height: 145px;
-      }
-
-      h1 {
-        font-size: 34px;
-        letter-spacing: 6px;
-      }
-
-      .panel {
-        padding: 22px;
-      }
-
-      .subtitle {
-        font-size: 10px;
-        letter-spacing: 2px;
-      }
-    }
-  </style>
-</head>
-
-<body>
-
-  <div class="light one"></div>
-  <div class="light two"></div>
-
-  <div class="line one"></div>
-  <div class="line two"></div>
-
-  <main class="container">
-
-    <div class="content">
-
-      <!-- LOGO TEAM SNEXTY -->
-      <div class="logo-wrap">
-        <img src="logo.png" alt="TEAM SNEXTY">
-      </div>
-
-      <div class="small-title">
-        TEAM SNEXTY
-      </div>
-
-      <h1>ACCESS</h1>
-
-      <p class="subtitle">
-        MASUKKAN KATA SANDI UNTUK MELANJUTKAN
-      </p>
-
-      <div class="panel">
-
-        <div class="input-box">
-
-          <input
-            type="password"
-            id="password"
-            placeholder="Kata sandi..."
-            autocomplete="off"
-          >
-
-          <span
-            class="eye"
-            onclick="togglePassword()"
-          >◉</span>
-
-        </div>
-
-        <button onclick="login()">
-          MASUK →
-        </button>
-
-        <div id="message"></div>
-
-        <div class="bottom">
-          <span>◆</span>
-          ONLY AUTHORIZED USERS
-          <span>◆</span>
-        </div>
-
-      </div>
-
-    </div>
-
-  </main>
-
-
-  <script>
-
-    function togglePassword() {
-
-      const input =
-        document.getElementById("password");
-
-      if (input.type === "password") {
-
-        input.type = "text";
-
-      } else {
-
-        input.type = "password";
-
-      }
-    }
-
-
-    function login() {
-
-      const password =
-        document.getElementById("password").value;
-
-      const message =
-        document.getElementById("message");
-
-
-      /* PASSWORD */
-
-      const correctPassword = "123456";
-
-
-      if (password === correctPassword) {
-
-        message.style.color = "#62ff9a";
-
-        message.innerText =
-          "✓ ACCESS GRANTED";
-
-        setTimeout(() => {
-
-          window.location.href = "home.html";
-
-        }, 800);
-
-      } else {
-
-        message.style.color = "#ff526d";
-
-        message.innerText =
-          "✕ KATA SANDI SALAH";
-
-      }
-    }
-
-  </script>
-
-</body>
-</html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACCESS // SNEXTY</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+:root{
+  --blue:#087cff;
+  --cyan:#00d9ff;
+  --white:#eef7ff;
+  --dark:#02050b;
+}
+
+body{
+  min-height:100vh;
+  overflow:hidden;
+  font-family:Arial,Helvetica,sans-serif;
+  color:white;
+  background:
+    radial-gradient(circle at 50% 50%,#06234b 0%,#030914 35%,#010207 75%);
+}
+
+/* =========================
+   BACKGROUND GRID
+========================= */
+
+.grid{
+  position:fixed;
+  inset:-100%;
+  background-image:
+    linear-gradient(#087cff18 1px,transparent 1px),
+    linear-gradient(90deg,#087cff18 1px,transparent 1px);
+  background-size:55px 55px;
+  transform:perspective(500px) rotateX(65deg);
+  animation:gridMove 5s linear infinite;
+}
+
+@keyframes gridMove{
+  from{
+    transform:perspective(500px) rotateX(65deg)
+              translateY(0);
+  }
+  to{
+    transform:perspective(500px) rotateX(65deg)
+              translateY(55px);
+  }
+}
+
+/* =========================
+   LIGHT ORBS
+========================= */
+
+.orb{
+  position:fixed;
+  border-radius:50%;
+  filter:blur(80px);
+  pointer-events:none;
+}
+
+.orb1{
+  width:300px;
+  height:300px;
+  background:#006eff;
+  opacity:.22;
+  top:-120px;
+  left:-100px;
+  animation:orb1 8s infinite alternate ease-in-out;
+}
+
+.orb2{
+  width:350px;
+  height:350px;
+  background:#00c8ff;
+  opacity:.13;
+  right:-150px;
+  bottom:-150px;
+  animation:orb2 10s infinite alternate ease-in-out;
+}
+
+@keyframes orb1{
+  to{
+    transform:translate(220px,160px);
+  }
+}
+
+@keyframes orb2{
+  to{
+    transform:translate(-180px,-140px);
+  }
+}
+
+/* =========================
+   PARTICLES
+========================= */
+
+.particles{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+}
+
+.particle{
+  position:absolute;
+  width:3px;
+  height:3px;
+  background:#49b8ff;
+  border-radius:50%;
+  box-shadow:0 0 10px #009dff;
+  animation:particleMove linear infinite;
+}
+
+.p1{left:8%;top:80%;animation-duration:7s}
+.p2{left:18%;top:50%;animation-duration:9s}
+.p3{left:28%;top:90%;animation-duration:6s}
+.p4{left:42%;top:70%;animation-duration:11s}
+.p5{left:55%;top:85%;animation-duration:8s}
+.p6{left:67%;top:60%;animation-duration:7s}
+.p7{left:78%;top:82%;animation-duration:10s}
+.p8{left:90%;top:45%;animation-duration:6s}
+.p9{left:35%;top:30%;animation-duration:9s}
+.p10{left:72%;top:25%;animation-duration:8s}
+
+@keyframes particleMove{
+  0%{
+    transform:translateY(80px) scale(.5);
+    opacity:0;
+  }
+  30%{
+    opacity:1;
+  }
+  100%{
+    transform:translateY(-500
