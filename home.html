@@ -823,16 +823,24 @@ body::before{
 
 <script>
 
-function openFeature(name){
+<script>
+function openFeature(name) {
+    if (name === "Voice") {
+        window.location.href = "voice.html";
+        return;
+    }
 
     alert(
         name +
         " sedang disiapkan.\n\n" +
         "Fitur ini nanti bisa kita sambungkan ke halaman khusus."
     );
-
 }
 
+function logout() {
+    window.location.href = "index.html";
+}
+</script>
 function logout(){
 
     window.location.href = "index.html";
