@@ -8,280 +8,535 @@
 <script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.min.js"></script>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
-body {
-    background: #0b1020;
-    color: white;
-    height: 100vh;
-    overflow: hidden;
+body{
+    background:#020b17;
+    color:white;
+    overflow:hidden;
 }
 
-/* LAYOUT */
-.app {
-    display: flex;
-    height: 100vh;
+/* =========================
+   GLOBAL BACKGROUND
+========================= */
+
+.page{
+    width:100vw;
+    height:100vh;
+    background:
+        radial-gradient(circle at 50% 30%,rgba(0,157,255,.20),transparent 35%),
+        linear-gradient(135deg,#020b17,#032d58 55%,#064f91);
+    position:relative;
 }
 
-/* SIDEBAR */
-.sidebar {
-    width: 240px;
-    background: #080d18;
-    border-right: 1px solid #20283b;
-    padding: 15px;
+.page:before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+        linear-gradient(rgba(40,170,255,.07) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(40,170,255,.07) 1px,transparent 1px);
+    background-size:45px 45px;
+    pointer-events:none;
 }
 
-.server-title {
-    font-size: 21px;
-    font-weight: bold;
-    padding: 10px;
-    margin-bottom: 25px;
+/* =========================
+   LOGIN PAGE
+========================= */
+
+#loginPage{
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
-.category {
-    color: #737d94;
-    font-size: 12px;
-    font-weight: bold;
-    margin: 15px 10px 8px;
+.login-box{
+    position:relative;
+    z-index:2;
+    width:min(440px,92%);
+    padding:35px 30px;
+    text-align:center;
 }
 
-.channel {
-    padding: 12px;
-    border-radius: 8px;
-    color: #aeb7c9;
-    cursor: pointer;
-    margin-bottom: 4px;
+.tnex-logo{
+    width:120px;
+    height:120px;
+    margin:0 auto 25px;
+    border:2px solid #0bbcff;
+    border-radius:28px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:32px;
+    font-weight:900;
+    letter-spacing:2px;
+    background:linear-gradient(145deg,#06376a,#021a34);
+    box-shadow:
+        0 0 25px rgba(0,185,255,.45),
+        inset 0 0 25px rgba(0,145,255,.15);
 }
 
-.channel:hover,
-.channel.active {
-    background: #182238;
-    color: white;
+.login-box h1{
+    font-size:46px;
+    font-weight:900;
+    letter-spacing:3px;
+    line-height:1;
+    text-shadow:0 0 20px rgba(0,174,255,.4);
 }
 
-/* MAIN */
-.main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
+.login-box h1 span{
+    color:#08b8ff;
 }
 
-.header {
-    height: 60px;
-    border-bottom: 1px solid #20283b;
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
-    font-size: 18px;
-    font-weight: bold;
+.tagline{
+    margin:18px 0 30px;
+    color:#a8cceb;
+    font-size:16px;
 }
 
-.header span {
-    color: #6f7b95;
-    margin-right: 10px;
+.name-input{
+    width:100%;
+    height:58px;
+    border-radius:12px;
+    border:1px solid #0a9ce7;
+    background:rgba(2,22,42,.9);
+    color:white;
+    padding:0 18px;
+    font-size:16px;
+    outline:none;
+    box-shadow:0 0 15px rgba(0,145,255,.12);
 }
 
-/* VIDEO AREA */
-.video-area {
-    flex: 1;
-    padding: 18px;
-    overflow-y: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.name-input:focus{
+    border-color:#15c4ff;
+    box-shadow:0 0 20px rgba(0,184,255,.25);
 }
 
-.video-grid {
-    width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 15px;
-    align-content: center;
+.join-btn{
+    width:100%;
+    height:58px;
+    margin-top:14px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(90deg,#0877c9,#09b9ff);
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:0 0 25px rgba(0,157,255,.3);
 }
 
-/* VIDEO TILE */
-.tile {
-    position: relative;
-    background: #111827;
-    border: 1px solid #263149;
-    border-radius: 12px;
-    min-height: 200px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.join-btn:active{
+    transform:scale(.98);
 }
 
-.tile video {
-    width: 100%;
-    height: 100%;
-    min-height: 200px;
-    object-fit: cover;
+.login-status{
+    min-height:20px;
+    margin-top:13px;
+    color:#8eb8d8;
+    font-size:13px;
 }
 
-.tile-name {
-    position: absolute;
-    left: 12px;
-    bottom: 10px;
-    background: rgba(0,0,0,.65);
-    padding: 6px 10px;
-    border-radius: 6px;
-    font-size: 13px;
-    z-index: 2;
+/* =========================
+   CALL PAGE
+========================= */
+
+#callPage{
+    display:none;
+    flex-direction:column;
 }
 
-.avatar {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background: linear-gradient(135deg,#182c55,#304d85);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 25px;
-    font-weight: bold;
+/* HEADER */
+
+.call-header{
+    height:68px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 22px;
+    background:rgba(1,13,27,.92);
+    border-bottom:1px solid #087fc9;
+    position:relative;
+    z-index:10;
 }
 
-/* CONTROLS */
-.controls {
-    height: 80px;
-    border-top: 1px solid #20283b;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    background: #090e1a;
+.call-title{
+    display:flex;
+    align-items:center;
+    gap:12px;
 }
 
-.control {
-    width: 48px;
-    height: 48px;
-    border: none;
-    border-radius: 50%;
-    background: #202a3e;
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
+.small-logo{
+    width:42px;
+    height:42px;
+    border:1px solid #0bbcff;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    font-weight:bold;
+    box-shadow:0 0 12px rgba(0,180,255,.3);
 }
 
-.control:hover {
-    background: #30405d;
+.call-title h2{
+    font-size:17px;
 }
 
-.control.off {
-    background: #8d2935;
+.connection{
+    color:#57e5a2;
+    font-size:12px;
+    margin-top:3px;
 }
 
-.leave {
-    background: #d93649;
+.settings-top{
+    width:42px;
+    height:42px;
+    border-radius:10px;
+    border:1px solid #087fc9;
+    background:#082b4b;
+    color:white;
+    font-size:20px;
+    cursor:pointer;
 }
 
-.leave:hover {
-    background: #f04758;
+/* =========================
+   VIDEO GRID
+========================= */
+
+.call-content{
+    flex:1;
+    position:relative;
+    padding:18px;
+    overflow:auto;
 }
 
-/* JOIN */
-.join-screen {
-    position: fixed;
-    inset: 0;
-    background: #080d18;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 20;
+.video-grid{
+    width:100%;
+    height:100%;
+    min-height:100%;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:14px;
+    align-content:center;
 }
 
-.join-box {
-    width: 90%;
-    max-width: 400px;
-    background: #111827;
-    padding: 30px;
-    border-radius: 15px;
-    border: 1px solid #263149;
+.participant{
+    position:relative;
+    min-height:210px;
+    border:1px solid #087ed0;
+    border-radius:14px;
+    overflow:hidden;
+    background:
+        radial-gradient(circle,#073c6b,#021426 70%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:
+        0 0 18px rgba(0,135,255,.15);
 }
 
-.join-box h1 {
-    margin-bottom: 10px;
+.participant video{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
 }
 
-.join-box p {
-    color: #8e99ae;
-    margin-bottom: 20px;
+.avatar{
+    width:75px;
+    height:75px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,#0874c4,#08baff);
+    font-size:27px;
+    font-weight:bold;
+    box-shadow:0 0 25px rgba(0,180,255,.3);
 }
 
-input {
-    width: 100%;
-    padding: 13px;
-    border-radius: 8px;
-    border: 1px solid #303b55;
-    background: #080d18;
-    color: white;
-    outline: none;
-    margin-bottom: 12px;
+.participant-name{
+    position:absolute;
+    left:12px;
+    bottom:10px;
+    padding:7px 11px;
+    border-radius:8px;
+    background:rgba(0,12,25,.82);
+    border:1px solid rgba(0,170,255,.35);
+    font-size:13px;
+    z-index:5;
 }
 
-.join-button {
-    width: 100%;
-    padding: 13px;
-    border: none;
-    border-radius: 8px;
-    background: #315b9e;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
+.mic-state{
+    margin-right:5px;
 }
 
-.join-button:hover {
-    background: #3d70c0;
+.invite-tile{
+    border-style:dashed;
+    cursor:pointer;
 }
 
-.status {
-    margin-top: 12px;
-    color: #8490a7;
-    font-size: 13px;
+.invite-tile .plus{
+    font-size:40px;
+    color:#08b8ff;
 }
 
-/* MOBILE */
-@media(max-width:700px) {
-    .sidebar {
-        width: 170px;
-        padding: 10px;
+.invite-text{
+    position:absolute;
+    bottom:25px;
+    color:#9ec7e4;
+}
+
+/* =========================
+   BOTTOM CONTROLS
+========================= */
+
+.bottom-bar{
+    height:92px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    z-index:10;
+    background:rgba(1,12,24,.94);
+    border-top:1px solid #087fc9;
+}
+
+.control-box{
+    display:flex;
+    align-items:center;
+    gap:17px;
+    padding:11px 18px;
+    border:1px solid #098ce0;
+    border-radius:24px;
+    background:rgba(5,24,43,.96);
+    box-shadow:0 0 25px rgba(0,140,255,.15);
+}
+
+.control{
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    border:1px solid #32698d;
+    background:#122d46;
+    color:white;
+    font-size:22px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.control:hover{
+    background:#075b91;
+    border-color:#08baff;
+}
+
+.control.off{
+    background:#57242c;
+    border-color:#b94a58;
+}
+
+.hangup{
+    width:58px;
+    height:58px;
+    border-radius:15px;
+    background:#ec1738;
+    border:1px solid #ff536d;
+    color:white;
+    font-size:25px;
+    cursor:pointer;
+    box-shadow:0 0 18px rgba(255,0,45,.25);
+}
+
+.hangup:hover{
+    background:#ff2848;
+}
+
+/* =========================
+   SETTINGS PANEL
+========================= */
+
+.settings-panel{
+    position:absolute;
+    top:82px;
+    right:20px;
+    width:330px;
+    max-width:calc(100% - 40px);
+    background:rgba(2,18,34,.98);
+    border:1px solid #078edc;
+    border-radius:15px;
+    z-index:30;
+    padding:18px;
+    box-shadow:0 10px 40px rgba(0,0,0,.5);
+    display:none;
+}
+
+.settings-panel.show{
+    display:block;
+}
+
+.settings-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.settings-head h3{
+    font-size:17px;
+}
+
+.close-settings{
+    background:none;
+    border:none;
+    color:#a9c5dc;
+    font-size:23px;
+    cursor:pointer;
+}
+
+.tabs{
+    display:flex;
+    border-bottom:1px solid #194866;
+    margin-bottom:15px;
+}
+
+.tab{
+    flex:1;
+    padding:10px;
+    text-align:center;
+    color:#91abc0;
+    cursor:pointer;
+}
+
+.tab.active{
+    color:white;
+    background:#075b99;
+    border-radius:8px 8px 0 0;
+}
+
+.setting-section{
+    margin-bottom:16px;
+}
+
+.setting-section label{
+    display:block;
+    font-size:12px;
+    color:#80a8c5;
+    margin-bottom:7px;
+}
+
+.select{
+    width:100%;
+    height:43px;
+    border-radius:8px;
+    border:1px solid #285473;
+    background:#061b2e;
+    color:white;
+    padding:0 10px;
+}
+
+.setting-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 0;
+    border-bottom:1px solid rgba(60,120,160,.18);
+}
+
+.switch{
+    width:42px;
+    height:23px;
+    border-radius:20px;
+    background:#34495a;
+    position:relative;
+    cursor:pointer;
+}
+
+.switch.on{
+    background:#0b9de5;
+}
+
+.switch:after{
+    content:"";
+    position:absolute;
+    width:17px;
+    height:17px;
+    border-radius:50%;
+    background:white;
+    top:3px;
+    left:3px;
+    transition:.2s;
+}
+
+.switch.on:after{
+    left:22px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:700px){
+
+    .login-box h1{
+        font-size:36px;
     }
 
-    .server-title {
-        font-size: 17px;
+    .tnex-logo{
+        width:100px;
+        height:100px;
+        font-size:27px;
     }
 
-    .header {
-        padding: 0 12px;
+    .call-header{
+        height:60px;
+        padding:0 12px;
     }
 
-    .video-area {
-        padding: 10px;
+    .call-content{
+        padding:10px;
     }
 
-    .video-grid {
-        grid-template-columns: 1fr;
+    .video-grid{
+        grid-template-columns:1fr;
     }
 
-    .tile {
-        min-height: 180px;
+    .participant{
+        min-height:190px;
     }
 
-    .controls {
-        height: 70px;
+    .bottom-bar{
+        height:82px;
     }
 
-    .control {
-        width: 44px;
-        height: 44px;
+    .control-box{
+        gap:8px;
+        padding:8px 10px;
+    }
+
+    .control{
+        width:45px;
+        height:45px;
+        font-size:19px;
+    }
+
+    .hangup{
+        width:49px;
+        height:49px;
+    }
+
+    .settings-panel{
+        top:68px;
+        right:10px;
+        width:calc(100% - 20px);
     }
 }
 </style>
@@ -289,101 +544,388 @@ input {
 
 <body>
 
-<!-- JOIN SCREEN -->
-<div class="join-screen" id="joinScreen">
-    <div class="join-box">
-        <h1>TNEX Voice Chat</h1>
-        <p>Masuk ke voice & video channel</p>
+<!-- ==================================================
+     HALAMAN 1 : LOGIN
+================================================== -->
 
-        <input id="nameInput" placeholder="Nama kamu">
+<div id="loginPage" class="page">
 
-        <button class="join-button" onclick="joinChannel('gaming')">
-            🎮 Masuk Gaming
+    <div class="login-box">
+
+        <div class="tnex-logo">
+            TNEX
+        </div>
+
+        <h1>
+            TNEX <span>VOICE CHAT</span>
+        </h1>
+
+        <div class="tagline">
+            Ngobrol. Main bareng. Satu tim.
+        </div>
+
+        <input
+            id="nameInput"
+            class="name-input"
+            type="text"
+            maxlength="30"
+            placeholder="Masukkan nama kamu"
+        >
+
+        <button
+            class="join-btn"
+            onclick="joinRoom()"
+        >
+            🎙️ &nbsp; Masuk Voice Chat
         </button>
 
-        <div class="status" id="status">
-            Pilih channel untuk masuk.
+        <div
+            id="loginStatus"
+            class="login-status"
+        >
+            Kamu akan bergabung ke room TNEX.
         </div>
+
     </div>
+
 </div>
 
-<div class="app">
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
+<!-- ==================================================
+     HALAMAN 2 : CALL
+================================================== -->
 
-        <div class="server-title">
-            ⚡ TNEX
-        </div>
+<div id="callPage" class="page">
 
-        <div class="category">
-            VOICE CHANNELS
-        </div>
+    <!-- HEADER -->
 
-        <div class="channel active" id="gamingChannel"
-             onclick="joinChannel('gaming')">
-            🎮 Gaming
-        </div>
+    <header class="call-header">
 
-        <div class="channel" id="squadChannel"
-             onclick="joinChannel('squad')">
-            👥 Squad
-        </div>
+        <div class="call-title">
 
-        <div class="channel" id="rankedChannel"
-             onclick="joinChannel('ranked')">
-            🏆 Ranked
-        </div>
+            <div class="small-logo">
+                TNEX
+            </div>
 
-    </aside>
+            <div>
+                <h2>
+                    TNEX Voice Chat
+                </h2>
 
-    <!-- MAIN -->
-    <main class="main">
-
-        <div class="header">
-            <span>🔊</span>
-            <div id="channelTitle">Gaming</div>
-        </div>
-
-        <div class="video-area">
-            <div class="video-grid" id="videoGrid"></div>
-        </div>
-
-        <!-- CONTROLS -->
-        <div class="controls">
-
-            <button class="control" id="micBtn"
-                    onclick="toggleMic()">
-                🎤
-            </button>
-
-            <button class="control" id="cameraBtn"
-                    onclick="toggleCamera()">
-                📹
-            </button>
-
-            <button class="control"
-                    onclick="toggleScreen()">
-                🖥️
-            </button>
-
-            <button class="control leave"
-                    onclick="leaveRoom()">
-                📞
-            </button>
+                <div class="connection">
+                    ● Terhubung
+                    <span id="participantCount">
+                        • 1 peserta
+                    </span>
+                </div>
+            </div>
 
         </div>
+
+        <button
+            class="settings-top"
+            onclick="toggleSettings()"
+        >
+            ⚙️
+        </button>
+
+    </header>
+
+
+    <!-- VIDEO -->
+
+    <main class="call-content">
+
+        <div
+            id="videoGrid"
+            class="video-grid"
+        ></div>
 
     </main>
 
+
+    <!-- BOTTOM CONTROLS -->
+
+    <div class="bottom-bar">
+
+        <div class="control-box">
+
+            <!-- CAMERA -->
+
+            <button
+                id="cameraBtn"
+                class="control"
+                onclick="toggleCamera()"
+                title="Kamera"
+            >
+                📹
+            </button>
+
+            <!-- MIC -->
+
+            <button
+                id="micBtn"
+                class="control"
+                onclick="toggleMic()"
+                title="Microphone"
+            >
+                🎙️
+            </button>
+
+            <!-- SHARE SCREEN -->
+
+            <button
+                id="screenBtn"
+                class="control"
+                onclick="toggleScreen()"
+                title="Share Screen"
+            >
+                📱
+            </button>
+
+            <!-- SOUND / EXTRA -->
+
+            <button
+                id="soundBtn"
+                class="control"
+                onclick="toggleSound()"
+                title="Suara"
+            >
+                🔊
+            </button>
+
+            <!-- HANG UP -->
+
+            <button
+                class="hangup"
+                onclick="leaveRoom()"
+                title="Keluar"
+            >
+                ☎
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- SETTINGS -->
+
+    <div
+        id="settingsPanel"
+        class="settings-panel"
+    >
+
+        <div class="settings-head">
+
+            <h3>
+                ⚙️ Pengaturan
+            </h3>
+
+            <button
+                class="close-settings"
+                onclick="toggleSettings()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="tabs">
+
+            <div
+                class="tab active"
+                onclick="showTab(this,'audioSettings')"
+            >
+                Audio
+            </div>
+
+            <div
+                class="tab"
+                onclick="showTab(this,'videoSettings')"
+            >
+                Video
+            </div>
+
+            <div
+                class="tab"
+                onclick="showTab(this,'generalSettings')"
+            >
+                Umum
+            </div>
+
+        </div>
+
+
+        <!-- AUDIO -->
+
+        <div
+            id="audioSettings"
+            class="tab-content"
+        >
+
+            <div class="setting-section">
+
+                <label>
+                    🎙️ Mikrofon
+                </label>
+
+                <select
+                    id="micSelect"
+                    class="select"
+                >
+                    <option>
+                        Default - Microphone
+                    </option>
+                </select>
+
+            </div>
+
+
+            <div class="setting-section">
+
+                <label>
+                    🔊 Speaker
+                </label>
+
+                <select
+                    id="speakerSelect"
+                    class="select"
+                >
+                    <option>
+                        Default - Speaker
+                    </option>
+                </select>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <span>
+                    Noise suppression
+                </span>
+
+                <div
+                    class="switch on"
+                    onclick="this.classList.toggle('on')"
+                ></div>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <span>
+                    Mode hemat data
+                </span>
+
+                <div
+                    class="switch"
+                    onclick="this.classList.toggle('on')"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- VIDEO -->
+
+        <div
+            id="videoSettings"
+            class="tab-content"
+            style="display:none"
+        >
+
+            <div class="setting-section">
+
+                <label>
+                    📹 Kamera
+                </label>
+
+                <select
+                    id="cameraSelect"
+                    class="select"
+                >
+                    <option>
+                        Default - Camera
+                    </option>
+                </select>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <span>
+                    Preview kamera
+                </span>
+
+                <div
+                    class="switch on"
+                    onclick="this.classList.toggle('on')"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- GENERAL -->
+
+        <div
+            id="generalSettings"
+            class="tab-content"
+            style="display:none"
+        >
+
+            <div class="setting-row">
+
+                <span>
+                    Tampilkan peserta
+                </span>
+
+                <div
+                    class="switch on"
+                    onclick="this.classList.toggle('on')"
+                ></div>
+
+            </div>
+
+            <div class="setting-row">
+
+                <span>
+                    Animasi
+                </span>
+
+                <div
+                    class="switch on"
+                    onclick="this.classList.toggle('on')"
+                ></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
+
 
 <script>
 
-const TOKEN_SERVER_ID = "tnexvoicechat-1mbm19";
+/* ==================================================
+   LIVEKIT
+================================================== */
+
+const TOKEN_SERVER_ID =
+    "tnexvoicechat-1mbm19";
 
 const tokenSource =
-    LivekitClient.TokenSource.developmentTokenServer(
+    LivekitClient.TokenSource
+    .developmentTokenServer(
         TOKEN_SERVER_ID
     );
 
@@ -393,486 +935,782 @@ const {
     Track
 } = LivekitClient;
 
+
+/* ==================================================
+   VARIABLES
+================================================== */
+
 let room = null;
-let currentChannel = "gaming";
 
-/* =========================
-   JOIN CHANNEL
-========================= */
+let myName = "";
 
-async function joinChannel(channel) {
+const ROOM_NAME = "tnex-main";
 
-    const name =
-        document.getElementById("nameInput").value.trim();
 
-    if (!name) {
-        document.getElementById("status").innerText =
+/* ==================================================
+   JOIN ROOM
+================================================== */
+
+async function joinRoom(){
+
+    const input =
+        document.getElementById(
+            "nameInput"
+        );
+
+    myName =
+        input.value.trim();
+
+    if(!myName){
+
+        document.getElementById(
+            "loginStatus"
+        ).innerText =
             "Masukkan nama kamu dulu.";
+
         return;
     }
 
-    currentChannel = channel;
-
-    const roomName = "tnex-" + channel;
-
-    document.getElementById("status").innerText =
+    document.getElementById(
+        "loginStatus"
+    ).innerText =
         "Menghubungkan...";
 
-    try {
 
-        const credentials = await tokenSource.fetch({
-            roomName: roomName,
-            participantName: name
-        });
+    try{
 
-        room = new Room({
-            adaptiveStream: true,
-            dynacast: true
-        });
+        const credentials =
+            await tokenSource.fetch({
 
-        setupRoomEvents();
+                roomName:
+                    ROOM_NAME,
+
+                participantName:
+                    myName
+
+            });
+
+
+        room =
+            new Room({
+
+                adaptiveStream:true,
+
+                dynacast:true
+
+            });
+
+
+        setupEvents();
+
 
         await room.connect(
+
             credentials.serverUrl,
+
             credentials.participantToken
+
         );
 
-        /* MIC + CAMERA */
-        await room.localParticipant
+
+        /*
+         * Mic + kamera langsung tersedia.
+         * User tetap bisa mematikan salah satunya.
+         */
+
+        await room
+            .localParticipant
             .enableCameraAndMicrophone();
 
-        document.getElementById("joinScreen")
-            .style.display = "none";
 
-        document.getElementById("channelTitle")
-            .innerText =
-            capitalize(channel);
+        document.getElementById(
+            "loginPage"
+        ).style.display =
+            "none";
 
-        updateChannelButtons();
 
-        addLocalParticipant();
+        document.getElementById(
+            "callPage"
+        ).style.display =
+            "flex";
 
-        /* ADD PARTICIPANTS YANG SUDAH ADA */
+
+        addParticipant(
+            room.localParticipant
+        );
+
+
         room.remoteParticipants.forEach(
             participant => {
-                addParticipant(participant);
+
+                addParticipant(
+                    participant
+                );
+
             }
         );
 
+
+        updateCount();
+
         updateButtons();
 
-    } catch (error) {
+    }
+    catch(error){
 
         console.error(error);
 
-        document.getElementById("status").innerText =
-            "Gagal masuk: " + error.message;
+        document.getElementById(
+            "loginStatus"
+        ).innerText =
+            "Gagal terhubung: " +
+            error.message;
+
     }
+
 }
 
-/* =========================
-   ROOM EVENTS
-========================= */
 
-function setupRoomEvents() {
+/* ==================================================
+   EVENTS
+================================================== */
+
+function setupEvents(){
 
     room.on(
+
         RoomEvent.TrackSubscribed,
-        (track, publication, participant) => {
+
+        (
+            track,
+            publication,
+            participant
+        ) => {
 
             addTrack(
                 track,
                 participant
             );
+
         }
+
     );
 
+
     room.on(
+
         RoomEvent.TrackUnsubscribed,
-        (track, publication, participant) => {
+
+        (
+            track
+        ) => {
 
             track.detach().forEach(
-                element => element.remove()
+                element =>
+                    element.remove()
             );
+
         }
+
     );
 
+
     room.on(
+
         RoomEvent.ParticipantConnected,
+
         participant => {
 
-            addParticipant(participant);
+            addParticipant(
+                participant
+            );
+
+            updateCount();
+
         }
+
     );
 
+
     room.on(
+
         RoomEvent.ParticipantDisconnected,
+
         participant => {
 
             removeParticipant(
                 participant.identity
             );
+
+            updateCount();
+
         }
+
     );
 
+
     room.on(
+
         RoomEvent.LocalTrackPublished,
+
         publication => {
 
-            if (publication.track) {
+            if(publication.track){
+
                 addTrack(
+
                     publication.track,
+
                     room.localParticipant
+
                 );
+
             }
+
         }
+
     );
 
+
     room.on(
+
         RoomEvent.LocalTrackUnpublished,
+
         publication => {
 
-            if (publication.track) {
+            if(publication.track){
 
                 publication.track
                     .detach()
                     .forEach(
-                        element => element.remove()
+                        element =>
+                            element.remove()
                     );
+
             }
+
         }
+
     );
+
 
     room.on(
+
         RoomEvent.Disconnected,
+
         () => {
 
-            clearVideoGrid();
+            clearGrid();
+
         }
+
     );
+
 }
 
-/* =========================
-   LOCAL PARTICIPANT
-========================= */
 
-function addLocalParticipant() {
+/* ==================================================
+   ADD PARTICIPANT
+================================================== */
 
-    const participant =
-        room.localParticipant;
+function addParticipant(
+    participant
+){
 
-    const tile =
-        createTile(
-            participant.identity,
-            participant.name || participant.identity
+    let tile =
+        document.getElementById(
+            "user-" +
+            participant.identity
         );
+
+
+    if(tile) return;
+
+
+    tile =
+        document.createElement(
+            "div"
+        );
+
+    tile.className =
+        "participant";
+
+    tile.id =
+        "user-" +
+        participant.identity;
+
+
+    const avatar =
+        document.createElement(
+            "div"
+        );
+
+    avatar.className =
+        "avatar";
+
+    avatar.innerText =
+        (
+            participant.name ||
+            participant.identity ||
+            "?"
+        )
+        .charAt(0)
+        .toUpperCase();
+
+
+    const name =
+        document.createElement(
+            "div"
+        );
+
+    name.className =
+        "participant-name";
+
+    name.innerHTML =
+        "🎙️ " +
+        escapeHTML(
+            participant.name ||
+            participant.identity
+        );
+
+
+    tile.appendChild(
+        avatar
+    );
+
+    tile.appendChild(
+        name
+    );
+
 
     document
         .getElementById("videoGrid")
         .appendChild(tile);
 
+
     participant.trackPublications
-        .forEach(publication => {
+        .forEach(
+            publication => {
 
-            if (publication.track) {
+                if(
+                    publication.track
+                ){
 
-                addTrack(
-                    publication.track,
-                    participant
-                );
+                    addTrack(
+
+                        publication.track,
+
+                        participant
+
+                    );
+
+                }
+
             }
-        });
-}
-
-/* =========================
-   REMOTE PARTICIPANT
-========================= */
-
-function addParticipant(participant) {
-
-    const existing =
-        document.getElementById(
-            "participant-" +
-            participant.identity
         );
 
-    if (!existing) {
-
-        const tile =
-            createTile(
-                participant.identity,
-                participant.name ||
-                participant.identity
-            );
-
-        document
-            .getElementById("videoGrid")
-            .appendChild(tile);
-    }
-
-    participant.trackPublications
-        .forEach(publication => {
-
-            if (
-                publication.isSubscribed &&
-                publication.track
-            ) {
-
-                addTrack(
-                    publication.track,
-                    participant
-                );
-            }
-        });
 }
 
-/* =========================
-   ADD TRACK
-========================= */
 
-function addTrack(track, participant) {
+/* ==================================================
+   ADD TRACK
+================================================== */
+
+function addTrack(
+    track,
+    participant
+){
 
     const tile =
         document.getElementById(
-            "participant-" +
+            "user-" +
             participant.identity
         );
 
-    if (!tile) return;
 
-    /* VIDEO */
-    if (
-        track.kind === Track.Kind.Video
-    ) {
+    if(!tile) return;
+
+
+    if(
+        track.kind ===
+        Track.Kind.Video
+    ){
+
+        const oldVideo =
+            tile.querySelector(
+                "video"
+            );
+
+        if(oldVideo)
+            oldVideo.remove();
+
 
         const video =
             track.attach();
 
-        video.autoplay = true;
-        video.playsInline = true;
+        video.autoplay =
+            true;
 
-        video.style.width = "100%";
-        video.style.height = "100%";
-        video.style.objectFit = "cover";
+        video.playsInline =
+            true;
+
 
         tile.insertBefore(
             video,
             tile.firstChild
         );
+
     }
 
-    /* AUDIO */
-    if (
-        track.kind === Track.Kind.Audio
-    ) {
+
+    if(
+        track.kind ===
+        Track.Kind.Audio
+    ){
 
         const audio =
             track.attach();
 
-        audio.autoplay = true;
+        audio.autoplay =
+            true;
 
-        tile.appendChild(audio);
-    }
-}
-
-/* =========================
-   CREATE TILE
-========================= */
-
-function createTile(identity, name) {
-
-    const tile =
-        document.createElement("div");
-
-    tile.className = "tile";
-
-    tile.id =
-        "participant-" + identity;
-
-    const avatar =
-        document.createElement("div");
-
-    avatar.className = "avatar";
-
-    avatar.innerText =
-        (name || "?")
-        .charAt(0)
-        .toUpperCase();
-
-    const label =
-        document.createElement("div");
-
-    label.className = "tile-name";
-
-    label.innerText =
-        name || identity;
-
-    tile.appendChild(avatar);
-    tile.appendChild(label);
-
-    return tile;
-}
-
-/* =========================
-   REMOVE PARTICIPANT
-========================= */
-
-function removeParticipant(identity) {
-
-    const tile =
-        document.getElementById(
-            "participant-" + identity
+        tile.appendChild(
+            audio
         );
 
-    if (tile) {
-        tile.remove();
     }
+
 }
 
-/* =========================
+
+/* ==================================================
    MICROPHONE
-========================= */
+================================================== */
 
-async function toggleMic() {
+async function toggleMic(){
 
-    if (!room) return;
+    if(!room) return;
+
 
     const enabled =
         room.localParticipant
-            .isMicrophoneEnabled;
+        .isMicrophoneEnabled;
 
-    await room.localParticipant
-        .setMicrophoneEnabled(!enabled);
+
+    await room
+        .localParticipant
+        .setMicrophoneEnabled(
+            !enabled
+        );
+
 
     updateButtons();
+
 }
 
-/* =========================
+
+/* ==================================================
    CAMERA
-========================= */
+================================================== */
 
-async function toggleCamera() {
+async function toggleCamera(){
 
-    if (!room) return;
+    if(!room) return;
+
 
     const enabled =
         room.localParticipant
-            .isCameraEnabled;
+        .isCameraEnabled;
 
-    await room.localParticipant
-        .setCameraEnabled(!enabled);
+
+    await room
+        .localParticipant
+        .setCameraEnabled(
+            !enabled
+        );
+
 
     updateButtons();
+
 }
 
-/* =========================
+
+/* ==================================================
    SCREEN SHARE
-========================= */
+================================================== */
 
-async function toggleScreen() {
+async function toggleScreen(){
 
-    if (!room) return;
+    if(!room) return;
+
 
     const enabled =
         room.localParticipant
-            .isScreenShareEnabled;
+        .isScreenShareEnabled;
 
-    await room.localParticipant
-        .setScreenShareEnabled(!enabled);
 
-    updateButtons();
+    try{
+
+        await room
+            .localParticipant
+            .setScreenShareEnabled(
+                !enabled
+            );
+
+    }
+    catch(error){
+
+        alert(
+            "Screen share tidak tersedia di browser ini."
+        );
+
+    }
+
 }
 
-/* =========================
-   UPDATE BUTTON
-========================= */
 
-function updateButtons() {
+/* ==================================================
+   SOUND
+================================================== */
 
-    if (!room) return;
+function toggleSound(){
+
+    const button =
+        document.getElementById(
+            "soundBtn"
+        );
+
+    button.classList.toggle(
+        "off"
+    );
+
+}
+
+
+/* ==================================================
+   BUTTON STATES
+================================================== */
+
+function updateButtons(){
+
+    if(!room) return;
+
 
     const mic =
-        document.getElementById("micBtn");
+        document.getElementById(
+            "micBtn"
+        );
 
     const camera =
-        document.getElementById("cameraBtn");
+        document.getElementById(
+            "cameraBtn"
+        );
+
+    const screen =
+        document.getElementById(
+            "screenBtn"
+        );
+
 
     mic.classList.toggle(
+
         "off",
+
         !room.localParticipant
             .isMicrophoneEnabled
+
     );
+
 
     camera.classList.toggle(
+
         "off",
+
         !room.localParticipant
             .isCameraEnabled
+
     );
+
+
+    screen.classList.toggle(
+
+        "off",
+
+        !room.localParticipant
+            .isScreenShareEnabled
+
+    );
+
 }
 
-/* =========================
+
+/* ==================================================
+   SETTINGS
+================================================== */
+
+function toggleSettings(){
+
+    document
+        .getElementById(
+            "settingsPanel"
+        )
+        .classList.toggle(
+            "show"
+        );
+
+}
+
+
+function showTab(
+    element,
+    id
+){
+
+    document
+        .querySelectorAll(".tab")
+        .forEach(
+            tab =>
+                tab.classList.remove(
+                    "active"
+                )
+        );
+
+
+    element.classList.add(
+        "active"
+    );
+
+
+    document
+        .querySelectorAll(
+            ".tab-content"
+        )
+        .forEach(
+            content =>
+                content.style.display =
+                    "none"
+        );
+
+
+    document.getElementById(
+        id
+    ).style.display =
+        "block";
+
+}
+
+
+/* ==================================================
    LEAVE
-========================= */
+================================================== */
 
-function leaveRoom() {
+function leaveRoom(){
 
-    if (room) {
+    if(room){
 
         room.disconnect();
 
         room = null;
+
     }
 
-    clearVideoGrid();
 
-    document.getElementById("joinScreen")
-        .style.display = "flex";
+    clearGrid();
 
-    document.getElementById("status")
-        .innerText =
-        "Kamu sudah keluar dari room.";
+
+    document.getElementById(
+        "callPage"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "loginPage"
+    ).style.display =
+        "flex";
+
+
+    document.getElementById(
+        "loginStatus"
+    ).innerText =
+        "Kamu sudah keluar dari room TNEX.";
+
 }
 
-/* =========================
-   CLEAR
-========================= */
 
-function clearVideoGrid() {
+/* ==================================================
+   REMOVE
+================================================== */
 
-    document.getElementById("videoGrid")
-        .innerHTML = "";
-}
+function removeParticipant(
+    identity
+){
 
-/* =========================
-   CHANNEL BUTTON
-========================= */
-
-function updateChannelButtons() {
-
-    document
-        .querySelectorAll(".channel")
-        .forEach(el =>
-            el.classList.remove("active")
-        );
-
-    const active =
+    const tile =
         document.getElementById(
-            currentChannel + "Channel"
+            "user-" +
+            identity
         );
 
-    if (active) {
-        active.classList.add("active");
-    }
+
+    if(tile)
+        tile.remove();
+
 }
 
-/* =========================
-   CAPITALIZE
-========================= */
 
-function capitalize(text) {
+/* ==================================================
+   CLEAR
+================================================== */
 
-    return text.charAt(0).toUpperCase()
-        + text.slice(1);
+function clearGrid(){
+
+    document.getElementById(
+        "videoGrid"
+    ).innerHTML = "";
+
+}
+
+
+/* ==================================================
+   COUNT
+================================================== */
+
+function updateCount(){
+
+    if(!room) return;
+
+
+    const count =
+        1 +
+        room.remoteParticipants.size;
+
+
+    document.getElementById(
+        "participantCount"
+    ).innerText =
+        "• " +
+        count +
+        " peserta";
+
+}
+
+
+/* ==================================================
+   ESCAPE
+================================================== */
+
+function escapeHTML(
+    text
+){
+
+    return String(text)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
 }
 
 </script>
