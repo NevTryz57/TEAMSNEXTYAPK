@@ -1,713 +1,881 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#031b38">
-<title>TNEX — Voice Room</title>
+<title>TNEX Voice Chat</title>
+
+<script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.min.js"></script>
 
 <style>
-:root{
-  --bg:#020b18;
-  --navy:#031b38;
-  --blue:#087cff;
-  --cyan:#24b5ff;
-  --white:#f5faff;
-  --muted:#9bc5e9;
-  --line:rgba(35,161,255,.25);
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
 }
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+body {
+    background: #0b1020;
+    color: white;
+    height: 100vh;
+    overflow: hidden;
 }
 
-html{
-  scroll-behavior:smooth;
+/* LAYOUT */
+.app {
+    display: flex;
+    height: 100vh;
 }
 
-body{
-  min-height:100vh;
-  overflow-x:hidden;
-  color:var(--white);
-  font-family:Arial,Helvetica,sans-serif;
-  background:
-    linear-gradient(rgba(30,145,255,.09) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(30,145,255,.09) 1px,transparent 1px),
-    radial-gradient(circle at 50% 15%,#07519b 0%,#032e62 34%,#021a37 68%,#010914 100%);
-  background-size:48px 48px,48px 48px,100% 100%;
-  background-attachment:fixed;
+/* SIDEBAR */
+.sidebar {
+    width: 240px;
+    background: #080d18;
+    border-right: 1px solid #20283b;
+    padding: 15px;
 }
 
-/* LIGHT EFFECT - RINGAN */
-
-body::before{
-  content:"";
-  position:fixed;
-  width:420px;
-  height:420px;
-  top:260px;
-  left:50%;
-  transform:translateX(-50%);
-  border:1px solid rgba(20,150,255,.13);
-  border-radius:50%;
-  box-shadow:
-    0 0 70px rgba(0,122,255,.08),
-    inset 0 0 70px rgba(0,122,255,.05);
-  pointer-events:none;
-  z-index:-1;
-  animation:ringPulse 7s ease-in-out infinite;
+.server-title {
+    font-size: 21px;
+    font-weight: bold;
+    padding: 10px;
+    margin-bottom: 25px;
 }
 
-@keyframes ringPulse{
-  0%,100%{opacity:.35;transform:translateX(-50%) scale(1)}
-  50%{opacity:.8;transform:translateX(-50%) scale(1.04)}
+.category {
+    color: #737d94;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 15px 10px 8px;
 }
 
-/* NAVBAR */
-
-.navbar{
-  position:sticky;
-  top:0;
-  z-index:50;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-  padding:20px 7%;
-  background:rgba(1,10,23,.94);
-  border-bottom:1px solid rgba(50,165,255,.25);
+.channel {
+    padding: 12px;
+    border-radius: 8px;
+    color: #aeb7c9;
+    cursor: pointer;
+    margin-bottom: 4px;
 }
 
-.brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  color:white;
-  text-decoration:none;
-  font-size:20px;
-  font-weight:900;
-  letter-spacing:1.5px;
+.channel:hover,
+.channel.active {
+    background: #182238;
+    color: white;
 }
 
-.logo{
-  display:grid;
-  place-items:center;
-  width:44px;
-  height:44px;
-  border:1px solid white;
-  border-radius:13px;
-  font-size:13px;
-  box-shadow:0 0 18px rgba(0,153,255,.2);
+/* MAIN */
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
 }
 
-.brand span{
-  color:#76c8ff;
+.header {
+    height: 60px;
+    border-bottom: 1px solid #20283b;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    font-size: 18px;
+    font-weight: bold;
 }
 
-.back{
-  color:#a9c9e8;
-  font-size:12px;
-  font-weight:bold;
-  text-decoration:none;
-  transition:color .2s;
+.header span {
+    color: #6f7b95;
+    margin-right: 10px;
 }
 
-.back:hover{
-  color:white;
+/* VIDEO AREA */
+.video-area {
+    flex: 1;
+    padding: 18px;
+    overflow-y: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* HERO */
-
-.hero{
-  position:relative;
-  text-align:center;
-  padding:70px 20px 38px;
+.video-grid {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    align-content: center;
 }
 
-.tag{
-  margin-bottom:18px;
-  color:#4cbcff;
-  font-size:11px;
-  font-weight:bold;
-  letter-spacing:5px;
+/* VIDEO TILE */
+.tile {
+    position: relative;
+    background: #111827;
+    border: 1px solid #263149;
+    border-radius: 12px;
+    min-height: 200px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.hero h1{
-  font-size:clamp(42px,11vw,82px);
-  line-height:.95;
-  font-weight:1000;
-  letter-spacing:-3px;
-  text-shadow:0 0 30px rgba(0,155,255,.2);
+.tile video {
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+    object-fit: cover;
 }
 
-.hero h1 span{
-  display:block;
-  color:#7ecfff;
-  background:linear-gradient(100deg,#dff5ff,#55baff,#168bff);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
+.tile-name {
+    position: absolute;
+    left: 12px;
+    bottom: 10px;
+    background: rgba(0,0,0,.65);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    z-index: 2;
 }
 
-.hero p{
-  max-width:460px;
-  margin:22px auto 0;
-  color:var(--muted);
-  font-size:14px;
-  line-height:1.8;
+.avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: linear-gradient(135deg,#182c55,#304d85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    font-weight: bold;
 }
 
-/* MAIN ROOM */
-
-.room{
-  position:relative;
-  width:min(920px,92%);
-  margin:20px auto 30px;
-  padding:27px;
-  border:1px solid var(--line);
-  border-radius:25px;
-  background:linear-gradient(145deg,rgba(5,42,82,.94),rgba(2,14,29,.97));
-  box-shadow:
-    0 20px 55px rgba(0,0,0,.3),
-    0 0 35px rgba(0,111,255,.08);
-  overflow:hidden;
+/* CONTROLS */
+.controls {
+    height: 80px;
+    border-top: 1px solid #20283b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    background: #090e1a;
 }
 
-.room::before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  height:2px;
-  background:linear-gradient(90deg,transparent,#23aaff,transparent);
-  opacity:.9;
+.control {
+    width: 48px;
+    height: 48px;
+    border: none;
+    border-radius: 50%;
+    background: #202a3e;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
 }
 
-.room-top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-  flex-wrap:wrap;
-  padding-bottom:23px;
-  border-bottom:1px solid var(--line);
+.control:hover {
+    background: #30405d;
 }
 
-.room-name{
-  font-size:20px;
-  font-weight:900;
-  letter-spacing:.5px;
+.control.off {
+    background: #8d2935;
 }
 
-.room-description{
-  margin-top:8px;
-  color:#83a9ce;
-  font-size:12px;
+.leave {
+    background: #d93649;
 }
 
-.status{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:9px 12px;
-  border:1px solid rgba(50,180,255,.25);
-  border-radius:30px;
-  color:#bce5ff;
-  font-size:10px;
-  font-weight:bold;
-  letter-spacing:1px;
-  background:rgba(0,130,255,.07);
+.leave:hover {
+    background: #f04758;
 }
 
-.status-dot{
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:#42baff;
-  box-shadow:0 0 12px #168bff;
+/* JOIN */
+.join-screen {
+    position: fixed;
+    inset: 0;
+    background: #080d18;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
 }
 
-/* MEMBERS */
-
-.member-heading{
-  margin:25px 0 16px;
-  color:#82b7e7;
-  font-size:11px;
-  font-weight:bold;
-  letter-spacing:2px;
+.join-box {
+    width: 90%;
+    max-width: 400px;
+    background: #111827;
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid #263149;
 }
 
-.members{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:13px;
+.join-box h1 {
+    margin-bottom: 10px;
 }
 
-.member{
-  padding:20px 10px 17px;
-  text-align:center;
-  border:1px solid rgba(60,160,255,.19);
-  border-radius:18px;
-  background:rgba(0,15,33,.42);
-  transition:
-    transform .2s ease,
-    border-color .2s ease,
-    background .2s ease;
+.join-box p {
+    color: #8e99ae;
+    margin-bottom: 20px;
 }
 
-.member:hover{
-  transform:translateY(-3px);
-  border-color:rgba(70,185,255,.6);
-  background:rgba(8,55,103,.5);
+input {
+    width: 100%;
+    padding: 13px;
+    border-radius: 8px;
+    border: 1px solid #303b55;
+    background: #080d18;
+    color: white;
+    outline: none;
+    margin-bottom: 12px;
 }
 
-.avatar{
-  display:grid;
-  place-items:center;
-  width:59px;
-  height:59px;
-  margin:0 auto 12px;
-  border:1px solid rgba(88,192,255,.55);
-  border-radius:50%;
-  color:#eaf7ff;
-  font-size:20px;
-  font-weight:900;
-  background:linear-gradient(145deg,#14558d,#031426);
-  box-shadow:0 0 18px rgba(0,130,255,.12);
+.join-button {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    background: #315b9e;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-.member h3{
-  overflow-wrap:anywhere;
-  font-size:12px;
+.join-button:hover {
+    background: #3d70c0;
 }
 
-.member p{
-  margin-top:8px;
-  color:#8eb9dc;
-  font-size:10px;
-  letter-spacing:1px;
-}
-
-.online{
-  display:inline-block;
-  width:6px;
-  height:6px;
-  margin-right:5px;
-  border-radius:50%;
-  background:#57c5ff;
-  box-shadow:0 0 8px #168bff;
-}
-
-/* BUTTONS */
-
-.controls{
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:12px;
-  margin-top:28px;
-  padding-top:24px;
-  border-top:1px solid var(--line);
-}
-
-.btn{
-  min-width:125px;
-  padding:14px 18px;
-  border:1px solid rgba(65,179,255,.5);
-  border-radius:12px;
-  color:white;
-  background:linear-gradient(135deg,#096ac7,#06418a);
-  font-size:11px;
-  font-weight:bold;
-  cursor:pointer;
-  transition:
-    transform .2s,
-    box-shadow .2s,
-    background .2s;
-}
-
-.btn:hover{
-  transform:translateY(-2px);
-  box-shadow:0 5px 22px rgba(0,135,255,.2);
-}
-
-.btn.active{
-  color:#021426;
-  background:linear-gradient(135deg,#eaf8ff,#78caff);
-}
-
-.btn.leave{
-  background:#061426;
-  border-color:rgba(255,255,255,.16);
-}
-
-/* INFO CARDS */
-
-.info{
-  width:min(920px,92%);
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:13px;
-  margin:0 auto 55px;
-}
-
-.info-card{
-  padding:22px 15px;
-  text-align:center;
-  border:1px solid rgba(40,145,255,.2);
-  border-radius:17px;
-  background:rgba(3,25,50,.65);
-}
-
-.info-card strong{
-  display:block;
-  margin-bottom:8px;
-  color:#d9f1ff;
-  font-size:23px;
-}
-
-.info-card span{
-  color:#82aaca;
-  font-size:10px;
-  letter-spacing:1px;
-}
-
-/* FOOTER */
-
-footer{
-  padding:27px 15px;
-  text-align:center;
-  color:#527b9f;
-  font-size:10px;
-  letter-spacing:2px;
-  border-top:1px solid rgba(40,145,255,.16);
+.status {
+    margin-top: 12px;
+    color: #8490a7;
+    font-size: 13px;
 }
 
 /* MOBILE */
+@media(max-width:700px) {
+    .sidebar {
+        width: 170px;
+        padding: 10px;
+    }
 
-@media(max-width:650px){
+    .server-title {
+        font-size: 17px;
+    }
 
-  .navbar{
-    padding:17px 5%;
-  }
+    .header {
+        padding: 0 12px;
+    }
 
-  .brand{
-    font-size:16px;
-    gap:8px;
-  }
+    .video-area {
+        padding: 10px;
+    }
 
-  .logo{
-    width:39px;
-    height:39px;
-  }
+    .video-grid {
+        grid-template-columns: 1fr;
+    }
 
-  .back{
-    font-size:10px;
-  }
+    .tile {
+        min-height: 180px;
+    }
 
-  .hero{
-    padding:58px 17px 30px;
-  }
+    .controls {
+        height: 70px;
+    }
 
-  .tag{
-    font-size:9px;
-    letter-spacing:3px;
-  }
-
-  .hero h1{
-    letter-spacing:-2px;
-  }
-
-  .hero p{
-    font-size:13px;
-  }
-
-  .room{
-    width:94%;
-    padding:19px 15px;
-    border-radius:20px;
-  }
-
-  .room-name{
-    font-size:17px;
-  }
-
-  .members{
-    grid-template-columns:repeat(2,1fr);
-    gap:10px;
-  }
-
-  .member{
-    padding:17px 7px;
-  }
-
-  .avatar{
-    width:53px;
-    height:53px;
-  }
-
-  .info{
-    grid-template-columns:1fr;
-    width:94%;
-  }
-
-  .btn{
-    flex:1;
-    min-width:105px;
-    padding:13px 8px;
-  }
-}
-
-@media(prefers-reduced-motion:reduce){
-  *,
-  *::before,
-  *::after{
-    animation:none!important;
-    transition:none!important;
-    scroll-behavior:auto!important;
-  }
+    .control {
+        width: 44px;
+        height: 44px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<header class="navbar">
-  <a href="index.html" class="brand">
-    <div class="logo">TNEX</div>
-    <div><span>TEAM</span> SNEXTY</div>
-  </a>
+<!-- JOIN SCREEN -->
+<div class="join-screen" id="joinScreen">
+    <div class="join-box">
+        <h1>TNEX Voice Chat</h1>
+        <p>Masuk ke voice & video channel</p>
 
-  <a href="index.html" class="back">
-    ← BACK
-  </a>
-</header>
+        <input id="nameInput" placeholder="Nama kamu">
 
-<main>
+        <button class="join-button" onclick="joinChannel('gaming')">
+            🎮 Masuk Gaming
+        </button>
 
-<section class="hero">
-  <div class="tag">TEAM SNEXTY • COMMUNICATION</div>
-
-  <h1>
-    VOICE
-    <span>ROOM</span>
-  </h1>
-
-  <p>
-    Satu komunikasi. Satu strategi.
-    Satu tim untuk mendominasi setiap pertandingan.
-  </p>
-</section>
-
-<section class="room">
-
-  <div class="room-top">
-    <div>
-      <div class="room-name">TNEX SQUAD ROOM</div>
-      <div class="room-description">
-        Private team communication channel
-      </div>
+        <div class="status" id="status">
+            Pilih channel untuk masuk.
+        </div>
     </div>
+</div>
 
-    <div class="status">
-      <span class="status-dot"></span>
-      ROOM ACTIVE
-    </div>
-  </div>
+<div class="app">
 
-  <div class="member-heading">
-    ROOM MEMBERS / 06
-  </div>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
 
-  <div class="members">
+        <div class="server-title">
+            ⚡ TNEX
+        </div>
 
-    <div class="member">
-      <div class="avatar">N</div>
-      <h3>NevTryz</h3>
-      <p><span class="online"></span>ONLINE</p>
-    </div>
+        <div class="category">
+            VOICE CHANNELS
+        </div>
 
-    <div class="member">
-      <div class="avatar">S</div>
-      <h3>Santaeee</h3>
-      <p><span class="online"></span>ONLINE</p>
-    </div>
+        <div class="channel active" id="gamingChannel"
+             onclick="joinChannel('gaming')">
+            🎮 Gaming
+        </div>
 
-    <div class="member">
-      <div class="avatar">P</div>
-      <h3>PARADOX</h3>
-      <p><span class="online"></span>ONLINE</p>
-    </div>
+        <div class="channel" id="squadChannel"
+             onclick="joinChannel('squad')">
+            👥 Squad
+        </div>
 
-    <div class="member">
-      <div class="avatar">B</div>
-      <h3>bokir abis</h3>
-      <p><span class="online"></span>ONLINE</p>
-    </div>
+        <div class="channel" id="rankedChannel"
+             onclick="joinChannel('ranked')">
+            🏆 Ranked
+        </div>
 
-    <div class="member">
-      <div class="avatar">T</div>
-      <h3>™•strawberry</h3>
-      <p><span class="online"></span>ONLINE</p>
-    </div>
+    </aside>
 
-    <div class="member">
-      <div class="avatar">A</div>
-      <h3>alfazira</h3>
-      <p><span class="online"></span>ONLINE</p>
-    </div>
+    <!-- MAIN -->
+    <main class="main">
 
-  </div>
+        <div class="header">
+            <span>🔊</span>
+            <div id="channelTitle">Gaming</div>
+        </div>
 
-  <div class="controls">
+        <div class="video-area">
+            <div class="video-grid" id="videoGrid"></div>
+        </div>
 
-    <button class="btn" id="micBtn" onclick="toggleMic()">
-      MIC OFF
-    </button>
+        <!-- CONTROLS -->
+        <div class="controls">
 
-    <button class="btn" id="soundBtn" onclick="toggleSound()">
-      SOUND ON
-    </button>
+            <button class="control" id="micBtn"
+                    onclick="toggleMic()">
+                🎤
+            </button>
 
-    <button class="btn leave" onclick="leaveRoom()">
-      LEAVE ROOM
-    </button>
+            <button class="control" id="cameraBtn"
+                    onclick="toggleCamera()">
+                📹
+            </button>
 
-  </div>
+            <button class="control"
+                    onclick="toggleScreen()">
+                🖥️
+            </button>
 
-</section>
+            <button class="control leave"
+                    onclick="leaveRoom()">
+                📞
+            </button>
 
-<section class="info">
+        </div>
 
-  <div class="info-card">
-    <strong>06</strong>
-    <span>TEAM MEMBERS</span>
-  </div>
+    </main>
 
-  <div class="info-card">
-    <strong>24/7</strong>
-    <span>TEAM ACCESS</span>
-  </div>
-
-  <div class="info-card">
-    <strong>TNEX</strong>
-    <span>ONE TEAM • ONE VISION</span>
-  </div>
-
-</section>
-
-</main>
-
-<footer>
-  TEAM SNEXTY © 2026 — BUILT FOR THE SQUAD
-</footer>
-
-<script>
-let micOn = false;
-let soundOn = true;
-
-function toggleMic(){
-  micOn = !micOn;
-
-  const button = document.getElementById("micBtn");
-
-  button.textContent = micOn ? "MIC ON" : "MIC OFF";
-  button.classList.toggle("active",micOn);
-}
-
-function toggleSound(){
-  soundOn = !soundOn;
-
-  const button = document.getElementById("soundBtn");
-
-  button.textContent = soundOn ? "SOUND ON" : "SOUND OFF";
-  button.classList.toggle("active",!soundOn);
-}
-
-function leaveRoom(){
-  window.location.href = "index.html";
-}
-</script>
-  <!-- LiveKit -->
-<script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.min.js"></script>
-
-<div id="voice-chat">
-  <h2>TNEX Voice Chat</h2>
-
-  <input id="nameInput" type="text" placeholder="Nama kamu">
-
-  <button id="joinBtn">🎙️ Join Voice Chat</button>
-  <button id="leaveBtn" style="display:none;">🚪 Leave</button>
-
-  <p id="status">Belum terhubung</p>
 </div>
 
 <script>
+
 const TOKEN_SERVER_ID = "tnexvoicechat-1mbm19";
 
-let room = null;
-
-const nameInput = document.getElementById("nameInput");
-const joinBtn = document.getElementById("joinBtn");
-const leaveBtn = document.getElementById("leaveBtn");
-const status = document.getElementById("status");
-
-joinBtn.onclick = async () => {
-  const name = nameInput.value.trim();
-
-  if (!name) {
-    alert("Masukkan nama dulu!");
-    return;
-  }
-
-  try {
-    status.textContent = "Menghubungkan...";
-
-    const tokenSource =
-      LivekitClient.TokenSource.developmentTokenServer(
+const tokenSource =
+    LivekitClient.TokenSource.developmentTokenServer(
         TOKEN_SERVER_ID
-      );
-
-    const credentials = await tokenSource.fetch({
-      roomName: "tnex-lobby",
-      participantName: name
-    });
-
-    room = new LivekitClient.Room();
-
-    await room.connect(
-      credentials.serverUrl,
-      credentials.participantToken
     );
 
-    await room.localParticipant.setMicrophoneEnabled(true);
+const {
+    Room,
+    RoomEvent,
+    Track
+} = LivekitClient;
 
-    status.textContent = "🟢 Terhubung sebagai " + name;
+let room = null;
+let currentChannel = "gaming";
 
-    joinBtn.style.display = "none";
-    leaveBtn.style.display = "inline-block";
+/* =========================
+   JOIN CHANNEL
+========================= */
 
-  } catch (error) {
-    console.error(error);
-    status.textContent = "❌ Gagal terhubung";
-    alert("Gagal masuk voice chat: " + error.message);
-  }
-};
+async function joinChannel(channel) {
 
-leaveBtn.onclick = async () => {
-  if (room) {
-    await room.disconnect();
-    room = null;
-  }
+    const name =
+        document.getElementById("nameInput").value.trim();
 
-  status.textContent = "Belum terhubung";
-  joinBtn.style.display = "inline-block";
-  leaveBtn.style.display = "none";
-};
+    if (!name) {
+        document.getElementById("status").innerText =
+            "Masukkan nama kamu dulu.";
+        return;
+    }
+
+    currentChannel = channel;
+
+    const roomName = "tnex-" + channel;
+
+    document.getElementById("status").innerText =
+        "Menghubungkan...";
+
+    try {
+
+        const credentials = await tokenSource.fetch({
+            roomName: roomName,
+            participantName: name
+        });
+
+        room = new Room({
+            adaptiveStream: true,
+            dynacast: true
+        });
+
+        setupRoomEvents();
+
+        await room.connect(
+            credentials.serverUrl,
+            credentials.participantToken
+        );
+
+        /* MIC + CAMERA */
+        await room.localParticipant
+            .enableCameraAndMicrophone();
+
+        document.getElementById("joinScreen")
+            .style.display = "none";
+
+        document.getElementById("channelTitle")
+            .innerText =
+            capitalize(channel);
+
+        updateChannelButtons();
+
+        addLocalParticipant();
+
+        /* ADD PARTICIPANTS YANG SUDAH ADA */
+        room.remoteParticipants.forEach(
+            participant => {
+                addParticipant(participant);
+            }
+        );
+
+        updateButtons();
+
+    } catch (error) {
+
+        console.error(error);
+
+        document.getElementById("status").innerText =
+            "Gagal masuk: " + error.message;
+    }
+}
+
+/* =========================
+   ROOM EVENTS
+========================= */
+
+function setupRoomEvents() {
+
+    room.on(
+        RoomEvent.TrackSubscribed,
+        (track, publication, participant) => {
+
+            addTrack(
+                track,
+                participant
+            );
+        }
+    );
+
+    room.on(
+        RoomEvent.TrackUnsubscribed,
+        (track, publication, participant) => {
+
+            track.detach().forEach(
+                element => element.remove()
+            );
+        }
+    );
+
+    room.on(
+        RoomEvent.ParticipantConnected,
+        participant => {
+
+            addParticipant(participant);
+        }
+    );
+
+    room.on(
+        RoomEvent.ParticipantDisconnected,
+        participant => {
+
+            removeParticipant(
+                participant.identity
+            );
+        }
+    );
+
+    room.on(
+        RoomEvent.LocalTrackPublished,
+        publication => {
+
+            if (publication.track) {
+                addTrack(
+                    publication.track,
+                    room.localParticipant
+                );
+            }
+        }
+    );
+
+    room.on(
+        RoomEvent.LocalTrackUnpublished,
+        publication => {
+
+            if (publication.track) {
+
+                publication.track
+                    .detach()
+                    .forEach(
+                        element => element.remove()
+                    );
+            }
+        }
+    );
+
+    room.on(
+        RoomEvent.Disconnected,
+        () => {
+
+            clearVideoGrid();
+        }
+    );
+}
+
+/* =========================
+   LOCAL PARTICIPANT
+========================= */
+
+function addLocalParticipant() {
+
+    const participant =
+        room.localParticipant;
+
+    const tile =
+        createTile(
+            participant.identity,
+            participant.name || participant.identity
+        );
+
+    document
+        .getElementById("videoGrid")
+        .appendChild(tile);
+
+    participant.trackPublications
+        .forEach(publication => {
+
+            if (publication.track) {
+
+                addTrack(
+                    publication.track,
+                    participant
+                );
+            }
+        });
+}
+
+/* =========================
+   REMOTE PARTICIPANT
+========================= */
+
+function addParticipant(participant) {
+
+    const existing =
+        document.getElementById(
+            "participant-" +
+            participant.identity
+        );
+
+    if (!existing) {
+
+        const tile =
+            createTile(
+                participant.identity,
+                participant.name ||
+                participant.identity
+            );
+
+        document
+            .getElementById("videoGrid")
+            .appendChild(tile);
+    }
+
+    participant.trackPublications
+        .forEach(publication => {
+
+            if (
+                publication.isSubscribed &&
+                publication.track
+            ) {
+
+                addTrack(
+                    publication.track,
+                    participant
+                );
+            }
+        });
+}
+
+/* =========================
+   ADD TRACK
+========================= */
+
+function addTrack(track, participant) {
+
+    const tile =
+        document.getElementById(
+            "participant-" +
+            participant.identity
+        );
+
+    if (!tile) return;
+
+    /* VIDEO */
+    if (
+        track.kind === Track.Kind.Video
+    ) {
+
+        const video =
+            track.attach();
+
+        video.autoplay = true;
+        video.playsInline = true;
+
+        video.style.width = "100%";
+        video.style.height = "100%";
+        video.style.objectFit = "cover";
+
+        tile.insertBefore(
+            video,
+            tile.firstChild
+        );
+    }
+
+    /* AUDIO */
+    if (
+        track.kind === Track.Kind.Audio
+    ) {
+
+        const audio =
+            track.attach();
+
+        audio.autoplay = true;
+
+        tile.appendChild(audio);
+    }
+}
+
+/* =========================
+   CREATE TILE
+========================= */
+
+function createTile(identity, name) {
+
+    const tile =
+        document.createElement("div");
+
+    tile.className = "tile";
+
+    tile.id =
+        "participant-" + identity;
+
+    const avatar =
+        document.createElement("div");
+
+    avatar.className = "avatar";
+
+    avatar.innerText =
+        (name || "?")
+        .charAt(0)
+        .toUpperCase();
+
+    const label =
+        document.createElement("div");
+
+    label.className = "tile-name";
+
+    label.innerText =
+        name || identity;
+
+    tile.appendChild(avatar);
+    tile.appendChild(label);
+
+    return tile;
+}
+
+/* =========================
+   REMOVE PARTICIPANT
+========================= */
+
+function removeParticipant(identity) {
+
+    const tile =
+        document.getElementById(
+            "participant-" + identity
+        );
+
+    if (tile) {
+        tile.remove();
+    }
+}
+
+/* =========================
+   MICROPHONE
+========================= */
+
+async function toggleMic() {
+
+    if (!room) return;
+
+    const enabled =
+        room.localParticipant
+            .isMicrophoneEnabled;
+
+    await room.localParticipant
+        .setMicrophoneEnabled(!enabled);
+
+    updateButtons();
+}
+
+/* =========================
+   CAMERA
+========================= */
+
+async function toggleCamera() {
+
+    if (!room) return;
+
+    const enabled =
+        room.localParticipant
+            .isCameraEnabled;
+
+    await room.localParticipant
+        .setCameraEnabled(!enabled);
+
+    updateButtons();
+}
+
+/* =========================
+   SCREEN SHARE
+========================= */
+
+async function toggleScreen() {
+
+    if (!room) return;
+
+    const enabled =
+        room.localParticipant
+            .isScreenShareEnabled;
+
+    await room.localParticipant
+        .setScreenShareEnabled(!enabled);
+
+    updateButtons();
+}
+
+/* =========================
+   UPDATE BUTTON
+========================= */
+
+function updateButtons() {
+
+    if (!room) return;
+
+    const mic =
+        document.getElementById("micBtn");
+
+    const camera =
+        document.getElementById("cameraBtn");
+
+    mic.classList.toggle(
+        "off",
+        !room.localParticipant
+            .isMicrophoneEnabled
+    );
+
+    camera.classList.toggle(
+        "off",
+        !room.localParticipant
+            .isCameraEnabled
+    );
+}
+
+/* =========================
+   LEAVE
+========================= */
+
+function leaveRoom() {
+
+    if (room) {
+
+        room.disconnect();
+
+        room = null;
+    }
+
+    clearVideoGrid();
+
+    document.getElementById("joinScreen")
+        .style.display = "flex";
+
+    document.getElementById("status")
+        .innerText =
+        "Kamu sudah keluar dari room.";
+}
+
+/* =========================
+   CLEAR
+========================= */
+
+function clearVideoGrid() {
+
+    document.getElementById("videoGrid")
+        .innerHTML = "";
+}
+
+/* =========================
+   CHANNEL BUTTON
+========================= */
+
+function updateChannelButtons() {
+
+    document
+        .querySelectorAll(".channel")
+        .forEach(el =>
+            el.classList.remove("active")
+        );
+
+    const active =
+        document.getElementById(
+            currentChannel + "Channel"
+        );
+
+    if (active) {
+        active.classList.add("active");
+    }
+}
+
+/* =========================
+   CAPITALIZE
+========================= */
+
+function capitalize(text) {
+
+    return text.charAt(0).toUpperCase()
+        + text.slice(1);
+}
+
 </script>
+
 </body>
 </html>
