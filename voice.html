@@ -2,52 +2,113 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1.0">
+
 <title>TNEX Voice Chat</title>
 
 <script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.min.js"></script>
 
 <style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
 *{
     box-sizing:border-box;
     margin:0;
     padding:0;
-    font-family:Arial,Helvetica,sans-serif;
 }
 
+html,
 body{
-    background:#020b17;
-    color:white;
+    width:100%;
+    height:100%;
     overflow:hidden;
 }
 
-/* =========================
-   GLOBAL BACKGROUND
-========================= */
-
-.page{
-    width:100vw;
-    height:100vh;
-    background:
-        radial-gradient(circle at 50% 30%,rgba(0,157,255,.20),transparent 35%),
-        linear-gradient(135deg,#020b17,#032d58 55%,#064f91);
-    position:relative;
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#02080f;
+    color:#fff;
 }
 
-.page:before{
+
+/* =====================================================
+   COLORS
+===================================================== */
+
+:root{
+    --bg:#02080f;
+    --bg2:#041321;
+    --panel:#061522;
+    --panel2:#081b2b;
+
+    --blue:#008cff;
+    --blue2:#0067ad;
+    --cyan:#16baff;
+
+    --border:#07588c;
+
+    --text:#f2f6fa;
+    --muted:#7f9aae;
+
+    --red:#ed1238;
+}
+
+
+/* =====================================================
+   MAIN PAGE
+===================================================== */
+
+.page{
+    position:relative;
+    width:100vw;
+    height:100vh;
+
+    background:
+        radial-gradient(
+            circle at 50% 40%,
+            rgba(0,113,190,.18),
+            transparent 42%
+        ),
+        linear-gradient(
+            145deg,
+            #01060b 0%,
+            #031522 55%,
+            #062c47 100%
+        );
+}
+
+
+/* subtle grid */
+
+.page::before{
     content:"";
     position:absolute;
     inset:0;
+
     background-image:
-        linear-gradient(rgba(40,170,255,.07) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(40,170,255,.07) 1px,transparent 1px);
-    background-size:45px 45px;
+        linear-gradient(
+            rgba(0,145,220,.035) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(0,145,220,.035) 1px,
+            transparent 1px
+        );
+
+    background-size:48px 48px;
+
     pointer-events:none;
 }
 
-/* =========================
+
+/* =====================================================
    LOGIN PAGE
-========================= */
+===================================================== */
 
 #loginPage{
     display:flex;
@@ -56,513 +117,898 @@ body{
 }
 
 .login-box{
-    position:relative;
-    z-index:2;
-    width:min(440px,92%);
-    padding:35px 30px;
+    width:min(420px,90%);
     text-align:center;
+
+    position:relative;
+    z-index:5;
 }
 
-.tnex-logo{
-    width:120px;
-    height:120px;
+
+/* logo */
+
+.logo-big{
+    width:105px;
+    height:105px;
+
     margin:0 auto 25px;
-    border:2px solid #0bbcff;
-    border-radius:28px;
+
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:32px;
+
+    border:1px solid #dce7ee;
+    border-radius:27px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #09253a,
+            #020a11
+        );
+
+    font-size:27px;
     font-weight:900;
     letter-spacing:2px;
-    background:linear-gradient(145deg,#06376a,#021a34);
+
     box-shadow:
-        0 0 25px rgba(0,185,255,.45),
-        inset 0 0 25px rgba(0,145,255,.15);
+        0 12px 40px rgba(0,0,0,.55);
 }
 
+
+/* avatar chooser */
+
+.avatar-picker{
+    position:relative;
+
+    width:92px;
+    height:92px;
+
+    margin:0 auto 18px;
+
+    cursor:pointer;
+}
+
+.avatar-preview{
+    width:92px;
+    height:92px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    background:
+        linear-gradient(
+            145deg,
+            #0b5b8d,
+            #031a2c
+        );
+
+    border:2px solid #098dd0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    box-shadow:
+        0 0 25px rgba(0,140,255,.2);
+}
+
+.avatar-picker-button{
+    position:absolute;
+
+    right:-3px;
+    bottom:-3px;
+
+    width:31px;
+    height:31px;
+
+    border-radius:50%;
+
+    border:2px solid #03111c;
+
+    background:#078ee0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:15px;
+}
+
+.avatar-hint{
+    color:#7893a7;
+    font-size:11px;
+    margin-bottom:18px;
+}
+
+
 .login-box h1{
-    font-size:46px;
+    font-size:36px;
     font-weight:900;
-    letter-spacing:3px;
-    line-height:1;
-    text-shadow:0 0 20px rgba(0,174,255,.4);
+    letter-spacing:2px;
 }
 
 .login-box h1 span{
-    color:#08b8ff;
+    color:#35aee9;
 }
 
-.tagline{
-    margin:18px 0 30px;
-    color:#a8cceb;
-    font-size:16px;
+.subtitle{
+    color:#809aac;
+    margin:10px 0 25px;
+    font-size:14px;
 }
+
 
 .name-input{
     width:100%;
-    height:58px;
-    border-radius:12px;
-    border:1px solid #0a9ce7;
-    background:rgba(2,22,42,.9);
-    color:white;
-    padding:0 18px;
-    font-size:16px;
+    height:55px;
+
+    padding:0 16px;
+
+    border:1px solid #17435e;
+    border-radius:10px;
+
     outline:none;
-    box-shadow:0 0 15px rgba(0,145,255,.12);
+
+    background:#030c14;
+    color:white;
+
+    font-size:15px;
 }
 
 .name-input:focus{
-    border-color:#15c4ff;
-    box-shadow:0 0 20px rgba(0,184,255,.25);
+    border-color:#098bc9;
 }
+
 
 .join-btn{
     width:100%;
-    height:58px;
-    margin-top:14px;
-    border:none;
-    border-radius:12px;
-    background:linear-gradient(90deg,#0877c9,#09b9ff);
+    height:55px;
+
+    margin-top:12px;
+
+    border:1px solid #0788c9;
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #064c7c,
+            #087ebc
+        );
+
     color:white;
-    font-size:16px;
+
+    font-size:15px;
     font-weight:bold;
+
     cursor:pointer;
-    box-shadow:0 0 25px rgba(0,157,255,.3);
 }
 
 .join-btn:active{
     transform:scale(.98);
 }
 
+
 .login-status{
-    min-height:20px;
-    margin-top:13px;
-    color:#8eb8d8;
-    font-size:13px;
+    min-height:18px;
+
+    margin-top:12px;
+
+    color:#7893a7;
+
+    font-size:12px;
 }
 
-/* =========================
+
+/* hidden file input */
+
+#avatarInput{
+    display:none;
+}
+
+
+/* =====================================================
    CALL PAGE
-========================= */
+===================================================== */
 
 #callPage{
     display:none;
     flex-direction:column;
 }
 
-/* HEADER */
+
+/* =====================================================
+   HEADER
+===================================================== */
 
 .call-header{
-    height:68px;
+    height:67px;
+
+    flex-shrink:0;
+
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:0 22px;
-    background:rgba(1,13,27,.92);
-    border-bottom:1px solid #087fc9;
+
+    padding:0 20px;
+
+    background:#020b13;
+
+    border-bottom:1px solid #10334a;
+
     position:relative;
-    z-index:10;
+    z-index:20;
 }
 
-.call-title{
+
+.brand{
     display:flex;
     align-items:center;
-    gap:12px;
+    gap:11px;
 }
 
-.small-logo{
-    width:42px;
-    height:42px;
-    border:1px solid #0bbcff;
-    border-radius:10px;
+
+.logo-small{
+    width:41px;
+    height:41px;
+
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:12px;
+
+    border:1px solid #dce7ee;
+    border-radius:10px;
+
+    font-size:10px;
     font-weight:bold;
-    box-shadow:0 0 12px rgba(0,180,255,.3);
 }
 
-.call-title h2{
-    font-size:17px;
+
+.brand-title{
+    font-size:15px;
+    font-weight:bold;
 }
 
-.connection{
-    color:#57e5a2;
-    font-size:12px;
-    margin-top:3px;
+
+.status{
+    margin-top:4px;
+
+    font-size:11px;
+
+    color:#51d995;
 }
+
 
 .settings-top{
     width:42px;
     height:42px;
+
+    border:1px solid #16425c;
     border-radius:10px;
-    border:1px solid #087fc9;
-    background:#082b4b;
-    color:white;
-    font-size:20px;
+
+    background:#071722;
+
+    color:#dce9f1;
+
+    font-size:19px;
+
     cursor:pointer;
 }
 
-/* =========================
-   VIDEO GRID
-========================= */
+
+/* =====================================================
+   CONTENT
+===================================================== */
 
 .call-content{
     flex:1;
-    position:relative;
-    padding:18px;
+
+    min-height:0;
+
+    padding:16px;
+
     overflow:auto;
+
+    position:relative;
+    z-index:2;
 }
+
 
 .video-grid{
     width:100%;
-    height:100%;
     min-height:100%;
+
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:14px;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(245px,1fr));
+
+    gap:13px;
+
     align-content:center;
 }
 
+
+/* =====================================================
+   PARTICIPANT CARD
+===================================================== */
+
 .participant{
     position:relative;
-    min-height:210px;
-    border:1px solid #087ed0;
-    border-radius:14px;
+
+    min-height:205px;
+
     overflow:hidden;
+
+    border:1px solid #075f98;
+
+    border-radius:13px;
+
     background:
-        radial-gradient(circle,#073c6b,#021426 70%);
+        radial-gradient(
+            circle at 50% 45%,
+            #07385c,
+            #03111d 72%
+        );
+
     display:flex;
+
     align-items:center;
     justify-content:center;
+
     box-shadow:
-        0 0 18px rgba(0,135,255,.15);
+        inset 0 0 30px rgba(0,110,190,.08);
 }
+
 
 .participant video{
     position:absolute;
+
     inset:0;
+
     width:100%;
     height:100%;
+
     object-fit:cover;
+
+    z-index:1;
 }
 
-.avatar{
-    width:75px;
-    height:75px;
+
+/* avatar */
+
+.participant-avatar{
+    width:88px;
+    height:88px;
+
     border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:linear-gradient(135deg,#0874c4,#08baff);
-    font-size:27px;
-    font-weight:bold;
-    box-shadow:0 0 25px rgba(0,180,255,.3);
+
+    object-fit:cover;
+
+    border:2px solid #078bd1;
+
+    box-shadow:
+        0 0 25px rgba(0,143,225,.25);
+
+    z-index:2;
 }
+
 
 .participant-name{
     position:absolute;
-    left:12px;
+
+    left:10px;
     bottom:10px;
-    padding:7px 11px;
+
+    padding:7px 10px;
+
     border-radius:8px;
-    background:rgba(0,12,25,.82);
-    border:1px solid rgba(0,170,255,.35);
-    font-size:13px;
-    z-index:5;
+
+    background:
+        rgba(0,8,14,.88);
+
+    border:1px solid #17394e;
+
+    font-size:12px;
+
+    z-index:8;
 }
 
-.mic-state{
-    margin-right:5px;
+
+.mic-icon{
+    margin-right:4px;
 }
 
-.invite-tile{
-    border-style:dashed;
+
+.video-badge{
+    position:absolute;
+
+    top:10px;
+    right:10px;
+
+    padding:5px 7px;
+
+    border-radius:6px;
+
+    background:rgba(0,7,12,.8);
+
+    font-size:10px;
+
+    z-index:8;
+}
+
+
+/* =====================================================
+   INVITE CARD
+===================================================== */
+
+.invite-card{
+    min-height:205px;
+
+    border:1px dashed #075f98;
+
+    border-radius:13px;
+
+    background:
+        rgba(3,18,30,.6);
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+    justify-content:center;
+
     cursor:pointer;
 }
 
-.invite-tile .plus{
-    font-size:40px;
-    color:#08b8ff;
+
+.invite-plus{
+    color:#079fe8;
+
+    font-size:42px;
+
+    line-height:1;
 }
+
 
 .invite-text{
-    position:absolute;
-    bottom:25px;
-    color:#9ec7e4;
+    margin-top:12px;
+
+    color:#7fa5bc;
+
+    font-size:13px;
 }
 
-/* =========================
+
+/* =====================================================
    BOTTOM CONTROLS
-========================= */
+===================================================== */
 
 .bottom-bar{
     height:92px;
+
+    flex-shrink:0;
+
     display:flex;
-    align-items:center;
+
     justify-content:center;
+    align-items:center;
+
+    background:#02090f;
+
+    border-top:1px solid #10334a;
+
     position:relative;
-    z-index:10;
-    background:rgba(1,12,24,.94);
-    border-top:1px solid #087fc9;
+    z-index:20;
 }
+
 
 .control-box{
+    height:70px;
+
     display:flex;
+
     align-items:center;
-    gap:17px;
-    padding:11px 18px;
-    border:1px solid #098ce0;
-    border-radius:24px;
-    background:rgba(5,24,43,.96);
-    box-shadow:0 0 25px rgba(0,140,255,.15);
+    justify-content:center;
+
+    gap:23px;
+
+    padding:6px 17px;
+
+    min-width:390px;
+
+    border:1px solid #155274;
+
+    border-radius:25px;
+
+    background:#11171c;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.45);
 }
 
+
 .control{
-    width:55px;
-    height:55px;
+    width:52px;
+    height:52px;
+
+    border:0;
+
     border-radius:50%;
-    border:1px solid #32698d;
-    background:#122d46;
-    color:white;
-    font-size:22px;
-    cursor:pointer;
+
+    background:#222b31;
+
+    color:#edf3f7;
+
+    font-size:21px;
+
     display:flex;
     align-items:center;
     justify-content:center;
+
+    cursor:pointer;
 }
+
 
 .control:hover{
-    background:#075b91;
-    border-color:#08baff;
+    background:#2d3942;
 }
 
+
 .control.off{
-    background:#57242c;
-    border-color:#b94a58;
+    background:#292d31;
+    color:#aab4bb;
 }
+
 
 .hangup{
     width:58px;
     height:58px;
-    border-radius:15px;
-    background:#ec1738;
-    border:1px solid #ff536d;
+
+    border:0;
+
+    border-radius:16px;
+
+    background:#ed1238;
+
     color:white;
+
     font-size:25px;
+
     cursor:pointer;
-    box-shadow:0 0 18px rgba(255,0,45,.25);
+
+    box-shadow:
+        0 6px 18px rgba(237,18,56,.22);
 }
+
 
 .hangup:hover{
-    background:#ff2848;
+    background:#fa2549;
 }
 
-/* =========================
+
+/* =====================================================
    SETTINGS PANEL
-========================= */
+===================================================== */
 
 .settings-panel{
     position:absolute;
-    top:82px;
-    right:20px;
-    width:330px;
-    max-width:calc(100% - 40px);
-    background:rgba(2,18,34,.98);
-    border:1px solid #078edc;
-    border-radius:15px;
-    z-index:30;
-    padding:18px;
-    box-shadow:0 10px 40px rgba(0,0,0,.5);
+
+    right:18px;
+    top:78px;
+
+    width:340px;
+    max-width:calc(100% - 36px);
+
+    padding:17px;
+
+    border:1px solid #0874b4;
+    border-radius:13px;
+
+    background:
+        rgba(3,15,25,.98);
+
+    box-shadow:
+        0 18px 50px rgba(0,0,0,.6);
+
+    z-index:100;
+
     display:none;
 }
+
 
 .settings-panel.show{
     display:block;
 }
 
-.settings-head{
+
+.settings-header{
     display:flex;
-    justify-content:space-between;
+
     align-items:center;
-    margin-bottom:15px;
+    justify-content:space-between;
+
+    padding-bottom:14px;
+
+    border-bottom:1px solid #15364b;
 }
 
-.settings-head h3{
-    font-size:17px;
+
+.settings-header h3{
+    font-size:16px;
 }
+
 
 .close-settings{
+    border:0;
     background:none;
-    border:none;
-    color:#a9c5dc;
-    font-size:23px;
+
+    color:#91a9b9;
+
+    font-size:24px;
+
     cursor:pointer;
 }
+
+
+/* tabs */
 
 .tabs{
     display:flex;
-    border-bottom:1px solid #194866;
-    margin-bottom:15px;
+
+    margin:12px 0;
+
+    border-bottom:1px solid #12374e;
 }
+
 
 .tab{
     flex:1;
-    padding:10px;
+
     text-align:center;
-    color:#91abc0;
+
+    padding:10px 5px;
+
+    color:#7591a4;
+
+    font-size:13px;
+
     cursor:pointer;
 }
+
 
 .tab.active{
     color:white;
-    background:#075b99;
+
+    background:#075d95;
+
     border-radius:8px 8px 0 0;
 }
 
-.setting-section{
-    margin-bottom:16px;
+
+/* settings */
+
+.setting{
+    margin-bottom:14px;
 }
 
-.setting-section label{
+
+.setting label{
     display:block;
-    font-size:12px;
-    color:#80a8c5;
-    margin-bottom:7px;
+
+    margin-bottom:6px;
+
+    color:#91aabd;
+
+    font-size:11px;
 }
 
-.select{
+
+.setting select{
     width:100%;
-    height:43px;
+    height:41px;
+
+    padding:0 9px;
+
+    border:1px solid #17445e;
     border-radius:8px;
-    border:1px solid #285473;
-    background:#061b2e;
+
+    background:#061521;
+
     color:white;
-    padding:0 10px;
+
+    outline:none;
 }
+
 
 .setting-row{
     display:flex;
-    justify-content:space-between;
+
     align-items:center;
-    padding:10px 0;
-    border-bottom:1px solid rgba(60,120,160,.18);
+    justify-content:space-between;
+
+    padding:11px 0;
+
+    border-top:1px solid #102d3f;
+
+    color:#aec1ce;
+
+    font-size:12px;
 }
 
+
 .switch{
-    width:42px;
-    height:23px;
+    width:40px;
+    height:21px;
+
     border-radius:20px;
-    background:#34495a;
+
+    background:#29363f;
+
     position:relative;
+
     cursor:pointer;
 }
 
-.switch.on{
-    background:#0b9de5;
-}
 
-.switch:after{
+.switch::after{
     content:"";
+
     position:absolute;
-    width:17px;
-    height:17px;
-    border-radius:50%;
-    background:white;
+
+    width:15px;
+    height:15px;
+
     top:3px;
     left:3px;
+
+    border-radius:50%;
+
+    background:#dbe4e9;
+
     transition:.2s;
 }
 
-.switch.on:after{
+
+.switch.on{
+    background:#078bd0;
+}
+
+
+.switch.on::after{
     left:22px;
 }
 
-/* =========================
-   MOBILE
-========================= */
 
-@media(max-width:700px){
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:650px){
 
     .login-box h1{
-        font-size:36px;
+        font-size:29px;
     }
 
-    .tnex-logo{
-        width:100px;
-        height:100px;
-        font-size:27px;
+    .logo-big{
+        width:88px;
+        height:88px;
+        font-size:23px;
     }
 
     .call-header{
-        height:60px;
+        height:62px;
         padding:0 12px;
     }
 
+    .brand-title{
+        font-size:13px;
+    }
+
     .call-content{
-        padding:10px;
+        padding:9px;
     }
 
     .video-grid{
         grid-template-columns:1fr;
+        gap:9px;
     }
 
     .participant{
-        min-height:190px;
+        min-height:175px;
     }
 
     .bottom-bar{
-        height:82px;
+        height:84px;
     }
 
     .control-box{
-        gap:8px;
-        padding:8px 10px;
+        min-width:0;
+        width:calc(100% - 18px);
+        height:67px;
+        gap:10px;
+        padding:6px 10px;
     }
 
     .control{
-        width:45px;
-        height:45px;
+        width:46px;
+        height:46px;
         font-size:19px;
     }
 
     .hangup{
-        width:49px;
-        height:49px;
+        width:51px;
+        height:51px;
     }
 
     .settings-panel{
-        top:68px;
-        right:10px;
-        width:calc(100% - 20px);
+        top:70px;
+        right:9px;
+        width:calc(100% - 18px);
     }
 }
+
 </style>
 </head>
 
+
 <body>
 
-<!-- ==================================================
-     HALAMAN 1 : LOGIN
-================================================== -->
+
+<!-- =====================================================
+     LOGIN PAGE
+===================================================== -->
 
 <div id="loginPage" class="page">
 
     <div class="login-box">
 
-        <div class="tnex-logo">
-            TNEX
+
+        <!-- AVATAR -->
+
+        <div
+            class="avatar-picker"
+            onclick="document.getElementById('avatarInput').click()"
+        >
+
+            <img
+                id="avatarPreview"
+                class="avatar-preview"
+                src=""
+                alt="Avatar"
+            >
+
+            <div class="avatar-picker-button">
+                📷
+            </div>
+
+        </div>
+
+
+        <input
+            id="avatarInput"
+            type="file"
+            accept="image/*"
+            onchange="chooseAvatar(event)"
+        >
+
+
+        <div class="avatar-hint">
+            Tekan foto untuk mengganti avatar
         </div>
 
         <h1>
-            TNEX <span>VOICE CHAT</span>
+            TNEX <span>VOICE</span>
         </h1>
 
-        <div class="tagline">
-            Ngobrol. Main bareng. Satu tim.
+
+        <div class="subtitle">
+            Voice & Video Chat
         </div>
+
 
         <input
             id="nameInput"
@@ -572,18 +1018,20 @@ body{
             placeholder="Masukkan nama kamu"
         >
 
+
         <button
             class="join-btn"
             onclick="joinRoom()"
         >
-            🎙️ &nbsp; Masuk Voice Chat
+            🎙️ &nbsp; MASUK VOICE CHAT
         </button>
+
 
         <div
             id="loginStatus"
             class="login-status"
         >
-            Kamu akan bergabung ke room TNEX.
+            Masuk untuk terhubung dengan anggota TNEX.
         </div>
 
     </div>
@@ -591,48 +1039,54 @@ body{
 </div>
 
 
-<!-- ==================================================
-     HALAMAN 2 : CALL
-================================================== -->
+
+<!-- =====================================================
+     CALL PAGE
+===================================================== -->
 
 <div id="callPage" class="page">
+
 
     <!-- HEADER -->
 
     <header class="call-header">
 
-        <div class="call-title">
+        <div class="brand">
 
-            <div class="small-logo">
+            <div class="logo-small">
                 TNEX
             </div>
 
             <div>
-                <h2>
-                    TNEX Voice Chat
-                </h2>
 
-                <div class="connection">
+                <div class="brand-title">
+                    TNEX Voice Chat
+                </div>
+
+                <div class="status">
                     ● Terhubung
                     <span id="participantCount">
                         • 1 peserta
                     </span>
                 </div>
+
             </div>
 
         </div>
+
 
         <button
             class="settings-top"
             onclick="toggleSettings()"
         >
-            ⚙️
+            ⚙
         </button>
 
     </header>
 
 
-    <!-- VIDEO -->
+
+    <!-- PARTICIPANTS -->
 
     <main class="call-content">
 
@@ -644,22 +1098,25 @@ body{
     </main>
 
 
-    <!-- BOTTOM CONTROLS -->
+
+    <!-- CONTROLS -->
 
     <div class="bottom-bar">
 
         <div class="control-box">
 
+
             <!-- CAMERA -->
 
             <button
                 id="cameraBtn"
-                class="control"
+                class="control off"
                 onclick="toggleCamera()"
                 title="Kamera"
             >
                 📹
             </button>
+
 
             <!-- MIC -->
 
@@ -672,18 +1129,20 @@ body{
                 🎙️
             </button>
 
-            <!-- SHARE SCREEN -->
+
+            <!-- SCREEN -->
 
             <button
                 id="screenBtn"
                 class="control"
                 onclick="toggleScreen()"
-                title="Share Screen"
+                title="Bagikan layar"
             >
                 📱
             </button>
 
-            <!-- SOUND / EXTRA -->
+
+            <!-- SOUND -->
 
             <button
                 id="soundBtn"
@@ -694,7 +1153,8 @@ body{
                 🔊
             </button>
 
-            <!-- HANG UP -->
+
+            <!-- LEAVE -->
 
             <button
                 class="hangup"
@@ -709,17 +1169,20 @@ body{
     </div>
 
 
-    <!-- SETTINGS -->
+
+    <!-- =================================================
+         SETTINGS
+    ================================================== -->
 
     <div
         id="settingsPanel"
         class="settings-panel"
     >
 
-        <div class="settings-head">
+        <div class="settings-header">
 
             <h3>
-                ⚙️ Pengaturan
+                ⚙ Pengaturan
             </h3>
 
             <button
@@ -732,25 +1195,27 @@ body{
         </div>
 
 
+        <!-- TABS -->
+
         <div class="tabs">
 
             <div
                 class="tab active"
-                onclick="showTab(this,'audioSettings')"
+                onclick="openTab(this,'audioTab')"
             >
                 Audio
             </div>
 
             <div
                 class="tab"
-                onclick="showTab(this,'videoSettings')"
+                onclick="openTab(this,'videoTab')"
             >
                 Video
             </div>
 
             <div
                 class="tab"
-                onclick="showTab(this,'generalSettings')"
+                onclick="openTab(this,'generalTab')"
             >
                 Umum
             </div>
@@ -758,43 +1223,35 @@ body{
         </div>
 
 
-        <!-- AUDIO -->
 
-        <div
-            id="audioSettings"
-            class="tab-content"
-        >
+        <!-- AUDIO TAB -->
 
-            <div class="setting-section">
+        <div id="audioTab">
+
+            <div class="setting">
 
                 <label>
                     🎙️ Mikrofon
                 </label>
 
-                <select
-                    id="micSelect"
-                    class="select"
-                >
+                <select id="micSelect">
                     <option>
-                        Default - Microphone
+                        Default Microphone
                     </option>
                 </select>
 
             </div>
 
 
-            <div class="setting-section">
+            <div class="setting">
 
                 <label>
                     🔊 Speaker
                 </label>
 
-                <select
-                    id="speakerSelect"
-                    class="select"
-                >
+                <select id="speakerSelect">
                     <option>
-                        Default - Speaker
+                        Default Speaker
                     </option>
                 </select>
 
@@ -831,26 +1288,23 @@ body{
         </div>
 
 
-        <!-- VIDEO -->
+
+        <!-- VIDEO TAB -->
 
         <div
-            id="videoSettings"
-            class="tab-content"
+            id="videoTab"
             style="display:none"
         >
 
-            <div class="setting-section">
+            <div class="setting">
 
                 <label>
                     📹 Kamera
                 </label>
 
-                <select
-                    id="cameraSelect"
-                    class="select"
-                >
+                <select id="cameraSelect">
                     <option>
-                        Default - Camera
+                        Default Camera
                     </option>
                 </select>
 
@@ -873,11 +1327,11 @@ body{
         </div>
 
 
-        <!-- GENERAL -->
+
+        <!-- GENERAL TAB -->
 
         <div
-            id="generalSettings"
-            class="tab-content"
+            id="generalTab"
             style="display:none"
         >
 
@@ -893,6 +1347,7 @@ body{
                 ></div>
 
             </div>
+
 
             <div class="setting-row">
 
@@ -914,20 +1369,23 @@ body{
 </div>
 
 
+
 <script>
 
-/* ==================================================
+/* =====================================================
    LIVEKIT
-================================================== */
+===================================================== */
 
 const TOKEN_SERVER_ID =
     "tnexvoicechat-1mbm19";
 
+
 const tokenSource =
     LivekitClient.TokenSource
-    .developmentTokenServer(
-        TOKEN_SERVER_ID
-    );
+        .developmentTokenServer(
+            TOKEN_SERVER_ID
+        );
+
 
 const {
     Room,
@@ -936,20 +1394,206 @@ const {
 } = LivekitClient;
 
 
-/* ==================================================
-   VARIABLES
-================================================== */
+
+/* =====================================================
+   ROOM
+===================================================== */
+
+const ROOM_NAME =
+    "tnex-main";
+
 
 let room = null;
 
 let myName = "";
 
-const ROOM_NAME = "tnex-main";
+let myAvatar = "";
 
 
-/* ==================================================
+
+/* =====================================================
+   DEFAULT AVATAR
+===================================================== */
+
+function defaultAvatar(){
+
+    return `
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="256"
+            height="256"
+            viewBox="0 0 256 256"
+        >
+
+            <rect
+                width="256"
+                height="256"
+                rx="128"
+                fill="#062b45"
+            />
+
+            <circle
+                cx="128"
+                cy="94"
+                r="45"
+                fill="#1499df"
+            />
+
+            <path
+                d="
+                M48 225
+                C53 170
+                91 145
+                128 145
+                C165 145
+                203 170
+                208 225
+                Z"
+                fill="#1499df"
+            />
+
+        </svg>
+    `;
+
+}
+
+
+/* show default */
+
+const defaultAvatarURL =
+    "data:image/svg+xml;charset=UTF-8," +
+    encodeURIComponent(
+        defaultAvatar()
+    );
+
+
+document
+    .getElementById("avatarPreview")
+    .src =
+    defaultAvatarURL;
+
+
+
+/* =====================================================
+   CHOOSE AVATAR
+===================================================== */
+
+function chooseAvatar(event){
+
+    const file =
+        event.target.files[0];
+
+    if(!file) return;
+
+
+    if(!file.type.startsWith("image/")){
+
+        alert("Pilih file gambar.");
+
+        return;
+
+    }
+
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload =
+        function(e){
+
+            myAvatar =
+                e.target.result;
+
+            document
+                .getElementById(
+                    "avatarPreview"
+                )
+                .src =
+                myAvatar;
+
+        };
+
+
+    reader.readAsDataURL(file);
+
+}
+
+
+
+/* =====================================================
+   COMPRESS AVATAR
+===================================================== */
+
+function compressAvatar(
+    dataURL
+){
+
+    return new Promise(
+        resolve => {
+
+            const img =
+                new Image();
+
+
+            img.onload =
+                function(){
+
+                    const canvas =
+                        document.createElement(
+                            "canvas"
+                        );
+
+
+                    const size =
+                        256;
+
+
+                    canvas.width =
+                        size;
+
+                    canvas.height =
+                        size;
+
+
+                    const ctx =
+                        canvas.getContext(
+                            "2d"
+                        );
+
+
+                    ctx.drawImage(
+                        img,
+                        0,
+                        0,
+                        size,
+                        size
+                    );
+
+
+                    resolve(
+                        canvas.toDataURL(
+                            "image/jpeg",
+                            .72
+                        )
+                    );
+
+                };
+
+
+            img.src =
+                dataURL;
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
    JOIN ROOM
-================================================== */
+===================================================== */
 
 async function joinRoom(){
 
@@ -958,26 +1602,54 @@ async function joinRoom(){
             "nameInput"
         );
 
+
     myName =
         input.value.trim();
 
+
     if(!myName){
 
-        document.getElementById(
-            "loginStatus"
-        ).innerText =
+        document
+            .getElementById(
+                "loginStatus"
+            )
+            .innerText =
             "Masukkan nama kamu dulu.";
 
         return;
+
     }
 
-    document.getElementById(
-        "loginStatus"
-    ).innerText =
+
+    document
+        .getElementById(
+            "loginStatus"
+        )
+        .innerText =
         "Menghubungkan...";
 
 
     try{
+
+
+        /* avatar */
+
+        if(!myAvatar){
+
+            myAvatar =
+                defaultAvatarURL;
+
+        }
+
+
+        myAvatar =
+            await compressAvatar(
+                myAvatar
+            );
+
+
+
+        /* token */
 
         const credentials =
             await tokenSource.fetch({
@@ -991,6 +1663,9 @@ async function joinRoom(){
             });
 
 
+
+        /* room */
+
         room =
             new Room({
 
@@ -1001,7 +1676,9 @@ async function joinRoom(){
             });
 
 
+
         setupEvents();
+
 
 
         await room.connect(
@@ -1013,56 +1690,109 @@ async function joinRoom(){
         );
 
 
-        /*
-         * Mic + kamera langsung tersedia.
-         * User tetap bisa mematikan salah satunya.
-         */
+
+        /* metadata avatar */
+
+        try{
+
+            await room
+                .localParticipant
+                .setMetadata(
+                    JSON.stringify({
+                        avatar:myAvatar
+                    })
+                );
+
+        }
+        catch(e){
+
+            console.log(
+                "Metadata avatar gagal:",
+                e
+            );
+
+        }
+
+
+
+        /* mic ON */
 
         await room
             .localParticipant
-            .enableCameraAndMicrophone();
+            .setMicrophoneEnabled(
+                true
+            );
 
 
-        document.getElementById(
-            "loginPage"
-        ).style.display =
+
+        /* camera OFF */
+
+        await room
+            .localParticipant
+            .setCameraEnabled(
+                false
+            );
+
+
+
+        /* switch page */
+
+        document
+            .getElementById(
+                "loginPage"
+            )
+            .style.display =
             "none";
 
 
-        document.getElementById(
-            "callPage"
-        ).style.display =
+        document
+            .getElementById(
+                "callPage"
+            )
+            .style.display =
             "flex";
 
+
+
+        /* local participant */
 
         addParticipant(
             room.localParticipant
         );
 
 
-        room.remoteParticipants.forEach(
-            participant => {
 
-                addParticipant(
-                    participant
-                );
+        /* existing participants */
 
-            }
-        );
+        room.remoteParticipants
+            .forEach(
+                participant => {
+
+                    addParticipant(
+                        participant
+                    );
+
+                }
+            );
+
 
 
         updateCount();
 
         updateButtons();
 
+        loadDevices();
+
     }
     catch(error){
 
         console.error(error);
 
-        document.getElementById(
-            "loginStatus"
-        ).innerText =
+        document
+            .getElementById(
+                "loginStatus"
+            )
+            .innerText =
             "Gagal terhubung: " +
             error.message;
 
@@ -1071,11 +1801,13 @@ async function joinRoom(){
 }
 
 
-/* ==================================================
+
+/* =====================================================
    EVENTS
-================================================== */
+===================================================== */
 
 function setupEvents(){
+
 
     room.on(
 
@@ -1097,22 +1829,24 @@ function setupEvents(){
     );
 
 
+
     room.on(
 
         RoomEvent.TrackUnsubscribed,
 
-        (
-            track
-        ) => {
+        track => {
 
-            track.detach().forEach(
-                element =>
-                    element.remove()
-            );
+            track
+                .detach()
+                .forEach(
+                    element =>
+                        element.remove()
+                );
 
         }
 
     );
+
 
 
     room.on(
@@ -1132,6 +1866,7 @@ function setupEvents(){
     );
 
 
+
     room.on(
 
         RoomEvent.ParticipantDisconnected,
@@ -1147,6 +1882,7 @@ function setupEvents(){
         }
 
     );
+
 
 
     room.on(
@@ -1172,6 +1908,7 @@ function setupEvents(){
     );
 
 
+
     room.on(
 
         RoomEvent.LocalTrackUnpublished,
@@ -1194,13 +1931,21 @@ function setupEvents(){
     );
 
 
+
+    /* avatar update */
+
     room.on(
 
-        RoomEvent.Disconnected,
+        RoomEvent.ParticipantMetadataChanged,
 
-        () => {
+        (
+            metadata,
+            participant
+        ) => {
 
-            clearGrid();
+            updateParticipantAvatar(
+                participant
+            );
 
         }
 
@@ -1209,92 +1954,139 @@ function setupEvents(){
 }
 
 
-/* ==================================================
+
+/* =====================================================
    ADD PARTICIPANT
-================================================== */
+===================================================== */
 
 function addParticipant(
     participant
 ){
 
-    let tile =
+    let existing =
         document.getElementById(
             "user-" +
             participant.identity
         );
 
 
-    if(tile) return;
+    if(existing){
+
+        updateParticipantAvatar(
+            participant
+        );
+
+        return;
+
+    }
 
 
-    tile =
+
+    const tile =
         document.createElement(
             "div"
         );
 
+
     tile.className =
         "participant";
+
 
     tile.id =
         "user-" +
         participant.identity;
 
 
+
+    /* avatar */
+
     const avatar =
         document.createElement(
-            "div"
+            "img"
         );
 
+
     avatar.className =
-        "avatar";
+        "participant-avatar";
 
-    avatar.innerText =
-        (
-            participant.name ||
-            participant.identity ||
-            "?"
-        )
-        .charAt(0)
-        .toUpperCase();
 
+    avatar.src =
+        getParticipantAvatar(
+            participant
+        );
+
+
+
+    /* name */
 
     const name =
         document.createElement(
             "div"
         );
 
+
     name.className =
         "participant-name";
 
+
     name.innerHTML =
-        "🎙️ " +
+        `<span class="mic-icon">🎙️</span>` +
         escapeHTML(
             participant.name ||
             participant.identity
         );
 
 
+
+    /* video badge */
+
+    const badge =
+        document.createElement(
+            "div"
+        );
+
+
+    badge.className =
+        "video-badge";
+
+
+    badge.innerText =
+        "VOICE";
+
+
+
     tile.appendChild(
         avatar
     );
+
 
     tile.appendChild(
         name
     );
 
 
-    document
-        .getElementById("videoGrid")
-        .appendChild(tile);
+    tile.appendChild(
+        badge
+    );
 
+
+    document
+        .getElementById(
+            "videoGrid"
+        )
+        .appendChild(
+            tile
+        );
+
+
+
+    /* existing tracks */
 
     participant.trackPublications
         .forEach(
             publication => {
 
-                if(
-                    publication.track
-                ){
+                if(publication.track){
 
                     addTrack(
 
@@ -1312,9 +2104,87 @@ function addParticipant(
 }
 
 
-/* ==================================================
-   ADD TRACK
-================================================== */
+
+/* =====================================================
+   GET AVATAR
+===================================================== */
+
+function getParticipantAvatar(
+    participant
+){
+
+    try{
+
+        if(participant.metadata){
+
+            const data =
+                JSON.parse(
+                    participant.metadata
+                );
+
+
+            if(data.avatar){
+
+                return data.avatar;
+
+            }
+
+        }
+
+    }
+    catch(e){
+
+        console.log(e);
+
+    }
+
+
+    return defaultAvatarURL;
+
+}
+
+
+
+/* =====================================================
+   UPDATE AVATAR
+===================================================== */
+
+function updateParticipantAvatar(
+    participant
+){
+
+    const tile =
+        document.getElementById(
+            "user-" +
+            participant.identity
+        );
+
+
+    if(!tile) return;
+
+
+    const avatar =
+        tile.querySelector(
+            ".participant-avatar"
+        );
+
+
+    if(avatar){
+
+        avatar.src =
+            getParticipantAvatar(
+                participant
+            );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   TRACK
+===================================================== */
 
 function addTrack(
     track,
@@ -1331,25 +2201,34 @@ function addTrack(
     if(!tile) return;
 
 
+
+    /* VIDEO */
+
     if(
         track.kind ===
         Track.Kind.Video
     ){
 
-        const oldVideo =
+        const old =
             tile.querySelector(
                 "video"
             );
 
-        if(oldVideo)
-            oldVideo.remove();
+
+        if(old){
+
+            old.remove();
+
+        }
 
 
         const video =
             track.attach();
 
+
         video.autoplay =
             true;
+
 
         video.playsInline =
             true;
@@ -1360,8 +2239,39 @@ function addTrack(
             tile.firstChild
         );
 
+
+        const avatar =
+            tile.querySelector(
+                ".participant-avatar"
+            );
+
+
+        if(avatar){
+
+            avatar.style.display =
+                "none";
+
+        }
+
+
+        const badge =
+            tile.querySelector(
+                ".video-badge"
+            );
+
+
+        if(badge){
+
+            badge.innerText =
+                "VIDEO";
+
+        }
+
     }
 
+
+
+    /* AUDIO */
 
     if(
         track.kind ===
@@ -1371,8 +2281,10 @@ function addTrack(
         const audio =
             track.attach();
 
+
         audio.autoplay =
             true;
+
 
         tile.appendChild(
             audio
@@ -1383,9 +2295,10 @@ function addTrack(
 }
 
 
-/* ==================================================
+
+/* =====================================================
    MICROPHONE
-================================================== */
+===================================================== */
 
 async function toggleMic(){
 
@@ -1394,7 +2307,7 @@ async function toggleMic(){
 
     const enabled =
         room.localParticipant
-        .isMicrophoneEnabled;
+            .isMicrophoneEnabled;
 
 
     await room
@@ -1409,9 +2322,10 @@ async function toggleMic(){
 }
 
 
-/* ==================================================
+
+/* =====================================================
    CAMERA
-================================================== */
+===================================================== */
 
 async function toggleCamera(){
 
@@ -1420,14 +2334,25 @@ async function toggleCamera(){
 
     const enabled =
         room.localParticipant
-        .isCameraEnabled;
+            .isCameraEnabled;
 
 
-    await room
-        .localParticipant
-        .setCameraEnabled(
-            !enabled
+    try{
+
+        await room
+            .localParticipant
+            .setCameraEnabled(
+                !enabled
+            );
+
+    }
+    catch(error){
+
+        alert(
+            "Izin kamera diperlukan."
         );
+
+    }
 
 
     updateButtons();
@@ -1435,9 +2360,10 @@ async function toggleCamera(){
 }
 
 
-/* ==================================================
+
+/* =====================================================
    SCREEN SHARE
-================================================== */
+===================================================== */
 
 async function toggleScreen(){
 
@@ -1446,7 +2372,7 @@ async function toggleScreen(){
 
     const enabled =
         room.localParticipant
-        .isScreenShareEnabled;
+            .isScreenShareEnabled;
 
 
     try{
@@ -1461,17 +2387,21 @@ async function toggleScreen(){
     catch(error){
 
         alert(
-            "Screen share tidak tersedia di browser ini."
+            "Share screen tidak tersedia di browser ini."
         );
 
     }
 
+
+    updateButtons();
+
 }
 
 
-/* ==================================================
+
+/* =====================================================
    SOUND
-================================================== */
+===================================================== */
 
 function toggleSound(){
 
@@ -1480,6 +2410,7 @@ function toggleSound(){
             "soundBtn"
         );
 
+
     button.classList.toggle(
         "off"
     );
@@ -1487,9 +2418,10 @@ function toggleSound(){
 }
 
 
-/* ==================================================
+
+/* =====================================================
    BUTTON STATES
-================================================== */
+===================================================== */
 
 function updateButtons(){
 
@@ -1501,10 +2433,12 @@ function updateButtons(){
             "micBtn"
         );
 
+
     const camera =
         document.getElementById(
             "cameraBtn"
         );
+
 
     const screen =
         document.getElementById(
@@ -1544,9 +2478,10 @@ function updateButtons(){
 }
 
 
-/* ==================================================
+
+/* =====================================================
    SETTINGS
-================================================== */
+===================================================== */
 
 function toggleSettings(){
 
@@ -1561,13 +2496,20 @@ function toggleSettings(){
 }
 
 
-function showTab(
+
+/* =====================================================
+   SETTINGS TABS
+===================================================== */
+
+function openTab(
     element,
     id
 ){
 
     document
-        .querySelectorAll(".tab")
+        .querySelectorAll(
+            ".tab"
+        )
         .forEach(
             tab =>
                 tab.classList.remove(
@@ -1582,27 +2524,152 @@ function showTab(
 
 
     document
-        .querySelectorAll(
-            ".tab-content"
-        )
-        .forEach(
-            content =>
-                content.style.display =
-                    "none"
-        );
+        .getElementById(
+            "audioTab"
+        ).style.display =
+        "none";
 
 
-    document.getElementById(
-        id
-    ).style.display =
+    document
+        .getElementById(
+            "videoTab"
+        ).style.display =
+        "none";
+
+
+    document
+        .getElementById(
+            "generalTab"
+        ).style.display =
+        "none";
+
+
+    document
+        .getElementById(
+            id
+        ).style.display =
         "block";
 
 }
 
 
-/* ==================================================
+
+/* =====================================================
+   LOAD DEVICES
+===================================================== */
+
+async function loadDevices(){
+
+    try{
+
+        const devices =
+            await navigator
+                .mediaDevices
+                .enumerateDevices();
+
+
+        const mic =
+            document.getElementById(
+                "micSelect"
+            );
+
+
+        const camera =
+            document.getElementById(
+                "cameraSelect"
+            );
+
+
+        const micDevices =
+            devices.filter(
+                d =>
+                    d.kind ===
+                    "audioinput"
+            );
+
+
+        const cameraDevices =
+            devices.filter(
+                d =>
+                    d.kind ===
+                    "videoinput"
+            );
+
+
+        mic.innerHTML = "";
+
+
+        camera.innerHTML = "";
+
+
+        micDevices.forEach(
+            device => {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    device.deviceId;
+
+
+                option.textContent =
+                    device.label ||
+                    "Microphone";
+
+
+                mic.appendChild(
+                    option
+                );
+
+            }
+        );
+
+
+        cameraDevices.forEach(
+            device => {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    device.deviceId;
+
+
+                option.textContent =
+                    device.label ||
+                    "Camera";
+
+
+                camera.appendChild(
+                    option
+                );
+
+            }
+        );
+
+    }
+    catch(error){
+
+        console.log(
+            "Device list:",
+            error
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
    LEAVE
-================================================== */
+===================================================== */
 
 function leaveRoom(){
 
@@ -1615,32 +2682,44 @@ function leaveRoom(){
     }
 
 
-    clearGrid();
+    document
+        .getElementById(
+            "videoGrid"
+        )
+        .innerHTML =
+        "";
 
 
-    document.getElementById(
-        "callPage"
-    ).style.display =
+    document
+        .getElementById(
+            "callPage"
+        )
+        .style.display =
         "none";
 
 
-    document.getElementById(
-        "loginPage"
-    ).style.display =
+    document
+        .getElementById(
+            "loginPage"
+        )
+        .style.display =
         "flex";
 
 
-    document.getElementById(
-        "loginStatus"
-    ).innerText =
-        "Kamu sudah keluar dari room TNEX.";
+    document
+        .getElementById(
+            "loginStatus"
+        )
+        .innerText =
+        "Kamu sudah keluar dari TNEX Voice Chat.";
 
 }
 
 
-/* ==================================================
-   REMOVE
-================================================== */
+
+/* =====================================================
+   REMOVE PARTICIPANT
+===================================================== */
 
 function removeParticipant(
     identity
@@ -1653,28 +2732,19 @@ function removeParticipant(
         );
 
 
-    if(tile)
+    if(tile){
+
         tile.remove();
 
-}
-
-
-/* ==================================================
-   CLEAR
-================================================== */
-
-function clearGrid(){
-
-    document.getElementById(
-        "videoGrid"
-    ).innerHTML = "";
+    }
 
 }
 
 
-/* ==================================================
-   COUNT
-================================================== */
+
+/* =====================================================
+   PARTICIPANT COUNT
+===================================================== */
 
 function updateCount(){
 
@@ -1686,9 +2756,11 @@ function updateCount(){
         room.remoteParticipants.size;
 
 
-    document.getElementById(
-        "participantCount"
-    ).innerText =
+    document
+        .getElementById(
+            "participantCount"
+        )
+        .innerText =
         "• " +
         count +
         " peserta";
@@ -1696,20 +2768,41 @@ function updateCount(){
 }
 
 
-/* ==================================================
-   ESCAPE
-================================================== */
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
 
 function escapeHTML(
     text
 ){
 
     return String(text)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
 }
 
