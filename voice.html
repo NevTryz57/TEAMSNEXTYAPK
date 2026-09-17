@@ -1,1 +1,597 @@
 
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050816">
+
+<title>TNEX Voice Room</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 20% 0%, #123a5c55, transparent 40%),
+    radial-gradient(circle at 100% 50%, #164e6355, transparent 40%),
+    #050816;
+  color: #f8fafc;
+  font-family: 'Inter', Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(#ffffff03 1px, transparent 1px),
+    linear-gradient(90deg, #ffffff03 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.app {
+  position: relative;
+  max-width: 560px;
+  margin: auto;
+  padding: 22px 18px 35px;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.back {
+  width: 42px;
+  height: 42px;
+  border: 1px solid #334155;
+  border-radius: 14px;
+  background: #0f172acc;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.brand {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #38bdf8;
+}
+
+.online {
+  padding: 8px 12px;
+  border-radius: 30px;
+  background: #22c55e18;
+  border: 1px solid #22c55e44;
+  color: #4ade80;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.heading {
+  margin-bottom: 25px;
+}
+
+.heading h1 {
+  margin: 0 0 8px;
+  font-size: 29px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.heading p {
+  margin: 0;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.room-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #1e3a5f;
+  border-radius: 26px;
+  padding: 25px 20px;
+  background: linear-gradient(145deg, #0d1729, #080d1b);
+  box-shadow: 0 15px 50px #00000030;
+}
+
+.room-card::before {
+  content: "";
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  background: #0ea5e922;
+  filter: blur(60px);
+  top: -80px;
+  right: -40px;
+  pointer-events: none;
+}
+
+.room-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.room-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.room-name {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.room-id {
+  margin-top: 7px;
+  color: #64748b;
+  font-size: 11px;
+}
+
+.copy-btn {
+  border: 1px solid #334155;
+  background: #111c30;
+  border-radius: 10px;
+  color: #94a3b8;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.members {
+  display: flex;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.member {
+  flex: 1;
+  min-width: 0;
+  padding: 16px 6px;
+  text-align: center;
+  background: #ffffff03;
+  border: 1px solid #1e293b;
+  border-radius: 16px;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  margin: auto;
+  border-radius: 50%;
+  background: #0c2945;
+  border: 1px solid #075985;
+  font-size: 22px;
+}
+
+.member strong {
+  display: block;
+  font-size: 11px;
+  margin-top: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.member span {
+  display: block;
+  font-size: 9px;
+  color: #4ade80;
+  margin-top: 6px;
+}
+
+.controls {
+  margin-top: 28px;
+  padding-top: 25px;
+  border-top: 1px solid #1e293b;
+  text-align: center;
+}
+
+.mic-wrap {
+  position: relative;
+  display: inline-block;
+  margin: 8px auto 18px;
+}
+
+.mic-ring {
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  border: 1px solid #22c55e00;
+  pointer-events: none;
+}
+
+.mic-on .mic-ring {
+  border-color: #22c55e55;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(.9);
+    opacity: .8;
+  }
+  70% {
+    transform: scale(1.15);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.15);
+    opacity: 0;
+  }
+}
+
+.mic-btn {
+  position: relative;
+  z-index: 1;
+  width: 110px;
+  height: 110px;
+  border: 0;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #22c55e, #15803d);
+  box-shadow: 0 0 35px #22c55e22;
+  color: white;
+  font-size: 43px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.mic-btn:active {
+  transform: scale(.94);
+}
+
+.mic-off .mic-btn {
+  background: linear-gradient(145deg, #ef4444, #991b1b);
+  box-shadow: 0 0 35px #ef444422;
+}
+
+.mic-title {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.mic-sub {
+  margin-top: 8px;
+  color: #64748b;
+  font-size: 11px;
+}
+
+.action-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.action {
+  flex: 1;
+  padding: 15px 10px;
+  border-radius: 14px;
+  border: 1px solid #334155;
+  background: #111827;
+  color: #cbd5e1;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.action.active {
+  border-color: #0ea5e9;
+  color: #38bdf8;
+}
+
+.leave {
+  width: 100%;
+  margin-top: 18px;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid #7f1d1d;
+  background: #450a0a55;
+  color: #f87171;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+  font-size: 10px;
+  color: #64748b;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+}
+
+.toast {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: calc(100% - 35px);
+  padding: 13px 20px;
+  border: 1px solid #334155;
+  border-radius: 30px;
+  background: #111827f5;
+  color: #e2e8f0;
+  font-size: 11px;
+  opacity: 0;
+  pointer-events: none;
+  transition: .3s;
+  z-index: 20;
+}
+
+.toast.show {
+  opacity: 1;
+}
+
+@media (max-width: 360px) {
+  .heading h1 {
+    font-size: 25px;
+  }
+
+  .room-card {
+    padding: 20px 15px;
+  }
+
+  .member {
+    padding: 12px 3px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <div class="topbar">
+    <button class="back" id="backBtn">‹</button>
+    <div class="brand">TNEX / VOICE</div>
+    <div class="online">● ONLINE</div>
+  </div>
+
+  <div class="heading">
+    <h1>Voice Room 🎙️</h1>
+    <p>Connect with your squad. Play together.</p>
+  </div>
+
+  <section class="room-card">
+
+    <div class="room-top">
+      <div>
+        <div class="room-label">CURRENT ROOM</div>
+        <div class="room-name">TNEX SQUAD</div>
+        <div class="room-id">ROOM ID: TNEX-2026</div>
+      </div>
+
+      <button class="copy-btn" id="copyBtn">⧉</button>
+    </div>
+
+    <div class="members">
+
+      <div class="member">
+        <div class="avatar">🐺</div>
+        <strong>You</strong>
+        <span id="youStatus">● Ready</span>
+      </div>
+
+      <div class="member">
+        <div class="avatar">👤</div>
+        <strong>Player 2</strong>
+        <span>● Ready</span>
+      </div>
+
+      <div class="member">
+        <div class="avatar">👤</div>
+        <strong>Player 3</strong>
+        <span>● Ready</span>
+      </div>
+
+    </div>
+
+    <div class="controls" id="controls">
+
+      <div class="mic-wrap" id="micWrap">
+        <div class="mic-ring"></div>
+        <button class="mic-btn" id="micBtn" aria-label="Aktifkan mikrofon">
+          🎤
+        </button>
+      </div>
+
+      <div class="mic-title" id="micTitle">MIC OFF</div>
+      <div class="mic-sub" id="micSub">Tap to speak with your squad</div>
+
+      <div class="action-row">
+        <button class="action" id="speakerBtn">🔊 Speaker</button>
+        <button class="action" id="muteBtn">🔇 Mute Audio</button>
+      </div>
+
+      <button class="leave" id="leaveBtn">
+        🚪 KELUAR ROOM
+      </button>
+
+      <div class="status">
+        <span class="dot" id="statusDot"></span>
+        <span id="connectionStatus">Ready to connect</span>
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const micBtn = document.getElementById("micBtn");
+const micWrap = document.getElementById("micWrap");
+const micTitle = document.getElementById("micTitle");
+const micSub = document.getElementById("micSub");
+const youStatus = document.getElementById("youStatus");
+const connectionStatus = document.getElementById("connectionStatus");
+const toast = document.getElementById("toast");
+
+let micOn = false;
+let micStream = null;
+let audioMuted = false;
+let speakerOn = true;
+
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2200);
+}
+
+function updateMicUI() {
+  if (micOn) {
+    micWrap.classList.add("mic-on");
+    micTitle.textContent = "MIC ON 🎙️";
+    micSub.textContent = "Microphone is active";
+    micBtn.setAttribute("aria-label", "Matikan mikrofon");
+    youStatus.textContent = "● Speaking";
+  } else {
+    micWrap.classList.remove("mic-on");
+    micTitle.textContent = "MIC OFF 🔇";
+    micSub.textContent = "Tap to activate microphone";
+    micBtn.setAttribute("aria-label", "Aktifkan mikrofon");
+    youStatus.textContent = "● Muted";
+  }
+}
+
+async function enableMic() {
+  if (!navigator.mediaDevices ||
+      !navigator.mediaDevices.getUserMedia) {
+    showToast("Browser tidak mendukung mikrofon.");
+    return;
+  }
+
+  try {
+    micStream = await navigator.mediaDevices.getUserMedia({
+      audio: true
+    });
+
+    micOn = true;
+    updateMicUI();
+    connectionStatus.textContent = "Microphone permission granted";
+    showToast("Mikrofon aktif 🎙️");
+
+  } catch (error) {
+    micOn = false;
+    updateMicUI();
+
+    if (error.name === "NotAllowedError") {
+      showToast("Izin mikrofon ditolak.");
+    } else {
+      showToast("Mikrofon tidak tersedia.");
+    }
+  }
+}
+
+function disableMic() {
+  if (micStream) {
+    micStream.getTracks().forEach(track => track.stop());
+    micStream = null;
+  }
+
+  micOn = false;
+  updateMicUI();
+  connectionStatus.textContent = "Microphone off";
+  showToast("Mikrofon dimatikan 🔇");
+}
+
+micBtn.addEventListener("click", async () => {
+  if (micOn) {
+    disableMic();
+  } else {
+    await enableMic();
+  }
+});
+
+document.getElementById("speakerBtn").addEventListener("click", () => {
+  speakerOn = !speakerOn;
+
+  const btn = document.getElementById("speakerBtn");
+  btn.textContent = speakerOn ? "🔊 Speaker" : "🔈 Speaker Off";
+  btn.classList.toggle("active", !speakerOn);
+
+  showToast(speakerOn ? "Speaker ON" : "Speaker OFF");
+});
+
+document.getElementById("muteBtn").addEventListener("click", () => {
+  audioMuted = !audioMuted;
+
+  const btn = document.getElementById("muteBtn");
+  btn.textContent = audioMuted ? "🔇 Audio Muted" : "🔊 Mute Audio";
+  btn.classList.toggle("active", audioMuted);
+
+  showToast(audioMuted ? "Audio dimute" : "Audio aktif");
+});
+
+document.getElementById("copyBtn").addEventListener("click", async () => {
+  const roomId = "TNEX-2026";
+
+  try {
+    await navigator.clipboard.writeText(roomId);
+    showToast("Room ID disalin!");
+  } catch {
+    showToast("Room ID: " + roomId);
+  }
+});
+
+document.getElementById("leaveBtn").addEventListener("click", () => {
+  if (!confirm("Yakin mau keluar dari room?")) return;
+
+  disableMic();
+  window.location.href = "index.html";
+});
+
+document.getElementById("backBtn").addEventListener("click", () => {
+  if (micOn) {
+    const leave = confirm(
+      "Mikrofon sedang aktif. Kembali ke halaman utama?"
+    );
+
+    if (!leave) return;
+  }
+
+  disableMic();
+  window.location.href = "index.html";
+});
+
+updateMicUI();
+</script>
+
+</body>
+</html>
+
