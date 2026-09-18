@@ -911,6 +911,121 @@ function saveMatch(){
   alert("✅ Bracket berhasil diupdate!");
   closeAdmin();
 }
+  // ===== PART 8 DRAG BRACKET =====
+
+const slider = document.querySelector(".bracket-scroll");
+
+let isDown = false;
+let startX;
+let scrollLeft;
+
+slider.addEventListener("mousedown",(e)=>{
+    isDown = true;
+    startX = e.pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
+});
+
+slider.addEventListener("mouseleave",()=> isDown = false);
+slider.addEventListener("mouseup",()=> isDown = false);
+
+slider.addEventListener("mousemove",(e)=>{
+    if(!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - slider.offsetLeft;
+    const walk = (x - startX) * 2;
+    slider.scrollLeft = scrollLeft - walk;
+});
+
+// HP Touch
+slider.addEventListener("touchstart",(e)=>{
+    startX = e.touches[0].pageX;
+    scrollLeft = slider.scrollLeft;
+});
+
+slider.addEventListener("touchmove",(e)=>{
+    const x = e.touches[0].pageX;
+    const walk = (x - startX) * 2;
+    slider.scrollLeft = scrollLeft - walk;
+});
+// ===== PART 9 AUTO SAVE =====
+
+function saveMatch(){
+
+  const team1 = document.getElementById("editTeam1").value;
+  const team2 = document.getElementById("editTeam2").value;
+  const score1 = document.getElementById("editScore1").value;
+  const score2 = document.getElementById("editScore2").value;
+  const tanggal = document.getElementById("editDate").value;
+
+  const match = document.querySelector(".match");
+  const teams = match.querySelectorAll(".team");
+
+  match.querySelector(".date").innerText = tanggal;
+
+  teams[0].children[0].innerText = team1;
+  teams[0].children[1].innerText = score1;
+
+  teams[1].children[0].innerText = team2;
+  teams[1].children[1].innerText = score2;
+
+  teams[0].classList.remove("winner","loser");
+  teams[1].classList.remove("winner","loser");
+
+  if(Number(score1) > Number(score2)){
+      teams[0].classList.add("winner");
+      teams[1].classList.add("loser");
+  }else if(Number(score2) > Number(score1)){
+      teams[1].classList.add("winner");
+      teams[0].classList.add("loser");
+  }
+
+  // SIMPAN DATA
+  localStorage.setItem("mdc_match1", JSON.stringify({
+      team1, team2, score1, score2, tanggal
+  }));
+
+  alert("✅ Match berhasil diupdate!");
+  closeAdmin();
+}
+// ===== LOAD DATA SAAT WEBSITE DIBUKA =====
+
+window.onload = function(){
+
+  const data = JSON.parse(localStorage.getItem("mdc_match1"));
+
+  if(data){
+
+    const match = document.querySelector(".match");
+    const teams = match.querySelectorAll(".team");
+
+    match.querySelector(".date").innerText = data.tanggal;
+
+    teams[0].children[0].innerText = data.team1;
+    teams[0].children[1].innerText = data.score1;
+
+    teams[1].children[0].innerText = data.team2;
+    teams[1].children[1].innerText = data.score2;
+
+    teams[0].classList.remove("winner","loser");
+    teams[1].classList.remove("winner","loser");
+
+    if(Number(data.score1) > Number(data.score2)){
+      teams[0].classList.add("winner");
+      teams[1].classList.add("loser");
+    }else if(Number(data.score2) > Number(data.score1)){
+      teams[1].classList.add("winner");
+      teams[0].classList.add("loser");
+    }
+
+  }
+
+};
+  function resetMatch(){
+
+  localStorage.removeItem("mdc_match1");
+  location.reload();
+
+  }
 </script>
 
 </body>
