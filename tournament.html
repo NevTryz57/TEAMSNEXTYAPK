@@ -749,9 +749,59 @@ Upper Bracket • Lower Bracket • Grand Final
 </div>
 
 <script>
-
 // PART 8 JAVASCRIPT
+// ================= MDC TOURNAMENT =================
 
+const ADMIN_PIN = "012570";
+
+// Buka halaman Bracket
+function showBracket(){
+  document.getElementById("bracketPage").style.display = "block";
+  document.getElementById("teamPage").style.display = "none";
+}
+
+// Buka halaman Team
+function showTeam(){
+  document.getElementById("bracketPage").style.display = "none";
+  document.getElementById("teamPage").style.display = "block";
+}
+
+// Buka popup Admin
+function openAdmin(){
+  document.getElementById("adminPanel").style.display = "flex";
+}
+
+// Tutup popup Admin
+function closeAdmin(){
+  document.getElementById("adminPanel").style.display = "none";
+
+  document.getElementById("loginAdmin").style.display = "block";
+  document.getElementById("adminMenu").style.display = "none";
+  document.getElementById("adminPin").value = "";
+}
+
+// Login PIN
+function loginAdmin(){
+
+  const pin = document.getElementById("adminPin").value;
+
+  if(pin === ADMIN_PIN){
+    document.getElementById("loginAdmin").style.display = "none";
+    document.getElementById("adminMenu").style.display = "block";
+  }else{
+    alert("❌ PIN SALAH!");
+  }
+
+}
+
+// Simpan (sementara)
+function saveMatch(){
+
+  alert("✅ Perubahan berhasil disimpan!");
+
+  closeAdmin();
+
+}
 </script>
 
 </body>
