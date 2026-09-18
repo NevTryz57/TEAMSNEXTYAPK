@@ -423,6 +423,69 @@ box-shadow:0 0 20px #00C8FF;
     font-size:12px;
     margin-bottom:8px;
 }
+  /* ===========================
+   PART 10 FINAL LOOK
+=========================== */
+
+.match-box{
+    transition:.3s;
+}
+
+.match-box:hover{
+    transform:translateY(-4px);
+    box-shadow:0 0 25px #00C8FF;
+}
+
+/* GRAND FINAL */
+
+.round:last-child .match-box{
+    background:linear-gradient(180deg,#0E2948,#03294D,#001C33);
+    border:2px solid #FFD54A;
+    box-shadow:0 0 30px rgba(255,213,74,.5);
+}
+
+.round:last-child .round-title{
+    color:#FFD54A;
+    text-shadow:0 0 15px #FFD54A;
+}
+
+/* Garis Neon */
+
+.match::before{
+    content:"";
+    position:absolute;
+    left:-18px;
+    top:50%;
+    width:18px;
+    height:2px;
+    background:#00C8FF;
+    box-shadow:0 0 10px #00C8FF;
+}
+
+/* Animasi Glow */
+
+@keyframes glow{
+    0%,100%{
+        box-shadow:0 0 15px rgba(0,200,255,.3);
+    }
+    50%{
+        box-shadow:0 0 28px rgba(0,200,255,.9);
+    }
+}
+
+.winner{
+    animation:glow 2s infinite;
+}
+
+/* Scroll HP */
+
+.bracket-scroll{
+    scroll-snap-type:x proximity;
+}
+
+.round{
+    scroll-snap-align:start;
+}
 </style>
 </head>
 
