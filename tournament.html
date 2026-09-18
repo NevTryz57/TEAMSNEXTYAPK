@@ -297,7 +297,61 @@ color:#D8F6FF;
 #adminPanel{
 display:none;
 }
+/* ================= ADMIN PANEL ================= */
 
+#adminPanel{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.75);
+backdrop-filter:blur(10px);
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+
+.admin-box{
+width:90%;
+max-width:420px;
+background:#06111F;
+border:1px solid #00C8FF;
+border-radius:20px;
+padding:20px;
+box-shadow:0 0 30px #00C8FF;
+}
+
+.admin-box h2{
+text-align:center;
+color:#00D5FF;
+margin-bottom:15px;
+}
+
+.admin-box input{
+width:100%;
+padding:12px;
+margin:8px 0;
+background:#031019;
+border:1px solid #00AFFF55;
+border-radius:10px;
+color:white;
+}
+
+.admin-box button{
+width:100%;
+padding:12px;
+margin-top:10px;
+background:#008CFF;
+border:none;
+border-radius:10px;
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+.admin-box button:hover{
+box-shadow:0 0 20px #00C8FF;
+}
+  
 </style>
 </head>
 
