@@ -591,13 +591,13 @@
                         <div class="trophy-icon">🏆</div>
                         <div style="font-size: 0.75rem; color: var(--gold-glow); font-weight: 800; letter-spacing: 1px; margin-bottom: 4px;">GRAND CHAMPION</div>
                         <div class="trophy-winner-card" id="trophy-winner-display">
-                            <span style="font-size: 0.85rem; font-weight: 700; color: #fff;">BELUM ADA PEMENANG</span>
+                            <span style="font-size: 0.85rem; font-weight: 700; color: #fff;">-</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- LOWER BRACKET BARU (FORMASI 3 - 2 - 1) -->
+            <!-- LOWER BRACKET (FORMASI 3 - 2 - 1) -->
             <div class="bracket-row" style="margin-top: 40px;" id="lower-bracket-row">
                 <div class="bracket-column" id="col-lower-1">
                     <div class="column-header">LOWER ROUND 1 (6 Tim)</div>
@@ -758,21 +758,22 @@
                 { id: "T8", tag: "YG", name: "Yangon Galacticos", logo: "https://via.placeholder.com/40/00f0ff/ffffff?text=YG", captain: "Puma", players: ["Kual", "Puma", "Zenith", "Silent", "Slayer"] }
             ],
             matches: {
-                M1: { name: "Upper Round 1 - Match 1", teamA: "T1", teamB: "T2", scoreA: 2, scoreB: 0, date: "18 JAN - 14:00" },
-                M2: { name: "Upper Round 1 - Match 2", teamA: "T3", teamB: "T4", scoreA: 1, scoreB: 2, date: "18 JAN - 15:30" },
-                M3: { name: "Upper Round 1 - Match 3", teamA: "T5", teamB: "T6", scoreA: 2, scoreB: 0, date: "18 JAN - 17:00" },
-                M4: { name: "Upper Round 1 - Match 4", teamA: "T7", teamB: "T8", scoreA: 2, scoreB: 0, date: "18 JAN - 19:00" },
-                M5: { name: "Upper Semi Final - Match 1", teamA: "T1", teamB: "T4", scoreA: 2, scoreB: 0, date: "21 JAN - 16:00" },
-                M6: { name: "Upper Semi Final - Match 2", teamA: "T5", teamB: "T7", scoreA: 0, scoreB: 2, date: "21 JAN - 18:00" },
-                M7: { name: "Upper Final", teamA: "T1", teamB: "T7", scoreA: 2, scoreB: 1, date: "24 JAN - 19:00" },
-                M9: { name: "Grand Final", teamA: "T1", teamB: "LB6", scoreA: 0, scoreB: 0, date: "25 JAN - 19:00" },
+                M1: { name: "Upper Round 1 - Match 1", teamA: "T1", teamB: "T2", scoreA: 0, scoreB: 0, date: "18 JAN - 14:00" },
+                M2: { name: "Upper Round 1 - Match 2", teamA: "T3", teamB: "T4", scoreA: 0, scoreB: 0, date: "18 JAN - 15:30" },
+                M3: { name: "Upper Round 1 - Match 3", teamA: "T5", teamB: "T6", scoreA: 0, scoreB: 0, date: "18 JAN - 17:00" },
+                M4: { name: "Upper Round 1 - Match 4", teamA: "T7", teamB: "T8", scoreA: 0, scoreB: 0, date: "18 JAN - 19:00" },
+                
+                M5: { name: "Upper Semi Final - Match 1", teamA: "M1_WINNER", teamB: "M2_WINNER", scoreA: 0, scoreB: 0, date: "21 JAN - 16:00" },
+                M6: { name: "Upper Semi Final - Match 2", teamA: "M3_WINNER", teamB: "M4_WINNER", scoreA: 0, scoreB: 0, date: "21 JAN - 18:00" },
+                M7: { name: "Upper Final", teamA: "M5_WINNER", teamB: "M6_WINNER", scoreA: 0, scoreB: 0, date: "24 JAN - 19:00" },
+                M9: { name: "Grand Final", teamA: "M7_WINNER", teamB: "LB6_WINNER", scoreA: 0, scoreB: 0, date: "25 JAN - 19:00" },
                 
                 LB1: { name: "Lower Round 1 - Match 1", teamA: "M1_LOSER", teamB: "M2_LOSER", scoreA: 0, scoreB: 0, date: "22 JAN - 14:00" },
-                LB2: { name: "Lower Round 1 - Match 2", teamA: "M3_LOSER", teamB: "M4_LOSER", scoreA: 0, scoreB: 0, date: "22 JAN - 16:00" },
-                LB3: { name: "Lower Round 1 - Match 3", teamA: "T2", teamB: "T3", scoreA: 0, scoreB: 0, date: "22 JAN - 18:00" },
+                LB2: { name: "Lower Round 2 - Match 2", teamA: "M3_LOSER", teamB: "M4_LOSER", scoreA: 0, scoreB: 0, date: "22 JAN - 16:00" },
+                LB3: { name: "Lower Round 1 - Match 3", teamA: "M5_LOSER", teamB: "M6_LOSER", scoreA: 0, scoreB: 0, date: "22 JAN - 18:00" },
                 LB4: { name: "Lower Round 2 - Match 1", teamA: "LB1_WINNER", teamB: "LB2_WINNER", scoreA: 0, scoreB: 0, date: "23 JAN - 16:00" },
-                LB5: { name: "Lower Round 2 - Match 2", teamA: "LB3_WINNER", teamB: "M5_LOSER", scoreA: 0, scoreB: 0, date: "23 JAN - 19:00" },
-                LB6: { name: "Lower Final", teamA: "LB4_WINNER", teamB: "M7_LOSER", scoreA: 0, scoreB: 0, date: "24 JAN - 16:00" }
+                LB5: { name: "Lower Round 2 - Match 2", teamA: "LB3_WINNER", teamB: "M7_LOSER", scoreA: 0, scoreB: 0, date: "23 JAN - 19:00" },
+                LB6: { name: "Lower Final", teamA: "LB4_WINNER", teamB: "LB5_WINNER", scoreA: 0, scoreB: 0, date: "24 JAN - 16:00" }
             }
         };
 
@@ -780,12 +781,12 @@
         let currentZoom = 1;
 
         function loadData() {
-            const saved = localStorage.getItem('MDC_TOURNAMENT_FULL_DATA_V6');
+            const saved = localStorage.getItem('MDC_TOURNAMENT_FULL_DATA_V8');
             return saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_DATA));
         }
 
         function saveData() {
-            localStorage.setItem('MDC_TOURNAMENT_FULL_DATA_V6', JSON.stringify(appData));
+            localStorage.setItem('MDC_TOURNAMENT_FULL_DATA_V8', JSON.stringify(appData));
             renderAll();
         }
 
@@ -842,36 +843,56 @@
                 return null;
             };
 
-            // Otomatisasi Lower Round 1 (Loser dari Upper R1)
+            // Otomatisasi Upper Semi Final
+            if (m.M5) {
+                const wM1 = getWinner('M1'); m.M5.teamA = wM1 ? wM1 : "M1_WINNER";
+                const wM2 = getWinner('M2'); m.M5.teamB = wM2 ? wM2 : "M2_WINNER";
+            }
+            if (m.M6) {
+                const wM3 = getWinner('M3'); m.M6.teamA = wM3 ? wM3 : "M3_WINNER";
+                const wM4 = getWinner('M4'); m.M6.teamB = wM4 ? wM4 : "M4_WINNER";
+            }
+
+            // Otomatisasi Upper Final
+            if (m.M7) {
+                const wM5 = getWinner('M5'); m.M7.teamA = wM5 ? wM5 : "M5_WINNER";
+                const wM6 = getWinner('M6'); m.M7.teamB = wM6 ? wM6 : "M6_WINNER";
+            }
+
+            // Otomatisasi Lower Round 1
             if (m.LB1) {
-                const lM1 = getLoser('M1'); if (lM1) m.LB1.teamA = lM1;
-                const lM2 = getLoser('M2'); if (lM2) m.LB1.teamB = lM2;
+                const lM1 = getLoser('M1'); m.LB1.teamA = lM1 ? lM1 : "M1_LOSER";
+                const lM2 = getLoser('M2'); m.LB1.teamB = lM2 ? lM2 : "M2_LOSER";
             }
             if (m.LB2) {
-                const lM3 = getLoser('M3'); if (lM3) m.LB2.teamA = lM3;
-                const lM4 = getLoser('M4'); if (lM4) m.LB2.teamB = lM4;
+                const lM3 = getLoser('M3'); m.LB2.teamA = lM3 ? lM3 : "M3_LOSER";
+                const lM4 = getLoser('M4'); m.LB2.teamB = lM4 ? lM4 : "M4_LOSER";
+            }
+            if (m.LB3) {
+                const lM5 = getLoser('M5'); m.LB3.teamA = lM5 ? lM5 : "M5_LOSER";
+                const lM6 = getLoser('M6'); m.LB3.teamB = lM6 ? lM6 : "M6_LOSER";
             }
 
             // Otomatisasi Lower Round 2
             if (m.LB4) {
-                const wLB1 = getWinner('LB1'); if (wLB1) m.LB4.teamA = wLB1;
-                const wLB2 = getWinner('LB2'); if (wLB2) m.LB4.teamB = wLB2;
+                const wLB1 = getWinner('LB1'); m.LB4.teamA = wLB1 ? wLB1 : "LB1_WINNER";
+                const wLB2 = getWinner('LB2'); m.LB4.teamB = wLB2 ? wLB2 : "LB2_WINNER";
             }
             if (m.LB5) {
-                const wLB3 = getWinner('LB3'); if (wLB3) m.LB5.teamA = wLB3;
-                const lM5 = getLoser('M5'); if (lM5) m.LB5.teamB = lM5;
+                const wLB3 = getWinner('LB3'); m.LB5.teamA = wLB3 ? wLB3 : "LB3_WINNER";
+                const lM7 = getLoser('M7'); m.LB5.teamB = lM7 ? lM7 : "M7_LOSER";
             }
 
-            // Otomatisasi Lower Final (Tim terbawah diisi oleh yang kalah di Final Atas / M7)
+            // Otomatisasi Lower Final
             if (m.LB6) {
-                const wLB4 = getWinner('LB4'); if (wLB4) m.LB6.teamA = wLB4;
-                const lM7 = getLoser('M7'); if (lM7) m.LB6.teamB = lM7; // Loser Upper Final
+                const wLB4 = getWinner('LB4'); m.LB6.teamA = wLB4 ? wLB4 : "LB4_WINNER";
+                const wLB5 = getWinner('LB5'); m.LB6.teamB = wLB5 ? wLB5 : "LB5_WINNER";
             }
 
             // Grand Final
             if (m.M9) {
-                const winnerM7 = getWinner('M7'); if (winnerM7) m.M9.teamA = winnerM7;
-                const winnerLB6 = getWinner('LB6'); if (winnerLB6) m.M9.teamB = winnerLB6;
+                const winnerM7 = getWinner('M7'); m.M9.teamA = winnerM7 ? winnerM7 : "M7_WINNER";
+                const winnerLB6 = getWinner('LB6'); m.M9.teamB = winnerLB6 ? winnerLB6 : "LB6_WINNER";
             }
 
             const grandChampion = getWinner('M9');
@@ -891,7 +912,7 @@
                     window.hasCelebrated = true;
                 }
             } else {
-                trophyDisplay.innerHTML = `<span style="font-size: 0.85rem; font-weight: 700; color: #fff;">BELUM ADA PEMENANG</span>`;
+                trophyDisplay.innerHTML = `<span style="font-size: 0.85rem; font-weight: 700; color: #fff;">-</span>`;
                 window.hasCelebrated = false;
             }
         }
@@ -906,6 +927,9 @@
                 if (schEl) schEl.innerText = match.date;
 
                 const getTeamHtml = (teamKey) => {
+                    if (!teamKey || teamKey.includes('_WINNER') || teamKey.includes('_LOSER')) {
+                        return { name: '-', logo: 'https://via.placeholder.com/20/111111/4e7393?text=-' };
+                    }
                     const teamObj = appData.teams.find(t => t.id === teamKey || t.tag === teamKey || t.name === teamKey);
                     if (teamObj) {
                         return { name: teamObj.tag, logo: teamObj.logo };
