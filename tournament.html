@@ -762,10 +762,10 @@
                 M2: { name: "Upper Round 1 - Match 2", teamA: "T3", teamB: "T4", scoreA: 1, scoreB: 2, date: "18 JAN - 15:30" },
                 M3: { name: "Upper Round 1 - Match 3", teamA: "T5", teamB: "T6", scoreA: 2, scoreB: 0, date: "18 JAN - 17:00" },
                 M4: { name: "Upper Round 1 - Match 4", teamA: "T7", teamB: "T8", scoreA: 2, scoreB: 0, date: "18 JAN - 19:00" },
-                M5: { name: "Upper Semi Final - Match 1", teamA: "T1", teamB: "T4", scoreA: 2, scoreB: 0, date: "21 JAN - 16:00" },
-                M6: { name: "Upper Semi Final - Match 2", teamA: "T5", teamB: "T7", scoreA: 0, scoreB: 2, date: "21 JAN - 18:00" },
-                M7: { name: "Upper Final", teamA: "T1", teamB: "T7", scoreA: 2, scoreB: 1, date: "24 JAN - 19:00" },
-                M9: { name: "Grand Final", teamA: "T1", teamB: "LB6", scoreA: 0, scoreB: 0, date: "25 JAN - 19:00" },
+                M5: { name: "Upper Semi Final - Match 1", teamA: "M1_WINNER", teamB: "M2_WINNER", scoreA: 2, scoreB: 0, date: "21 JAN - 16:00" },
+                M6: { name: "Upper Semi Final - Match 2", teamA: "M3_WINNER", teamB: "M4_WINNER", scoreA: 0, scoreB: 2, date: "21 JAN - 18:00" },
+                M7: { name: "Upper Final", teamA: "M5_WINNER", teamB: "M6_WINNER", scoreA: 2, scoreB: 1, date: "24 JAN - 19:00" },
+                M9: { name: "Grand Final", teamA: "M7_WINNER", teamB: "LB6_WINNER", scoreA: 0, scoreB: 0, date: "25 JAN - 19:00" },
                 
                 LB1: { name: "Lower Round 1 - Match 1", teamA: "M1_LOSER", teamB: "M2_LOSER", scoreA: 0, scoreB: 0, date: "22 JAN - 14:00" },
                 LB2: { name: "Lower Round 1 - Match 2", teamA: "M3_LOSER", teamB: "M4_LOSER", scoreA: 0, scoreB: 0, date: "22 JAN - 16:00" },
@@ -842,6 +842,22 @@
                 return null;
             };
 
+            // Otomatisasi Upper Round 2 (Semi Final)
+            if (m.M5) {
+                const wM1 = getWinner('M1'); if (wM1) m.M5.teamA = wM1;
+                const wM2 = getWinner('M2'); if (wM2) m.M5.teamB = wM2;
+            }
+            if (m.M6) {
+                const wM3 = getWinner('M3'); if (wM3) m.M6.teamA = wM3;
+                const wM4 = getWinner('M4'); if (wM4) m.M6.teamB = wM4;
+            }
+
+            // Otomatisasi Upper Final
+            if (m.M7) {
+                const wM5 = getWinner('M5'); if (wM5) m.M7.teamA = wM5;
+                const wM6 = getWinner('M6'); if (wM6) m.M7.teamB = wM6;
+            }
+
             // Otomatisasi Lower Round 1
             if (m.LB1) {
                 const lM1 = getLoser('M1'); if (lM1) m.LB1.teamA = lM1;
@@ -912,6 +928,9 @@
                 if (schEl) schEl.innerText = match.date;
 
                 const getTeamHtml = (teamKey) => {
+                    if (!teamKey || teamKey.includes('_WINNER') || teamKey.includes('_LOSER')) {
+                        return { name: '-', logo: 'https://via.placeholder.com/20/111111/4e7393?text=-' };
+                    }
                     const teamObj = appData.teams.find(t => t.id === teamKey || t.tag === teamKey || t.name === teamKey);
                     if (teamObj) {
                         return { name: teamObj.tag, logo: teamObj.logo };
