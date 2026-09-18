@@ -802,6 +802,44 @@ function saveMatch(){
   closeAdmin();
 
 }
+  // ================= EDIT BRACKET LANGSUNG =================
+
+function saveMatch(){
+
+  const team1 = document.getElementById("editTeam1").value;
+  const team2 = document.getElementById("editTeam2").value;
+  const score1 = document.getElementById("editScore1").value;
+  const score2 = document.getElementById("editScore2").value;
+  const tanggal = document.getElementById("editDate").value;
+
+  // Match pertama di Upper R1
+  const match = document.querySelector(".match");
+
+  match.querySelector(".date").innerText = tanggal;
+
+  const teams = match.querySelectorAll(".team");
+
+  teams[0].children[0].innerText = team1;
+  teams[0].children[1].innerText = score1;
+
+  teams[1].children[0].innerText = team2;
+  teams[1].children[1].innerText = score2;
+
+  // Reset warna
+  teams[0].classList.remove("winner","loser");
+  teams[1].classList.remove("winner","loser");
+
+  if(Number(score1) > Number(score2)){
+    teams[0].classList.add("winner");
+    teams[1].classList.add("loser");
+  }else if(Number(score2) > Number(score1)){
+    teams[1].classList.add("winner");
+    teams[0].classList.add("loser");
+  }
+
+  alert("✅ Bracket berhasil diupdate!");
+  closeAdmin();
+}
 </script>
 
 </body>
