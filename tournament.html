@@ -242,7 +242,56 @@ color:white;
 #teamPage{
 display:none;
 }
+/* TEAM PAGE */
 
+.team-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:18px;
+}
+
+.team-card{
+background:linear-gradient(145deg,#07192F,#030914);
+border:1px solid rgba(0,170,255,.25);
+border-radius:18px;
+padding:18px;
+box-shadow:0 0 18px rgba(0,170,255,.18);
+transition:.3s;
+}
+
+.team-card:hover{
+transform:translateY(-6px);
+box-shadow:0 0 25px #00C8FF;
+}
+
+.team-logo{
+font-size:40px;
+margin-bottom:10px;
+text-align:center;
+}
+
+.team-card h3{
+text-align:center;
+color:#00D5FF;
+margin-bottom:5px;
+}
+
+.team-card p{
+text-align:center;
+color:#87C8E8;
+font-size:13px;
+margin-bottom:12px;
+}
+
+.team-card ul{
+list-style:none;
+}
+
+.team-card li{
+padding:8px 0;
+border-bottom:1px solid rgba(255,255,255,.08);
+color:#D8F6FF;
+}
 /* ADMIN HIDDEN */
 
 #adminPanel{
@@ -532,7 +581,73 @@ Upper Bracket • Lower Bracket • Grand Final
 <div id="teamPage" class="page">
 
 <!-- PART 6 TEAM -->
+<div class="panel">
 
+  <div class="panel-head">
+    <h2>TEAM MDC SEASON 01</h2>
+  </div>
+
+  <div class="team-grid">
+
+    <div class="team-card">
+      <div class="team-logo">⚡</div>
+      <h3>TNEX ESPORTS</h3>
+      <p>Code : TNEX</p>
+
+      <ul>
+        <li>👤 Player 1</li>
+        <li>👤 Player 2</li>
+        <li>👤 Player 3</li>
+        <li>👤 Player 4</li>
+        <li>👤 Player 5</li>
+      </ul>
+    </div>
+
+    <div class="team-card">
+      <div class="team-logo">🔥</div>
+      <h3>LIQUID</h3>
+      <p>Code : LQD</p>
+
+      <ul>
+        <li>👤 Player 1</li>
+        <li>👤 Player 2</li>
+        <li>👤 Player 3</li>
+        <li>👤 Player 4</li>
+        <li>👤 Player 5</li>
+      </ul>
+    </div>
+
+    <div class="team-card">
+      <div class="team-logo">👑</div>
+      <h3>PARADOX</h3>
+      <p>Code : PDX</p>
+
+      <ul>
+        <li>👤 Player 1</li>
+        <li>👤 Player 2</li>
+        <li>👤 Player 3</li>
+        <li>👤 Player 4</li>
+        <li>👤 Player 5</li>
+      </ul>
+    </div>
+
+    <div class="team-card">
+      <div class="team-logo">🌸</div>
+      <h3>SANTAEEE</h3>
+      <p>Code : STE</p>
+
+      <ul>
+        <li>👤 Player 1</li>
+        <li>👤 Player 2</li>
+        <li>👤 Player 3</li>
+        <li>👤 Player 4</li>
+        <li>👤 Player 5</li>
+      </ul>
+    </div>
+
+  </div>
+
+</div>
 </div>
 
 <div id="adminPanel">
