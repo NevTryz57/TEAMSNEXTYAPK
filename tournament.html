@@ -3,488 +3,237 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>MDC Tournament V10</title>
+<title>MDC Tournament V12</title>
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,Helvetica,sans-serif;
-}
-
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
 body{
-background:
-radial-gradient(circle at top,#063b70 0%,transparent 35%),
-linear-gradient(135deg,#01040A,#020611,#01030A);
-color:white;
-overflow-x:hidden;
-min-height:100vh;
-}
-
-/* GRID BACKGROUND */
-
-body::before{
-content:"";
-position:fixed;
-inset:0;
+background:#020611;
 background-image:
-linear-gradient(rgba(0,170,255,.07) 1px,transparent 1px),
-linear-gradient(90deg,rgba(0,170,255,.07) 1px,transparent 1px);
-background-size:55px 55px;
-pointer-events:none;
-z-index:-1;
+radial-gradient(circle at top,#063b70 0%,transparent 35%),
+linear-gradient(rgba(0,170,255,.05) 1px,transparent 1px),
+linear-gradient(90deg,rgba(0,170,255,.05) 1px,transparent 1px);
+background-size:auto,45px 45px,45px 45px;
+color:white;
+overflow:hidden;
 }
-
-/* HEADER */
-
 header{
-position:sticky;
-top:0;
-z-index:999;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:18px 24px;
-background:#020814dd;
-backdrop-filter:blur(15px);
-border-bottom:1px solid rgba(0,170,255,.25);
+padding:18px;
+background:#03111F;
+border-bottom:2px solid #00c8ff;
 }
+header h1{color:#00d5ff;font-size:26px}
+header p{font-size:12px;color:#8fdfff}
 
-.logo{
+.menu{
 display:flex;
-align-items:center;
-gap:15px;
-}
-
-.logo-icon{
-font-size:42px;
-filter:drop-shadow(0 0 12px #00C8FF);
-animation:float 3s infinite ease-in-out;
-}
-
-.logo h1{
-font-size:30px;
-background:linear-gradient(90deg,#fff,#00C8FF);
--webkit-background-clip:text;
-color:transparent;
-letter-spacing:2px;
-}
-
-.logo p{
-font-size:12px;
-letter-spacing:2px;
-color:#87C8E8;
-}
-
-@keyframes float{
-50%{transform:translateY(-6px);}
-}
-
-/* NAVBAR */
-
-.navbar{
-display:flex;
-align-items:center;
 gap:10px;
+padding:15px;
+background:#020b18;
 }
-
-.navbar button{
-padding:10px 16px;
-border-radius:10px;
-background:#07192F;
-border:1px solid #007CFF;
+.menu button{
+flex:1;
+padding:12px;
+background:#06203b;
+border:1px solid #00aaff44;
 color:white;
+border-radius:10px;
 cursor:pointer;
-transition:.3s;
 }
-
-.navbar button:hover{
-background:#007CFF;
-box-shadow:0 0 15px #00C8FF;
+.menu button:hover{
+background:#008cff;
 }
-
-.admin-btn{
-margin-left:12px;
-border-color:#00C8FF !important;
-}
-
-/* PAGE */
 
 .page{
-padding:22px;
+height:calc(100vh - 120px);
+overflow:hidden;
+display:flex;
+flex-direction:column;
 }
+#teamPage{display:none;}
 
 .title{
-font-size:32px;
-margin-bottom:5px;
+padding:18px;
 }
+.title h2{font-size:30px;color:#fff}
+.title p{color:#7ccbe8}
 
-.subtitle{
-color:#83B6D8;
-margin-bottom:25px;
-}
-
-/* PANEL */
-
-.panel{
-background:#041322dd;
-border:1px solid rgba(0,170,255,.25);
-border-radius:20px;
-padding:20px;
-margin-bottom:28px;
-box-shadow:
-0 0 25px rgba(0,170,255,.18),
-inset 0 0 25px rgba(0,170,255,.05);
-}
-
-.panel-head{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:18px;
-}
-
-.panel-head h2{
-color:#00C8FF;
-letter-spacing:2px;
-}
-
-.live{
-padding:5px 12px;
-border-radius:20px;
-border:1px solid #00C8FF;
-color:#8FF2FF;
-font-size:12px;
-box-shadow:0 0 12px rgba(0,200,255,.25);
-}
-
-/* BRACKET AREA */
+/* BRACKET */
 
 .bracket-scroll{
+flex:1;
 overflow-x:auto;
 overflow-y:hidden;
+padding:15px;
 scroll-behavior:smooth;
-padding-bottom:15px;
-cursor:grab;
 }
-
-.bracket-scroll::-webkit-scrollbar{
-height:8px;
-}
-
-.bracket-scroll::-webkit-scrollbar-thumb{
-background:#00C8FF;
-border-radius:20px;
-}
-
-.bracket-scroll::-webkit-scrollbar-track{
-background:#06101B;
-}
-
 .bracket{
 display:flex;
-gap:70px;
+gap:45px;
 width:max-content;
-padding:15px 10px;
 align-items:flex-start;
 }
+.round{
+width:170px;
+}
+.round-title{
+text-align:center;
+color:#00d5ff;
+margin-bottom:12px;
+font-size:13px;
+letter-spacing:1px;
+}
+.match{
+margin-bottom:22px;
+position:relative;
+}
+.match::after{
+content:"";
+position:absolute;
+right:-45px;
+top:50%;
+width:45px;
+height:2px;
+background:#00c8ff;
+}
+.round:last-child .match::after{
+display:none;
+}
+.date{
+font-size:10px;
+text-align:center;
+color:#72ddff;
+margin-bottom:6px;
+}
+.match-box{
+background:#07131d;
+padding:8px;
+border-radius:12px;
+border:1px solid #00aaff44;
+}
+.team{
+display:flex;
+justify-content:space-between;
+padding:8px;
+background:#08121c;
+margin:4px 0;
+border-radius:7px;
+font-size:13px;
+}
+.team.win{
+background:linear-gradient(90deg,#006eff,#00bfff);
+box-shadow:0 0 10px #00c8ff;
+}
+.team.lose{
+opacity:.35;
+}
+.score{font-weight:bold;color:#fff;}
 
-/* PAGE TEAM HIDDEN */
+.grand .match-box{
+border:2px solid gold;
+box-shadow:0 0 15px gold;
+}
+.grand .round-title{
+color:gold;
+}
+
 /* PODIUM */
 
 .podium{
 display:flex;
 justify-content:center;
 align-items:flex-end;
-gap:20px;
-padding:30px 0;
+gap:15px;
+padding:20px;
+background:#041322;
 }
-
-.juara1{
-width:220px;
-height:240px;
-border-radius:20px 20px 0 0;
-background:
-linear-gradient(180deg,#00d5ff,#007cff,#003566);
+.rank2,.rank1{
+width:140px;
 display:flex;
 flex-direction:column;
-justify-content:center;
 align-items:center;
-box-shadow:0 0 30px #00c8ff;
-}
-
-.juara2{
-width:190px;
-height:180px;
-border-radius:20px 20px 0 0;
-background:
-linear-gradient(180deg,#6d89a7,#34495e);
-display:flex;
-flex-direction:column;
 justify-content:center;
-align-items:center;
+border-radius:18px 18px 0 0;
 }
+.rank2{
+height:150px;
+background:#596d86;
+}
+.rank1{
+height:200px;
+background:linear-gradient(#00d5ff,#007cff,#003566);
+box-shadow:0 0 20px #00c8ff;
+}
+.rank1 h3,.rank2 h3{margin-top:10px}
 
-.icon{
-font-size:55px;
-margin-bottom:10px;
-}
-
-.nama-team{
-margin-top:10px;
-font-size:22px;
-font-weight:bold;
-color:white;
-}
-#teamPage{
-display:none;
-}
 /* TEAM PAGE */
 
 .team-grid{
+padding:20px;
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:18px;
+grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+gap:15px;
 }
-
 .team-card{
-background:linear-gradient(145deg,#07192F,#030914);
-border:1px solid rgba(0,170,255,.25);
-border-radius:18px;
-padding:18px;
-box-shadow:0 0 18px rgba(0,170,255,.18);
-transition:.3s;
+background:#07131d;
+padding:15px;
+border-radius:15px;
+border:1px solid #00aaff33;
 }
-
-.team-card:hover{
-transform:translateY(-6px);
-box-shadow:0 0 25px #00C8FF;
-}
-
-.team-logo{
-font-size:40px;
-margin-bottom:10px;
-text-align:center;
-}
-
-.team-card h3{
-text-align:center;
-color:#00D5FF;
-margin-bottom:5px;
-}
-
-.team-card p{
-text-align:center;
-color:#87C8E8;
-font-size:13px;
-margin-bottom:12px;
-}
-
-.team-card ul{
-list-style:none;
-}
-
+.team-card h3{color:#00d5ff}
+.team-card p{color:#8fdfff;font-size:12px;margin:5px 0 8px}
 .team-card li{
-padding:8px 0;
-border-bottom:1px solid rgba(255,255,255,.08);
-color:#D8F6FF;
+list-style:none;
+padding:5px 0;
+font-size:13px;
+border-bottom:1px solid #ffffff11;
 }
-/* ADMIN HIDDEN */
 
-#adminPanel{
-display:none;
-}
-/* ================= ADMIN PANEL ================= */
+/* ADMIN */
 
 #adminPanel{
 display:none;
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.75);
-backdrop-filter:blur(10px);
+background:#000a;
+backdrop-filter:blur(8px);
 justify-content:center;
 align-items:center;
-z-index:9999;
 }
-
 .admin-box{
 width:90%;
-max-width:420px;
-background:#06111F;
-border:1px solid #00C8FF;
-border-radius:20px;
+max-width:350px;
+background:#07131d;
 padding:20px;
-box-shadow:0 0 30px #00C8FF;
+border-radius:18px;
+border:1px solid #00c8ff;
 }
-
 .admin-box h2{
 text-align:center;
-color:#00D5FF;
 margin-bottom:15px;
+color:#00d5ff;
 }
-
 .admin-box input{
 width:100%;
-padding:12px;
-margin:8px 0;
-background:#031019;
-border:1px solid #00AFFF55;
-border-radius:10px;
+padding:10px;
+margin:6px 0;
+background:#020b18;
+border:1px solid #00aaff33;
 color:white;
+border-radius:8px;
 }
-
 .admin-box button{
 width:100%;
 padding:12px;
-margin-top:10px;
-background:#008CFF;
+margin-top:8px;
+background:#008cff;
 border:none;
-border-radius:10px;
 color:white;
-font-weight:bold;
+border-radius:8px;
 cursor:pointer;
-}
-
-.admin-box button:hover{
-box-shadow:0 0 20px #00C8FF;
-}
-  /* ===== PART 8 BRACKET MPL ===== */
-
-.bracket-scroll{
-    overflow-x:auto;
-    overflow-y:hidden;
-    cursor:grab;
-    scroll-behavior:smooth;
-    padding:20px 10px;
-}
-
-.bracket-scroll:active{
-    cursor:grabbing;
-}
-
-.round{
-    display:flex;
-    flex-direction:column;
-    gap:40px;
-    min-width:230px;
-}
-
-.round-title{
-    color:#00d5ff;
-    text-align:center;
-    letter-spacing:2px;
-    margin-bottom:10px;
-    text-shadow:0 0 10px #00c8ff;
-}
-
-.match{
-    position:relative;
-}
-
-.match-box{
-    background:linear-gradient(145deg,#07192F,#020A15);
-    border:1px solid #00aaff55;
-    border-radius:16px;
-    padding:10px;
-    box-shadow:0 0 20px rgba(0,170,255,.25);
-}
-
-.match::after{
-    content:"";
-    position:absolute;
-    top:50%;
-    right:-36px;
-    width:36px;
-    height:2px;
-    background:#00c8ff;
-    box-shadow:0 0 10px #00c8ff;
-}
-
-.round:last-child .match::after{
-    display:none;
-}
-
-.team.winner{
-    background:linear-gradient(90deg,#005eff,#00c8ff);
-    box-shadow:0 0 15px #00c8ff;
-}
-
-.team.loser{
-    opacity:.35;
-    filter:grayscale(100%);
-}
-
-.date{
-    text-align:center;
-    color:#73dfff;
-    font-size:12px;
-    margin-bottom:8px;
-}
-  /* ===========================
-   PART 10 FINAL LOOK
-=========================== */
-
-.match-box{
-    transition:.3s;
-}
-
-.match-box:hover{
-    transform:translateY(-4px);
-    box-shadow:0 0 25px #00C8FF;
-}
-
-/* GRAND FINAL */
-
-.round:last-child .match-box{
-    background:linear-gradient(180deg,#0E2948,#03294D,#001C33);
-    border:2px solid #FFD54A;
-    box-shadow:0 0 30px rgba(255,213,74,.5);
-}
-
-.round:last-child .round-title{
-    color:#FFD54A;
-    text-shadow:0 0 15px #FFD54A;
-}
-
-/* Garis Neon */
-
-.match::before{
-    content:"";
-    position:absolute;
-    left:-18px;
-    top:50%;
-    width:18px;
-    height:2px;
-    background:#00C8FF;
-    box-shadow:0 0 10px #00C8FF;
-}
-
-/* Animasi Glow */
-
-@keyframes glow{
-    0%,100%{
-        box-shadow:0 0 15px rgba(0,200,255,.3);
-    }
-    50%{
-        box-shadow:0 0 28px rgba(0,200,255,.9);
-    }
-}
-
-.winner{
-    animation:glow 2s infinite;
-}
-
-/* Scroll HP */
-
-.bracket-scroll{
-    scroll-snap-type:x proximity;
-}
-
-.round{
-    scroll-snap-align:start;
 }
 </style>
 </head>
@@ -492,643 +241,334 @@ box-shadow:0 0 20px #00C8FF;
 <body>
 
 <header>
-
-<div class="logo">
-
-<div class="logo-icon">🏆</div>
-
 <div>
-<h1>MDC TOURNAMENT</h1>
-<p>Mobile Legends Dormitory Champions</p>
+<h1>🏆 MDC TOURNAMENT</h1>
+<p>SEASON 01 • MOBILE LEGENDS</p>
 </div>
-
+<div style="color:#00d5ff;border:1px solid #00d5ff;padding:8px 12px;border-radius:20px;">
+LIVE
 </div>
-
-<div class="navbar">
-
-<button onclick="showBracket()">🏆 Bracket</button>
-
-<button onclick="showTeam()">👥 Team</button>
-
-<button class="admin-btn" onclick="openAdmin()">⚙ Admin</button>
-
-</div>
-
 </header>
 
+<div class="menu">
+<button onclick="showBracket()">🏆 Bracket</button>
+<button onclick="showTeam()">👥 Team</button>
+<button onclick="openAdmin()">⚙ Admin</button>
+</div>
+
+<!-- BRACKET PAGE -->
 <div id="bracketPage" class="page">
 
-<h2 class="title">MDC SEASON 01</h2>
-
-<p class="subtitle">
-Upper Bracket • Lower Bracket • Grand Final
-</p>
-
-<div class="panel">
-
-<div class="panel-head">
-
-<h2>MDC BRACKET</h2>
-
-<div class="live">LIVE</div>
-
+<div class="title">
+<h2>MDC PLAYOFF</h2>
+<p>Upper Bracket • Lower Bracket • Grand Final</p>
 </div>
 
 <div class="bracket-scroll">
 
-<div class="bracket" id="mdcBracket">
-<!-- PART 2 ISI BRACKET -->
-<!-- UPPER ROUND 1 -->
+<div class="bracket">
+
 <div class="round">
+<div class="round-title">UPPER R1</div>
 
-  <h3 class="round-title">UPPER R1</h3>
+<div class="match">
+<div class="date">18 JAN • 19:30</div>
+<div class="match-box">
+<div class="team win"><span>NevTryz</span><span class="score">2</span></div>
+<div class="team lose"><span>Santaeee</span><span class="score">1</span></div>
+</div>
+</div>
 
-  <div class="match">
-    <div class="date">18 JAN • 19:30</div>
-    <div class="match-box">
-      <div class="team winner">
-        <span>TNEX</span>
-        <span class="score">2</span>
-      </div>
-      <div class="team loser">
-        <span>LIQUID</span>
-        <span class="score">1</span>
-      </div>
-    </div>
-  </div>
+<div class="match">
+<div class="date">18 JAN • 20:30</div>
+<div class="match-box">
+<div class="team"><span>PARADOX</span><span class="score">0</span></div>
+<div class="team"><span>Alfazira</span><span class="score">0</span></div>
+</div>
+</div>
 
-  <div class="match">
-    <div class="date">18 JAN • 20:30</div>
-    <div class="match-box">
-      <div class="team">
-        <span>PARADOX</span>
-        <span class="score">0</span>
-      </div>
-      <div class="team">
-        <span>SANTAEEE</span>
-        <span class="score">0</span>
-      </div>
-    </div>
-  </div>
+<div class="match">
+<div class="date">19 JAN</div>
+<div class="match-box">
+<div class="team"><span>Strawberry</span><span class="score">0</span></div>
+<div class="team"><span>BlackWolf</span><span class="score">0</span></div>
+</div>
+</div>
 
-  <div class="match">
-    <div class="date">19 JAN • 19:30</div>
-    <div class="match-box">
-      <div class="team">
-        <span>STRAWBERRY</span>
-        <span class="score">0</span>
-      </div>
-      <div class="team">
-        <span>BOKIR ABIS</span>
-        <span class="score">0</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="match">
-    <div class="date">19 JAN • 20:30</div>
-    <div class="match-box">
-      <div class="team">
-        <span>MONARCH TNX</span>
-        <span class="score">0</span>
-      </div>
-      <div class="team">
-        <span>CUSTOM TEAM</span>
-        <span class="score">0</span>
-      </div>
-    </div>
-  </div>
+<div class="match">
+<div class="date">19 JAN</div>
+<div class="match-box">
+<div class="team"><span>NightRaid</span><span class="score">0</span></div>
+<div class="team"><span>Monarch TNX</span><span class="score">0</span></div>
+</div>
+</div>
 
 </div>
 
-<!-- UPPER SEMIFINAL -->
 <div class="round">
+<div class="round-title">UPPER SEMI</div>
 
-  <h3 class="round-title">UPPER SEMI</h3>
+<div class="match">
+<div class="date">20 JAN</div>
+<div class="match-box">
+<div class="team"><span>Winner M1</span><span class="score">0</span></div>
+<div class="team"><span>Winner M2</span><span class="score">0</span></div>
+</div>
+</div>
 
-  <div class="match">
-    <div class="date">20 JAN</div>
-    <div class="match-box">
-      <div class="team">
-        <span>WINNER M1</span>
-        <span class="score">0</span>
-      </div>
-      <div class="team">
-        <span>WINNER M2</span>
-        <span class="score">0</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="match">
-    <div class="date">20 JAN</div>
-    <div class="match-box">
-      <div class="team">
-        <span>WINNER M3</span>
-        <span class="score">0</span>
-      </div>
-      <div class="team">
-        <span>WINNER M4</span>
-        <span class="score">0</span>
-      </div>
-    </div>
-  </div>
+<div class="match">
+<div class="date">20 JAN</div>
+<div class="match-box">
+<div class="team"><span>Winner M3</span><span class="score">0</span></div>
+<div class="team"><span>Winner M4</span><span class="score">0</span></div>
+</div>
+</div>
 
 </div>
 
-<!-- UPPER FINAL -->
 <div class="round">
+<div class="round-title">UPPER FINAL</div>
 
-  <h3 class="round-title">UPPER FINAL</h3>
-
-  <div class="match">
-    <div class="date">22 JAN</div>
-    <div class="match-box">
-      <div class="team">
-        <span>UPPER WINNER 1</span>
-        <span class="score">0</span>
-      </div>
-      <div class="team">
-        <span>UPPER WINNER 2</span>
-        <span class="score">0</span>
-      </div>
-    </div>
-  </div>
+<div class="match">
+<div class="date">22 JAN</div>
+<div class="match-box">
+<div class="team"><span>Upper Winner</span><span class="score">0</span></div>
+<div class="team"><span>Upper Winner</span><span class="score">0</span></div>
+</div>
+</div>
 
 </div>
 
-<!-- LOWER ROUND -->
 <div class="round">
+<div class="round-title">LOWER R1</div>
 
-  <h3 class="round-title">LOWER R1</h3>
+<div class="match">
+<div class="date">20 JAN</div>
+<div class="match-box">
+<div class="team"><span>Loser M1</span><span class="score">0</span></div>
+<div class="team"><span>Loser M2</span><span class="score">0</span></div>
+</div>
+</div>
 
-  <div class="match">
-    <div class="date">20 JAN</div>
-    <div class="match-box">
-      <div class="team">
-        <span>LOSER M1</span>
-        <span class="score">0</span>
-      </div>
-      <div class="team">
-        <span>LOSER M2</span>
-        <span class="score">0</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="match">
-    <div class="date">21 JAN</div>
-    <div class="match-box">
-      <div class="team">
-        <span>LOSER M3</span>
-        <span class="score">0</span>
-      </div>
-      <div class="team">
-        <span>LOSER M4</span>
-        <span class="score">0</span>
-      </div>
-    </div>
-  </div>
+<div class="match">
+<div class="date">21 JAN</div>
+<div class="match-box">
+<div class="team"><span>Loser M3</span><span class="score">0</span></div>
+<div class="team"><span>Loser M4</span><span class="score">0</span></div>
+</div>
+</div>
 
 </div>
 
-<!-- LOWER FINAL -->
 <div class="round">
+<div class="round-title">LOWER FINAL</div>
 
-  <h3 class="round-title">LOWER FINAL</h3>
-
-  <div class="match">
-    <div class="date">22 JAN</div>
-    <div class="match-box">
-      <div class="team">
-        <span>WINNER L1</span>
-        <span class="score">0</span>
-      </div>
-      <div class="team">
-        <span>WINNER L2</span>
-        <span class="score">0</span>
-      </div>
-    </div>
-  </div>
+<div class="match">
+<div class="date">22 JAN</div>
+<div class="match-box">
+<div class="team"><span>Lower Winner</span><span class="score">0</span></div>
+<div class="team"><span>Lower Winner</span><span class="score">0</span></div>
+</div>
+</div>
 
 </div>
 
-<!-- GRAND FINAL -->
-<div class="round">
+<div class="round grand">
+<div class="round-title">🏆 GRAND FINAL</div>
 
-  <h3 class="round-title">🏆 GRAND FINAL</h3>
-
-  <div class="match">
-    <div class="date">23 JAN • 20:00</div>
-    <div class="match-box">
-      <div class="team">
-        <span>UPPER WINNER</span>
-        <span class="score">0</span>
-      </div>
-      <div class="team">
-        <span>LOWER WINNER</span>
-        <span class="score">0</span>
-      </div>
-    </div>
-  </div>
-
+<div class="match">
+<div class="date">23 JAN • 20:00</div>
+<div class="match-box">
+<div class="team"><span>Upper Winner</span><span class="score">0</span></div>
+<div class="team"><span>Lower Winner</span><span class="score">0</span></div>
 </div>
-  
 </div>
 
 </div>
 
 </div>
 
-<!-- PART 3 PODIUM JUARA -->
-
-</div>
-<div class="panel">
-
-<div class="panel-head">
-<h2>FINAL STANDING</h2>
 </div>
 
 <div class="podium">
-
-<div class="juara2">
-<div class="icon">🥈</div>
-<h3>JUARA 2</h3>
-<div class="nama-team">-</div>
+<div class="rank2">
+<div style="font-size:40px">🥈</div>
+<b>JUARA 2</b>
+<h3 id="runnerName">-</h3>
 </div>
 
-<div class="juara1">
-<div class="icon">🏆</div>
-<h2>JUARA 1</h2>
-<div class="nama-team">-</div>
+<div class="rank1">
+<div style="font-size:50px">🏆</div>
+<b>JUARA 1</b>
+<h3 id="champName">-</h3>
+</div>
 </div>
 
 </div>
 
-</div>
+<!-- TEAM PAGE -->
 <div id="teamPage" class="page">
 
-<!-- PART 6 TEAM -->
-<div class="panel">
+<div class="team-grid">
 
-  <div class="panel-head">
-    <h2>TEAM MDC SEASON 01</h2>
-  </div>
-
-  <div class="team-grid">
-
-    <div class="team-card">
-      <div class="team-logo">⚡</div>
-      <h3>TNEX ESPORTS</h3>
-      <p>Code : TNEX</p>
-
-      <ul>
-        <li>👤 Player 1</li>
-        <li>👤 Player 2</li>
-        <li>👤 Player 3</li>
-        <li>👤 Player 4</li>
-        <li>👤 Player 5</li>
-      </ul>
-    </div>
-
-    <div class="team-card">
-      <div class="team-logo">🔥</div>
-      <h3>LIQUID</h3>
-      <p>Code : LQD</p>
-
-      <ul>
-        <li>👤 Player 1</li>
-        <li>👤 Player 2</li>
-        <li>👤 Player 3</li>
-        <li>👤 Player 4</li>
-        <li>👤 Player 5</li>
-      </ul>
-    </div>
-
-    <div class="team-card">
-      <div class="team-logo">👑</div>
-      <h3>PARADOX</h3>
-      <p>Code : PDX</p>
-
-      <ul>
-        <li>👤 Player 1</li>
-        <li>👤 Player 2</li>
-        <li>👤 Player 3</li>
-        <li>👤 Player 4</li>
-        <li>👤 Player 5</li>
-      </ul>
-    </div>
-
-    <div class="team-card">
-      <div class="team-logo">🌸</div>
-      <h3>SANTAEEE</h3>
-      <p>Code : STE</p>
-
-      <ul>
-        <li>👤 Player 1</li>
-        <li>👤 Player 2</li>
-        <li>👤 Player 3</li>
-        <li>👤 Player 4</li>
-        <li>👤 Player 5</li>
-      </ul>
-    </div>
-
-  </div>
-
-</div>
+<div class="team-card">
+<h3>NevTryz Esports</h3>
+<p>Code : NVT</p>
+<ul>
+<li>Player 1</li><li>Player 2</li><li>Player 3</li><li>Player 4</li><li>Player 5</li>
+</ul>
 </div>
 
+<div class="team-card">
+<h3>PARADOX</h3>
+<p>Code : PDX</p>
+<ul>
+<li>Player 1</li><li>Player 2</li><li>Player 3</li><li>Player 4</li><li>Player 5</li>
+</ul>
+</div>
+
+<div class="team-card">
+<h3>Santaeee</h3>
+<p>Code : STE</p>
+<ul>
+<li>Player 1</li><li>Player 2</li><li>Player 3</li><li>Player 4</li><li>Player 5</li>
+</ul>
+</div>
+
+<div class="team-card">
+<h3>BlackWolf</h3>
+<p>Code : BW</p>
+<ul>
+<li>Player 1</li><li>Player 2</li><li>Player 3</li><li>Player 4</li><li>Player 5</li>
+</ul>
+</div>
+
+</div>
+
+</div>
+
+<!-- ADMIN -->
 <div id="adminPanel">
-<!-- PART 7 ADMIN -->
-<!-- ================= ADMIN PANEL ================= -->
+<div class="admin-box">
 
-<div id="adminPanel">
+<h2>ADMIN PANEL</h2>
 
-  <div class="admin-box">
+<div id="loginBox">
+<input type="password" id="pin" placeholder="PIN 012570">
+<button onclick="login()">MASUK</button>
+</div>
 
-    <h2>⚙ ADMIN MDC</h2>
+<div id="editBox" style="display:none">
+<input id="team1" placeholder="Nama Tim 1">
+<input id="team2" placeholder="Nama Tim 2">
+<input id="score1" type="number" placeholder="Skor Tim 1">
+<input id="score2" type="number" placeholder="Skor Tim 2">
+<input id="date" placeholder="Tanggal Match">
 
-    <div id="loginAdmin">
-
-      <input type="password" id="adminPin" placeholder="Masukkan PIN Admin">
-
-      <button onclick="loginAdmin()">MASUK</button>
-
-    </div>
-
-    <div id="adminMenu" style="display:none;">
-
-      <h3>Edit Match</h3>
-
-      <input type="text" id="editTeam1" placeholder="Nama Tim 1">
-
-      <input type="text" id="editTeam2" placeholder="Nama Tim 2">
-
-      <input type="number" id="editScore1" placeholder="Skor Tim 1">
-
-      <input type="number" id="editScore2" placeholder="Skor Tim 2">
-
-      <input type="text" id="editDate" placeholder="Tanggal Match">
-
-      <button onclick="saveMatch()">💾 SIMPAN</button>
-      
-<button onclick="resetMatch()">🗑 RESET MATCH</button>
-      
-      <button onclick="closeAdmin()">TUTUP</button>
-
-    </div>
-
-  </div>
+<button onclick="save()">💾 SIMPAN MATCH</button>
+<button onclick="closeAdmin()">TUTUP</button>
+</div>
 
 </div>
-  
 </div>
 
 <script>
-// PART 8 JAVASCRIPT
-// ================= MDC TOURNAMENT =================
 
-const ADMIN_PIN = "012570";
+const ADMIN_PIN="012570";
 
-// Buka halaman Bracket
 function showBracket(){
-  document.getElementById("bracketPage").style.display = "block";
-  document.getElementById("teamPage").style.display = "none";
+document.getElementById("bracketPage").style.display="flex";
+document.getElementById("teamPage").style.display="none";
 }
 
-// Buka halaman Team
 function showTeam(){
-  document.getElementById("bracketPage").style.display = "none";
-  document.getElementById("teamPage").style.display = "block";
+document.getElementById("teamPage").style.display="flex";
+document.getElementById("bracketPage").style.display="none";
 }
 
-// Buka popup Admin
 function openAdmin(){
-  document.getElementById("adminPanel").style.display = "flex";
+document.getElementById("adminPanel").style.display="flex";
 }
 
-// Tutup popup Admin
 function closeAdmin(){
-  document.getElementById("adminPanel").style.display = "none";
-
-  document.getElementById("loginAdmin").style.display = "block";
-  document.getElementById("adminMenu").style.display = "none";
-  document.getElementById("adminPin").value = "";
+document.getElementById("adminPanel").style.display="none";
+document.getElementById("loginBox").style.display="block";
+document.getElementById("editBox").style.display="none";
 }
 
-// Login PIN
-function loginAdmin(){
+function login(){
+if(pin.value===ADMIN_PIN){
+loginBox.style.display="none";
+editBox.style.display="block";
+}else{
+alert("PIN SALAH!");
+}
+}
 
-  const pin = document.getElementById("adminPin").value;
+function save(){
 
-  if(pin === ADMIN_PIN){
-    document.getElementById("loginAdmin").style.display = "none";
-    document.getElementById("adminMenu").style.display = "block";
-  }else{
-    alert("❌ PIN SALAH!");
-  }
+const match=document.querySelector(".match");
+const teams=match.querySelectorAll(".team");
+
+teams[0].children[0].innerText=team1.value;
+teams[1].children[0].innerText=team2.value;
+teams[0].children[1].innerText=score1.value;
+teams[1].children[1].innerText=score2.value;
+match.querySelector(".date").innerText=date.value;
+
+teams[0].classList.remove("win","lose");
+teams[1].classList.remove("win","lose");
+
+if(Number(score1.value)>Number(score2.value)){
+teams[0].classList.add("win");
+teams[1].classList.add("lose");
+champName.innerText=team1.value;
+runnerName.innerText=team2.value;
+}else if(Number(score2.value)>Number(score1.value)){
+teams[1].classList.add("win");
+teams[0].classList.add("lose");
+champName.innerText=team2.value;
+runnerName.innerText=team1.value;
+}
+
+localStorage.setItem("mdcData",JSON.stringify({
+t1:team1.value,t2:team2.value,s1:score1.value,s2:score2.value,d:date.value
+}));
+
+alert("Berhasil disimpan!");
+closeAdmin();
 
 }
 
-// Simpan (sementara)
-function saveMatch(){
+window.onload=()=>{
+const data=JSON.parse(localStorage.getItem("mdcData"));
+if(!data)return;
 
-  alert("✅ Perubahan berhasil disimpan!");
+team1.value=data.t1;
+team2.value=data.t2;
+score1.value=data.s1;
+score2.value=data.s2;
+date.value=data.d;
 
-  closeAdmin();
+const match=document.querySelector(".match");
+const teams=match.querySelectorAll(".team");
 
+teams[0].children[0].innerText=data.t1;
+teams[1].children[0].innerText=data.t2;
+teams[0].children[1].innerText=data.s1;
+teams[1].children[1].innerText=data.s2;
+match.querySelector(".date").innerText=data.d;
+
+if(Number(data.s1)>Number(data.s2)){
+champName.innerText=data.t1;
+runnerName.innerText=data.t2;
+}else if(Number(data.s2)>Number(data.s1)){
+champName.innerText=data.t2;
+runnerName.innerText=data.t1;
 }
-  // ================= EDIT BRACKET LANGSUNG =================
-
-function saveMatch(){
-
-  const team1 = document.getElementById("editTeam1").value;
-  const team2 = document.getElementById("editTeam2").value;
-  const score1 = document.getElementById("editScore1").value;
-  const score2 = document.getElementById("editScore2").value;
-  const tanggal = document.getElementById("editDate").value;
-
-  // Match pertama di Upper R1
-  const match = document.querySelector(".match");
-
-  match.querySelector(".date").innerText = tanggal;
-
-  const teams = match.querySelectorAll(".team");
-
-  teams[0].children[0].innerText = team1;
-  teams[0].children[1].innerText = score1;
-
-  teams[1].children[0].innerText = team2;
-  teams[1].children[1].innerText = score2;
-
-  // Reset warna
-  teams[0].classList.remove("winner","loser");
-  teams[1].classList.remove("winner","loser");
-
-  if(Number(score1) > Number(score2)){
-    teams[0].classList.add("winner");
-    teams[1].classList.add("loser");
-  }else if(Number(score2) > Number(score1)){
-    teams[1].classList.add("winner");
-    teams[0].classList.add("loser");
-  }
-
-  alert("✅ Bracket berhasil diupdate!");
-  closeAdmin();
-}
-  // ===== PART 8 DRAG BRACKET =====
-
-const slider = document.querySelector(".bracket-scroll");
-
-let isDown = false;
-let startX;
-let scrollLeft;
-
-slider.addEventListener("mousedown",(e)=>{
-    isDown = true;
-    startX = e.pageX - slider.offsetLeft;
-    scrollLeft = slider.scrollLeft;
-});
-
-slider.addEventListener("mouseleave",()=> isDown = false);
-slider.addEventListener("mouseup",()=> isDown = false);
-
-slider.addEventListener("mousemove",(e)=>{
-    if(!isDown) return;
-    e.preventDefault();
-    const x = e.pageX - slider.offsetLeft;
-    const walk = (x - startX) * 2;
-    slider.scrollLeft = scrollLeft - walk;
-});
-
-// HP Touch
-slider.addEventListener("touchstart",(e)=>{
-    startX = e.touches[0].pageX;
-    scrollLeft = slider.scrollLeft;
-});
-
-slider.addEventListener("touchmove",(e)=>{
-    const x = e.touches[0].pageX;
-    const walk = (x - startX) * 2;
-    slider.scrollLeft = scrollLeft - walk;
-});
-// ===== PART 9 AUTO SAVE =====
-
-function saveMatch(){
-
-  const team1 = document.getElementById("editTeam1").value;
-  const team2 = document.getElementById("editTeam2").value;
-  const score1 = document.getElementById("editScore1").value;
-  const score2 = document.getElementById("editScore2").value;
-  const tanggal = document.getElementById("editDate").value;
-
-  const match = document.querySelector(".match");
-  const teams = match.querySelectorAll(".team");
-
-  match.querySelector(".date").innerText = tanggal;
-
-  teams[0].children[0].innerText = team1;
-  teams[0].children[1].innerText = score1;
-
-  teams[1].children[0].innerText = team2;
-  teams[1].children[1].innerText = score2;
-
-  teams[0].classList.remove("winner","loser");
-  teams[1].classList.remove("winner","loser");
-
-  if(Number(score1) > Number(score2)){
-      teams[0].classList.add("winner");
-      teams[1].classList.add("loser");
-  }else if(Number(score2) > Number(score1)){
-      teams[1].classList.add("winner");
-      teams[0].classList.add("loser");
-  }
-
-  // SIMPAN DATA
-  localStorage.setItem("mdc_match1", JSON.stringify({
-      team1, team2, score1, score2, tanggal
-  }));
-
-  alert("✅ Match berhasil diupdate!");
-  closeAdmin();
-}
-// ===== LOAD DATA SAAT WEBSITE DIBUKA =====
-
-window.onload = function(){
-
-  const data = JSON.parse(localStorage.getItem("mdc_match1"));
-
-  if(data){
-
-    const match = document.querySelector(".match");
-    const teams = match.querySelectorAll(".team");
-
-    match.querySelector(".date").innerText = data.tanggal;
-
-    teams[0].children[0].innerText = data.team1;
-    teams[0].children[1].innerText = data.score1;
-
-    teams[1].children[0].innerText = data.team2;
-    teams[1].children[1].innerText = data.score2;
-
-    teams[0].classList.remove("winner","loser");
-    teams[1].classList.remove("winner","loser");
-
-    if(Number(data.score1) > Number(data.score2)){
-      teams[0].classList.add("winner");
-      teams[1].classList.add("loser");
-    }else if(Number(data.score2) > Number(data.score1)){
-      teams[1].classList.add("winner");
-      teams[0].classList.add("loser");
-    }
-
-  }
-
 };
-  function resetMatch(){
 
-  localStorage.removeItem("mdc_match1");
-  location.reload();
-
-  }
-  // ===========================
-// AUTO JUARA GRAND FINAL
-// ===========================
-
-function updateChampion(){
-
-    const finalMatch = document.querySelector(".round:last-child .match");
-    const teams = finalMatch.querySelectorAll(".team");
-
-    const scoreA = Number(teams[0].querySelector(".score").innerText);
-    const scoreB = Number(teams[1].querySelector(".score").innerText);
-
-    const nameA = teams[0].children[0].innerText;
-    const nameB = teams[1].children[0].innerText;
-
-    if(scoreA > scoreB){
-        document.querySelector(".juara1 .nama-team").innerText = nameA;
-        document.querySelector(".juara2 .nama-team").innerText = nameB;
-    }
-
-    if(scoreB > scoreA){
-        document.querySelector(".juara1 .nama-team").innerText = nameB;
-        document.querySelector(".juara2 .nama-team").innerText = nameA;
-    }
-
-}
-
-// Jalankan setiap selesai save
-const oldSave = saveMatch;
-
-saveMatch = function(){
-    oldSave();
-    updateChampion();
-}
-
-// Jalankan saat web dibuka
-window.addEventListener("load", updateChampion);
 </script>
 
 </body>
-</html>
+  </html>
