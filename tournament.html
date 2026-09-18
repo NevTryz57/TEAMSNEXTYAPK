@@ -707,6 +707,15 @@
     </div>
 
     <script>
+        let appData = JSON.parse(localStorage.getItem('MY_BRACKET_DATA')) || {
+    teams: {},
+    matches: {},
+    connections: [
+        // contoh koneksi bawaan [ID_Asal, ID_Tujuan]
+        ['wrap-UB_R1_1', 'wrap-UB_QF_1'],
+        ['wrap-UB_R1_2', 'wrap-UB_QF_1']
+    ]
+};
         const DEFAULT_DATA = {
             banner: {
                 season: "SEASON 01 CHAMPIONSHIP",
