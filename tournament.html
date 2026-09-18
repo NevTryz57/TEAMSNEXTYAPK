@@ -651,9 +651,47 @@ Upper Bracket • Lower Bracket • Grand Final
 </div>
 
 <div id="adminPanel">
-
 <!-- PART 7 ADMIN -->
+<!-- ================= ADMIN PANEL ================= -->
 
+<div id="adminPanel">
+
+  <div class="admin-box">
+
+    <h2>⚙ ADMIN MDC</h2>
+
+    <div id="loginAdmin">
+
+      <input type="password" id="adminPin" placeholder="Masukkan PIN Admin">
+
+      <button onclick="loginAdmin()">MASUK</button>
+
+    </div>
+
+    <div id="adminMenu" style="display:none;">
+
+      <h3>Edit Match</h3>
+
+      <input type="text" id="editTeam1" placeholder="Nama Tim 1">
+
+      <input type="text" id="editTeam2" placeholder="Nama Tim 2">
+
+      <input type="number" id="editScore1" placeholder="Skor Tim 1">
+
+      <input type="number" id="editScore2" placeholder="Skor Tim 2">
+
+      <input type="text" id="editDate" placeholder="Tanggal Match">
+
+      <button onclick="saveMatch()">💾 SIMPAN</button>
+
+      <button onclick="closeAdmin()">TUTUP</button>
+
+    </div>
+
+  </div>
+
+</div>
+  
 </div>
 
 <script>
