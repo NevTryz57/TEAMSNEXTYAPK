@@ -42,7 +42,6 @@
             background-size: 100% 100%, 25px 25px, 25px 25px;
         }
 
-        /* Top Bar */
         .top-bar {
             background: rgba(8, 16, 29, 0.95);
             backdrop-filter: blur(12px);
@@ -102,7 +101,6 @@
             box-shadow: 0 0 15px var(--cyan-glow);
         }
 
-        /* Hero Banner */
         .hero {
             position: relative;
             margin: 16px auto;
@@ -181,7 +179,6 @@
             box-shadow: 0 0 8px rgba(0, 240, 255, 0.2);
         }
 
-        /* Bracket View Area */
         .bracket-viewport {
             width: 95%;
             max-width: 1600px;
@@ -204,7 +201,7 @@
             display: flex;
             flex-direction: column;
             gap: 50px;
-            min-width: 1600px;
+            min-width: 1500px;
             position: relative;
             transform-origin: 0 0;
             transition: transform 0.2s ease;
@@ -234,7 +231,7 @@
 
         .bracket-row {
             display: flex;
-            gap: 50px;
+            gap: 45px;
             position: relative;
             align-items: center;
         }
@@ -300,10 +297,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 6px 8px;
+            padding: 7px 8px;
             border-radius: 4px;
-            margin: 2px 0;
-            background: rgba(0,0,0,0.5);
+            margin: 4px 0; /* Pemisahan antar tim dalam satu kotak */
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.05);
             transition: all 0.3s;
         }
 
@@ -347,69 +345,6 @@
             text-shadow: 0 0 8px var(--cyan-glow);
         }
 
-        /* Champion Trophy Node */
-        .trophy-node {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: radial-gradient(circle, rgba(0, 240, 255, 0.2) 0%, rgba(8, 16, 29, 0.95) 75%);
-            border: 2px solid var(--cyan-glow);
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 0 40px rgba(0, 240, 255, 0.4);
-            text-align: center;
-            width: 240px;
-            align-self: center;
-            margin-left: 20px;
-            position: relative;
-        }
-
-        .trophy-icon {
-            font-size: 3rem;
-            filter: drop-shadow(0 0 15px var(--gold-glow));
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-
-        .trophy-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 900;
-            color: var(--gold-glow);
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
-            margin: 6px 0;
-        }
-
-        .winner-box {
-            width: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 8px;
-            padding: 8px;
-            margin-top: 6px;
-            border: 1px solid rgba(255, 215, 0, 0.4);
-        }
-
-        .winner-rank {
-            font-size: 0.7rem;
-            font-weight: 800;
-            color: var(--cyan-glow);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .winner-team-name {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1rem;
-            font-weight: 800;
-            color: #fff;
-        }
-
-        /* SVG Dynamic Lines */
         .bracket-svg {
             position: absolute;
             top: 0;
@@ -428,7 +363,6 @@
             filter: drop-shadow(0 0 6px var(--cyan-glow));
         }
 
-        /* Panels */
         .content-panel {
             display: none;
             width: 95%;
@@ -512,12 +446,6 @@
             margin-bottom: 10px;
             border: 2px solid var(--cyan-glow);
         }
-
-        @media (max-width: 768px) {
-            .top-bar { flex-direction: column; gap: 10px; }
-            .hero { flex-direction: column; text-align: center; }
-            .bracket-viewport { padding: 20px; }
-        }
     </style>
 </head>
 <body>
@@ -588,10 +516,9 @@
                         <div class="match-schedule" id="sch-M5">21 JAN - 16:00</div>
                         <div class="match-card" id="card-M5"></div>
                     </div>
-                    <!-- Match cadangan kuartal atas sesuai gambar referensi -->
-                    <div class="match-card-wrap" id="wrap-M5b" style="visibility: hidden; height: 0; overflow: hidden;">
-                        <div class="match-schedule"></div>
-                        <div class="match-card"></div>
+                    <div class="match-card-wrap" id="wrap-M6">
+                        <div class="match-schedule" id="sch-M6">21 JAN - 18:00</div>
+                        <div class="match-card" id="card-M6"></div>
                     </div>
                 </div>
 
@@ -603,20 +530,12 @@
                     </div>
                 </div>
 
+                <!-- KOTAK FINAL TUNGGAL DI TENGAH (PENGGANTI KOTAK FINAL SEBELUMNYA) -->
                 <div class="bracket-column">
                     <div class="column-header">FINAL</div>
                     <div class="match-card-wrap" id="wrap-M9">
                         <div class="match-schedule" id="sch-M9">25 JAN - 19:00</div>
                         <div class="match-card" id="card-M9"></div>
-                    </div>
-                </div>
-
-                <div class="trophy-node" id="trophy-node-element">
-                    <div class="trophy-icon">🏆</div>
-                    <div class="trophy-title">CHAMPION</div>
-                    <div class="winner-box">
-                        <div class="winner-rank">JUARA UTAMA</div>
-                        <div class="winner-team-name" id="trophy-champ-1">-</div>
                     </div>
                 </div>
             </div>
@@ -642,10 +561,6 @@
                         <div class="match-schedule" id="sch-LB3">23 JAN - 16:00</div>
                         <div class="match-card" id="card-LB3"></div>
                     </div>
-                    <div class="match-card-wrap" id="wrap-LB4">
-                        <div class="match-schedule" id="sch-LB4">23 JAN - 19:00</div>
-                        <div class="match-card" id="card-LB4"></div>
-                    </div>
                 </div>
 
                 <div class="bracket-column">
@@ -661,14 +576,6 @@
                     <div class="match-card-wrap" id="wrap-LB6">
                         <div class="match-schedule" id="sch-LB6">25 JAN - 16:00</div>
                         <div class="match-card" id="card-LB6"></div>
-                    </div>
-                </div>
-
-                <div class="bracket-column" style="width: 210px;">
-                    <div class="column-header">GRAND FINAL</div>
-                    <div class="match-card-wrap" id="wrap-GF">
-                        <div class="match-schedule" id="sch-GF">25 JAN - 20:00</div>
-                        <div class="match-card" id="card-GF"></div>
                     </div>
                 </div>
             </div>
@@ -702,7 +609,7 @@
                         <input type="text" id="edit-season-title" class="form-control" onchange="updateBannerInfo()">
                     </div>
                     <div class="form-group">
-                        <label>Status Match (LIVE / UPCOMING / FINISHED)</label>
+                        <label>Status Match</label>
                         <input type="text" id="edit-status-badge" class="form-control" onchange="updateBannerInfo()">
                     </div>
                     <div class="form-group">
@@ -713,12 +620,12 @@
             </div>
 
             <div style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; margin-bottom: 20px; border: 1px solid rgba(0,240,255,0.2);">
-                <h3 style="font-family: 'Orbitron'; font-size: 1rem; color: var(--cyan-glow); margin-bottom: 12px;">EDIT NAMA & LOGO TIM (8 TIM)</h3>
+                <h3 style="font-family: 'Orbitron'; font-size: 1rem; color: var(--cyan-glow); margin-bottom: 12px;">EDIT NAMA & LOGO TIM</h3>
                 <div class="grid-2" id="admin-teams-list"></div>
             </div>
 
             <div style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; margin-bottom: 20px; border: 1px solid rgba(0,240,255,0.2);">
-                <h3 style="font-family: 'Orbitron'; font-size: 1rem; color: var(--cyan-glow); margin-bottom: 12px;">EDIT SKOR, TIM & JADWAL MATCH (LENGKAP SEMUA MATCH)</h3>
+                <h3 style="font-family: 'Orbitron'; font-size: 1rem; color: var(--cyan-glow); margin-bottom: 12px;">EDIT SKOR, TIM & JADWAL MATCH</h3>
                 <div class="grid-2" id="admin-matches-list"></div>
             </div>
 
@@ -757,15 +664,14 @@
                 M3: { teamA: "T5", teamB: "T6", scoreA: 2, scoreB: 0, date: "18 JAN - 17:00" },
                 M4: { teamA: "T7", teamB: "T8", scoreA: 2, scoreB: 0, date: "18 JAN - 19:00" },
                 M5: { teamA: "T1", teamB: "T4", scoreA: 2, scoreB: 0, date: "21 JAN - 16:00" },
+                M6: { teamA: "T5", teamB: "T7", scoreA: 0, scoreB: 2, date: "21 JAN - 18:00" },
                 M7: { teamA: "T1", teamB: "T7", scoreA: 2, scoreB: 1, date: "24 JAN - 19:00" },
-                M9: { teamA: "T1", teamB: "T7", scoreA: 3, scoreB: 1, date: "25 JAN - 19:00" },
+                M9: { teamA: "T1", teamB: "WINNER LOWER BRACKET", scoreA: 0, scoreB: 0, date: "25 JAN - 19:00" },
                 LB1: { teamA: "T2", teamB: "T3", scoreA: 2, scoreB: 0, date: "22 JAN - 16:00" },
                 LB2: { teamA: "T6", teamB: "T8", scoreA: 0, scoreB: 2, date: "22 JAN - 19:00" },
-                LB3: { teamA: "LOSER OF MATCH 1", teamB: "WINNER OF MATCH 2", scoreA: 0, scoreB: 0, date: "23 JAN - 16:00" },
-                LB4: { teamA: "LOSER OF MATCH 2", teamB: "WINNER OF MATCH 1", scoreA: 0, scoreB: 0, date: "23 JAN - 19:00" },
-                LB5: { teamA: "LOSER OF MATCH 5", teamB: "WINNER OF MATCH 6", scoreA: 0, scoreB: 0, date: "24 JAN - 16:00" },
-                LB6: { teamA: "WINNER OF MATCH 7", teamB: "WINNER OF MATCH 8", scoreA: 0, scoreB: 0, date: "25 JAN - 16:00" },
-                GF: { teamA: "T1", teamB: "WINNER LOWER BRACKET", scoreA: 0, scoreB: 0, date: "25 JAN - 20:00" }
+                LB3: { teamA: "LOSER OF MATCH 5", teamB: "WINNER OF MATCH LB1", scoreA: 0, scoreB: 0, date: "23 JAN - 16:00" },
+                LB5: { teamA: "LOSER OF MATCH 7", teamB: "WINNER OF MATCH LB3", scoreA: 0, scoreB: 0, date: "24 JAN - 16:00" },
+                LB6: { teamA: "WINNER OF MATCH LB5", teamB: "WINNER LOWER SEMI", scoreA: 0, scoreB: 0, date: "25 JAN - 16:00" }
             }
         };
 
@@ -816,23 +722,17 @@
 
                 if (schEl) schEl.innerText = match.date;
 
-                const getTeamHtml = (teamKey, score) => {
+                const getTeamHtml = (teamKey) => {
                     const teamObj = appData.teams.find(t => t.id === teamKey);
                     if (teamObj) {
-                        return {
-                            name: teamObj.tag,
-                            logo: teamObj.logo
-                        };
+                        return { name: teamObj.tag, logo: teamObj.logo };
                     } else {
-                        return {
-                            name: teamKey,
-                            logo: 'https://via.placeholder.com/20/00f0ff/000000?text=?'
-                        };
+                        return { name: teamKey, logo: 'https://via.placeholder.com/20/00f0ff/000000?text=?' };
                     }
                 };
 
-                const tA = getTeamHtml(match.teamA, match.scoreA);
-                const tB = getTeamHtml(match.teamB, match.scoreB);
+                const tA = getTeamHtml(match.teamA);
+                const tB = getTeamHtml(match.teamB);
 
                 const isFinished = match.scoreA > 0 || match.scoreB > 0;
                 const winA = match.scoreA > match.scoreB;
@@ -855,15 +755,6 @@
                     </div>
                 `;
             });
-
-            const gf = appData.matches.GF;
-            if (gf && (gf.scoreA > 0 || gf.scoreB > 0)) {
-                const champKey = gf.scoreA > gf.scoreB ? gf.teamA : gf.teamB;
-                const champObj = appData.teams.find(t => t.id === champKey);
-                document.getElementById('trophy-champ-1').innerText = champObj ? `${champObj.name} (${champObj.tag})` : champKey;
-            } else {
-                document.getElementById('trophy-champ-1').innerText = '-';
-            }
         }
 
         function renderTeams() {
@@ -886,12 +777,12 @@
             
             const connections = [
                 ['wrap-M1', 'wrap-M5'], ['wrap-M2', 'wrap-M5'],
-                ['wrap-M3', 'wrap-M7'], ['wrap-M4', 'wrap-M7'],
-                ['wrap-M5', 'wrap-M9'], ['wrap-M7', 'wrap-M9'],
-                ['wrap-M9', 'trophy-node-element'],
+                ['wrap-M3', 'wrap-M6'], ['wrap-M4', 'wrap-M6'],
+                ['wrap-M5', 'wrap-M7'], ['wrap-M6', 'wrap-M7'],
+                ['wrap-M7', 'wrap-M9'],
                 ['wrap-LB1', 'wrap-LB3'], ['wrap-LB2', 'wrap-LB3'],
-                ['wrap-LB3', 'wrap-LB5'], ['wrap-LB4', 'wrap-LB5'],
-                ['wrap-LB5', 'wrap-LB6'], ['wrap-LB6', 'wrap-GF']
+                ['wrap-LB3', 'wrap-LB5'],
+                ['wrap-LB5', 'wrap-LB6'], ['wrap-LB6', 'wrap-M9']
             ];
 
             const treeRect = document.getElementById('bracket-tree').getBoundingClientRect();
@@ -951,8 +842,8 @@
                     <div style="background:rgba(0,0,0,0.4); padding:10px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); margin-bottom:10px;">
                         <label style="color:var(--cyan-glow); font-weight:bold;">Match: ${mId}</label>
                         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:6px; margin:6px 0;">
-                            <input type="text" value="${m.teamA}" class="form-control" placeholder="Tim A / Placeholder" onchange="updateMatchData('${mId}', 'teamA', this.value)">
-                            <input type="text" value="${m.teamB}" class="form-control" placeholder="Tim B / Placeholder" onchange="updateMatchData('${mId}', 'teamB', this.value)">
+                            <input type="text" value="${m.teamA}" class="form-control" placeholder="Tim A" onchange="updateMatchData('${mId}', 'teamA', this.value)">
+                            <input type="text" value="${m.teamB}" class="form-control" placeholder="Tim B" onchange="updateMatchData('${mId}', 'teamB', this.value)">
                         </div>
                         <div style="display:flex; gap:8px;">
                             <input type="text" value="${m.date}" class="form-control" style="width:50%;" onchange="updateMatchData('${mId}', 'date', this.value)">
