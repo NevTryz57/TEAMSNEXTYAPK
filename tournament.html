@@ -1,1 +1,290 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>MDC Tournament V10</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+background:
+radial-gradient(circle at top,#063b70 0%,transparent 35%),
+linear-gradient(135deg,#01040A,#020611,#01030A);
+color:white;
+overflow-x:hidden;
+min-height:100vh;
+}
+
+/* GRID BACKGROUND */
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background-image:
+linear-gradient(rgba(0,170,255,.07) 1px,transparent 1px),
+linear-gradient(90deg,rgba(0,170,255,.07) 1px,transparent 1px);
+background-size:55px 55px;
+pointer-events:none;
+z-index:-1;
+}
+
+/* HEADER */
+
+header{
+position:sticky;
+top:0;
+z-index:999;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px 24px;
+background:#020814dd;
+backdrop-filter:blur(15px);
+border-bottom:1px solid rgba(0,170,255,.25);
+}
+
+.logo{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.logo-icon{
+font-size:42px;
+filter:drop-shadow(0 0 12px #00C8FF);
+animation:float 3s infinite ease-in-out;
+}
+
+.logo h1{
+font-size:30px;
+background:linear-gradient(90deg,#fff,#00C8FF);
+-webkit-background-clip:text;
+color:transparent;
+letter-spacing:2px;
+}
+
+.logo p{
+font-size:12px;
+letter-spacing:2px;
+color:#87C8E8;
+}
+
+@keyframes float{
+50%{transform:translateY(-6px);}
+}
+
+/* NAVBAR */
+
+.navbar{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.navbar button{
+padding:10px 16px;
+border-radius:10px;
+background:#07192F;
+border:1px solid #007CFF;
+color:white;
+cursor:pointer;
+transition:.3s;
+}
+
+.navbar button:hover{
+background:#007CFF;
+box-shadow:0 0 15px #00C8FF;
+}
+
+.admin-btn{
+margin-left:12px;
+border-color:#00C8FF !important;
+}
+
+/* PAGE */
+
+.page{
+padding:22px;
+}
+
+.title{
+font-size:32px;
+margin-bottom:5px;
+}
+
+.subtitle{
+color:#83B6D8;
+margin-bottom:25px;
+}
+
+/* PANEL */
+
+.panel{
+background:#041322dd;
+border:1px solid rgba(0,170,255,.25);
+border-radius:20px;
+padding:20px;
+margin-bottom:28px;
+box-shadow:
+0 0 25px rgba(0,170,255,.18),
+inset 0 0 25px rgba(0,170,255,.05);
+}
+
+.panel-head{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:18px;
+}
+
+.panel-head h2{
+color:#00C8FF;
+letter-spacing:2px;
+}
+
+.live{
+padding:5px 12px;
+border-radius:20px;
+border:1px solid #00C8FF;
+color:#8FF2FF;
+font-size:12px;
+box-shadow:0 0 12px rgba(0,200,255,.25);
+}
+
+/* BRACKET AREA */
+
+.bracket-scroll{
+overflow-x:auto;
+overflow-y:hidden;
+scroll-behavior:smooth;
+padding-bottom:15px;
+cursor:grab;
+}
+
+.bracket-scroll::-webkit-scrollbar{
+height:8px;
+}
+
+.bracket-scroll::-webkit-scrollbar-thumb{
+background:#00C8FF;
+border-radius:20px;
+}
+
+.bracket-scroll::-webkit-scrollbar-track{
+background:#06101B;
+}
+
+.bracket{
+display:flex;
+gap:70px;
+width:max-content;
+padding:15px 10px;
+align-items:flex-start;
+}
+
+/* PAGE TEAM HIDDEN */
+
+#teamPage{
+display:none;
+}
+
+/* ADMIN HIDDEN */
+
+#adminPanel{
+display:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+
+<div class="logo-icon">🏆</div>
+
+<div>
+<h1>MDC TOURNAMENT</h1>
+<p>Mobile Legends Dormitory Champions</p>
+</div>
+
+</div>
+
+<div class="navbar">
+
+<button onclick="showBracket()">🏆 Bracket</button>
+
+<button onclick="showTeam()">👥 Team</button>
+
+<button class="admin-btn" onclick="openAdmin()">⚙ Admin</button>
+
+</div>
+
+</header>
+
+<div id="bracketPage" class="page">
+
+<h2 class="title">MDC SEASON 01</h2>
+
+<p class="subtitle">
+Upper Bracket • Lower Bracket • Grand Final
+</p>
+
+<div class="panel">
+
+<div class="panel-head">
+
+<h2>MDC BRACKET</h2>
+
+<div class="live">LIVE</div>
+
+</div>
+
+<div class="bracket-scroll">
+
+<div class="bracket" id="mdcBracket">
+
+<!-- PART 2 ISI BRACKET -->
+
+</div>
+
+</div>
+
+</div>
+
+<!-- PART 3 PODIUM JUARA -->
+
+</div>
+
+<div id="teamPage" class="page">
+
+<!-- PART 6 TEAM -->
+
+</div>
+
+<div id="adminPanel">
+
+<!-- PART 7 ADMIN -->
+
+</div>
+
+<script>
+
+// PART 8 JAVASCRIPT
+
+</script>
+
+</body>
+</html>
