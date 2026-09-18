@@ -1141,6 +1141,86 @@
         window.addEventListener('resize', drawConnectors);
 
         renderAll();
+        // ==========================================
+// 1. FUNGSI RENDER KARTU MATCH INDIVIDUAL
+// ==========================================
+function renderMatchCardElement(mId) {
+    const cardEl = document.getElementById(`card-${mId}`);
+    if (!cardEl) return;
+
+    // Ambil data match dari appData
+    const mData = appData.matches[mId] || { t1: '', t2: '', s1: 0, s2: 0 };
+    
+    // Cek apakah input t1/t2 terdaftar sebagai tim resmi atau berupa teks bebas (placeholder)
+    const t1Data = appData.teams[mData.t1];
+    const t2Data = appData.teams[mData.t2];
+
+    const isT1Win = mData.s1 > mData.s2 && mData.s1 >= 2;
+    const isT2Win = mData.s2 > mData.s1 && mData.s2 >= 2;
+
+    // Helper untuk menampilkan isi baris tim / teks
+    const renderRowContent = (teamKey, teamObj, score, isWinner) => {
+        if (!teamKey) {
+            return `<span class="team-placeholder-text">TBD</span>`;
+        }
+        
+        // Jika terdaftar di daftar Tim Admin (punya logo)
+        if (teamObj) {
+            return `
+                <div class="team-info-left">
+                    <img src="${teamObj.logo || 'https://via.placeholder.com/20'}" class="team-logo-small" alt="">
+                    <span class="team-code-text">${teamObj.tag || teamKey}</span>
+                </div>
+                <span class="team-score-num">${score}</span>
+            `;
+        } 
+        // Jika diketik teks bebas (seperti "LOSER OF MATCH 1" atau "WINNER OF MATCH 2")
+        else {
+            return `
+                <div class="team-info-left">
+                    <span class="team-placeholder-text" style="font-size: 8.5px; color: #72a2ce;">${teamKey}</span>
+                </div>
+                <span class="team-score-num" style="color: #2c5277;">${score}</span>
+            `;
+        }
+    };
+
+    cardEl.innerHTML = `
+        <div class="match-team-row ${isT1Win ? 'winner' : ''}">
+            ${renderRowContent(mData.t1, t1Data, mData.s1, isT1Win)}
+        </div>
+        <div class="match-team-row ${isT2Win ? 'winner' : ''}">
+            ${renderRowContent(mData.t2, t2Data, mData.s2, isT2Win)}
+        </div>
+    `;
+}
+
+// ==========================================
+// 2. FUNGSI RENDER SELURUH BRACKET
+// ==========================================
+function renderBracket() {
+    const allMatches = [
+        'UB_R1_1', 'UB_R1_2', 'UB_R1_3', 'UB_R1_4',
+        'UB_QF_1', 'UB_QF_2', 'UB_SF', 'UB_F',
+        'LB_R1_1', 'LB_R1_2', 'LB_R2_1', 'LB_R2_2', 'LB_R3', 'LB_F', 'GF_LB'
+    ];
+    
+    allMatches.forEach(mId => {
+        renderMatchCardElement(mId);
+    });
+}
+
+// ==========================================
+// 3. FUNGSI UTAMA RENDER ALL
+// ==========================================
+function renderAll() {
+    renderBracket();
+    
+    // Pastikan pemanggilan konektor SVG tetap jalan
+    if (typeof drawDynamicConnectors === 'function') {
+        setTimeout(drawDynamicConnectors, 100);
+    }
+}
     </script>
 </body>
 </html>
