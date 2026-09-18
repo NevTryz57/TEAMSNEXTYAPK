@@ -986,6 +986,106 @@
         window.addEventListener('resize', drawConnectors);
 
         renderAll();
+        // 1. TAMBAH MATCH / BRACKET BARU SECARA MANUAL
+function addNewMatch() {
+    const matchId = document.getElementById('new-match-id').value.trim().toUpperCase();
+    const source1 = document.getElementById('new-match-src1').value.trim();
+    const source2 = document.getElementById('new-match-src2').value.trim();
+    const roundType = document.getElementById('new-match-round').value; // 'UB' atau 'LB'
+
+    if (!matchId) return alert('Isi ID Match (contoh: UB_R2_1)');
+
+    // Tambah data match ke objek appData
+    appData.matches[matchId] = { t1: "", t2: "", s1: 0, s2: 0, bo: 3 };
+
+    // Buat elemen HTML kotak bracket baru secara otomatis
+    const colId = roundType === 'UB' ? 'ub-dynamic-col' : 'lb-dynamic-col';
+    let targetCol = document.getElementById(colId);
+    
+    if (!targetCol) {
+        targetCol = document.createElement('div');
+        targetCol.className = 'bracket-column';
+        targetCol.id = colId;
+        document.querySelector(`.bracket-row.${roundType.toLowerCase()}`).appendChild(targetCol);
+    }
+
+    const newWrap = document.createElement('div');
+    newWrap.id = `wrap-${matchId}`;
+    targetCol.appendChild(newWrap);
+
+    // Otomatis daftarkan relasi garis SVG jika ada match asal
+    if (source1) appData.connections.push([`wrap-${source1}`, `wrap-${matchId}`]);
+    if (source2) appData.connections.push([`wrap-${source2}`, `wrap-${matchId}`]);
+
+    saveData();
+    alert(`Slot match ${matchId} berhasil ditambahkan!`);
+}
+
+// 2. KUNCI SKOR MAKSIMAL (MAKSIMAL 2 WIN)
+function validateAndSetScore(mId, field, value) {
+    let score = parseInt(value) || 0;
+    
+    // Skor dikunci maksimal 2
+    if (score > 2) {
+        score = 2;
+        alert('Skor maksimal adalah 2!');
+    }
+    if (score < 0) score = 0;
+
+    appData.matches[mId][field] = score;
+    saveData();
+}
+
+// 3. TAMBAH & KELOLA TIM / ROSTER
+function addNewTeam() {
+    const code = document.getElementById('admin-team-code').value.trim().toUpperCase();
+    const name = document.getElementById('admin-team-name').value.trim();
+    const rosterInput = document.getElementById('admin-team-roster').value.trim();
+
+    if (!code || !name) return alert('Kode dan Nama Tim wajib diisi!');
+
+    const rosterList = rosterInput ? rosterInput.split(',').map(r => r.trim()) : [];
+    appData.teams[code] = { name: name, roster: rosterList };
+
+    document.getElementById('admin-team-code').value = '';
+    document.getElementById('admin-team-name').value = '';
+    document.getElementById('admin-team-roster').value = '';
+
+    saveData();
+    alert(`Tim ${name} [${code}] berhasil disimpan!`);
+}
+
+// 4. MENGGAMBAR GARIS AUTOMATIS
+function drawDynamicConnectors() {
+    const svg = document.getElementById('bracket-svg');
+    if (!svg || !appData.connections) return;
+    
+    svg.innerHTML = '';
+    const treeRect = document.getElementById('bracket-tree').getBoundingClientRect();
+
+    appData.connections.forEach(([sId, eId]) => {
+        const el1 = document.getElementById(sId);
+        const el2 = document.getElementById(eId);
+        if (!el1 || !el2) return;
+
+        const r1 = el1.getBoundingClientRect();
+        const r2 = el2.getBoundingClientRect();
+
+        const x1 = r1.right - treeRect.left;
+        const y1 = r1.top + r1.height / 2 - treeRect.top;
+        const x2 = r2.left - treeRect.left;
+        const y2 = r2.top + r2.height / 2 - treeRect.top;
+
+        const midX = x1 + (x2 - x1) / 2;
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', `M ${x1} ${y1} L ${midX} ${y1} L ${midX} ${y2} L ${x2} ${y2}`);
+        path.setAttribute('class', 'bracket-line');
+        svg.appendChild(path);
+    });
+}
+    document.addEventListener('DOMContentLoaded', drawDynamicConnectors);
+    window.addEventListener('resize', drawDynamicConnectors);
+</script>
     </script>
 </body>
 </html>
