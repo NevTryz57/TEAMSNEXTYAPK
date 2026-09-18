@@ -72,6 +72,7 @@
             height: 34px;
             filter: drop-shadow(0 0 8px var(--cyan-glow));
             border-radius: 50%;
+            object-fit: cover;
         }
 
         .nav-tabs {
@@ -146,6 +147,25 @@
             0% { opacity: 1; }
             50% { opacity: 0.5; }
             100% { opacity: 1; }
+        }
+
+        .live-btn {
+            display: inline-block;
+            background: #00ff66;
+            color: #000;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 0.8rem;
+            text-decoration: none;
+            margin-left: 10px;
+            box-shadow: 0 0 10px rgba(0, 255, 102, 0.5);
+            transition: all 0.3s;
+        }
+
+        .live-btn:hover {
+            background: #fff;
+            box-shadow: 0 0 15px #fff;
         }
 
         .bracket-header-tools {
@@ -341,7 +361,6 @@
             filter: drop-shadow(0 0 6px var(--cyan-glow));
         }
 
-        /* TROPHY CONTAINER GACOR */
         .trophy-section {
             display: flex;
             flex-direction: column;
@@ -447,6 +466,12 @@
             box-shadow: 0 0 10px rgba(255, 0, 85, 0.4);
         }
 
+        .btn-warning {
+            background: #ffaa00;
+            color: #000;
+            box-shadow: 0 0 10px rgba(255, 170, 0, 0.4);
+        }
+
         .team-card-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -467,6 +492,7 @@
             border-radius: 50%;
             margin-bottom: 10px;
             border: 2px solid var(--cyan-glow);
+            object-fit: cover;
         }
     </style>
 </head>
@@ -486,7 +512,10 @@
 
     <div class="hero" id="hero-banner">
         <div>
-            <span class="status-badge" id="banner-status">● LIVE MATCH</span>
+            <div>
+                <span class="status-badge" id="banner-status">● LIVE MATCH</span>
+                <a id="banner-live-btn" href="#" target="_blank" class="live-btn" style="display:none;">▶ TONTON LIVE</a>
+            </div>
             <h1 class="hero-title" id="banner-season">SEASON 01 CHAMPIONSHIP</h1>
             <p style="color: var(--text-muted)" id="banner-sub">Mobile Legends Dormitory Champions</p>
         </div>
@@ -560,7 +589,7 @@
                     </div>
                 </div>
 
-                <!-- TROPHY GACOR DI DEPAN FINAL -->
+                <!-- TROPHY GACOR -->
                 <div class="bracket-column" style="justify-content: center; align-items: center;" id="col-trophy">
                     <div class="column-header" style="color: var(--gold-glow); border-color: var(--gold-glow); background: rgba(255,215,0,0.1);">CHAMPION</div>
                     <div class="trophy-section" id="trophy-container">
@@ -617,17 +646,24 @@
         <div id="admin-login-box">
             <p style="margin-bottom: 12px; color: var(--text-muted);">Masukkan PIN Admin untuk mengedit data turnamen:</p>
             <div style="display: flex; gap: 10px; max-width: 400px;">
-                <input type="password" id="admin-pin-input" class="form-control" placeholder="Gak usah sok tau">
+                <input type="password" id="admin-pin-input" class="form-control" placeholder="PIN Admin (012570)">
                 <button class="btn" onclick="authenticateAdmin()">Login</button>
             </div>
         </div>
 
         <div id="admin-controls-box" style="display: none;">
-            <p style="color: #00f0ff; font-weight: bold; margin-bottom: 20px;">✓ Akses Admin Aktif. Semua perubahan disimpan otomatis!</p>
+            <p style="color: #00f0ff; font-weight: bold; margin-bottom: 20px;">✓ Akses Admin Aktif. Kontrol Penuh Turnamen Diaktifkan!</p>
 
-            <!-- TAMBAH TIM OTOMATIS -->
+            <!-- RESET SKOR CEPAT -->
+            <div style="background: rgba(255,170,0,0.1); padding: 16px; border-radius: 8px; margin-bottom: 20px; border: 1px solid rgba(255,170,0,0.3);">
+                <h3 style="font-family: 'Orbitron'; font-size: 1rem; color: #ffaa00; margin-bottom: 8px;">⚡ PINTASAN RESET SKOR</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">Mengosongkan seluruh skor pertandingan ke 0-0 secara instan tanpa menghapus data tim.</p>
+                <button class="btn btn-warning" onclick="resetAllScoresOnly()">Kosongkan Semua Skor (0-0)</button>
+            </div>
+
+            <!-- TAMBAH TIM BARU DENGAN UPLOAD FILE -->
             <div style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; margin-bottom: 20px; border: 1px solid rgba(0,240,255,0.2);">
-                <h3 style="font-family: 'Orbitron'; font-size: 1rem; color: var(--cyan-glow); margin-bottom: 12px;">+ TAMBAH TIM BARU (OTOMATIS MASUK BRACKET & ROSTER)</h3>
+                <h3 style="font-family: 'Orbitron'; font-size: 1rem; color: var(--cyan-glow); margin-bottom: 12px;">+ TAMBAH TIM BARU & UPLOAD LOGO DARI ALBUM</h3>
                 <div class="grid-2">
                     <div class="form-group">
                         <label>Nama Tim</label>
@@ -638,8 +674,8 @@
                         <input type="text" id="new-team-tag" class="form-control" placeholder="Contoh: EVOS">
                     </div>
                     <div class="form-group">
-                        <label>URL Logo Tim</label>
-                        <input type="text" id="new-team-logo" class="form-control" placeholder="https://...">
+                        <label>Pilih Logo Tim (File / Album HP / Laptop)</label>
+                        <input type="file" id="new-team-file" class="form-control" accept="image/*">
                     </div>
                     <div class="form-group">
                         <label>Nama Kapten</label>
@@ -650,32 +686,39 @@
                     <label>Daftar Roster Pemain (Pisahkan dengan koma)</label>
                     <input type="text" id="new-team-players" class="form-control" placeholder="Player1, Player2, Player3, Player4, Player5">
                 </div>
-                <button class="btn" onclick="addNewTeam()">Tambah Tim Sekarang</button>
+                <button class="btn" onclick="addNewTeamWithUpload()">Tambah Tim Sekarang</button>
             </div>
 
+            <!-- EDIT BANNER & LINK LIVE -->
             <div style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; margin-bottom: 20px; border: 1px solid rgba(0,240,255,0.2);">
-                <h3 style="font-family: 'Orbitron'; font-size: 1rem; color: var(--cyan-glow); margin-bottom: 12px;">EDIT HERO BANNER & INFORMASI</h3>
+                <h3 style="font-family: 'Orbitron'; font-size: 1rem; color: var(--cyan-glow); margin-bottom: 12px;">EDIT HERO BANNER & LIVE STREAMING</h3>
                 <div class="grid-2">
                     <div class="form-group">
                         <label>Judul Season / Banner</label>
                         <input type="text" id="edit-season-title" class="form-control" onchange="updateBannerInfo()">
                     </div>
                     <div class="form-group">
-                        <label>Status Match</label>
+                        <label>Status Match (Badge Atas)</label>
                         <input type="text" id="edit-status-badge" class="form-control" onchange="updateBannerInfo()">
                     </div>
                     <div class="form-group">
                         <label>Total Hadiah</label>
                         <input type="text" id="edit-prize-pool" class="form-control" onchange="updateBannerInfo()">
                     </div>
+                    <div class="form-group">
+                        <label>URL Link Live Streaming (YouTube/TikTok Live)</label>
+                        <input type="text" id="edit-live-url" class="form-control" placeholder="https://youtube.com/live/..." onchange="updateBannerInfo()">
+                    </div>
                 </div>
             </div>
 
+            <!-- EDIT TIM & LOGO -->
             <div style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; margin-bottom: 20px; border: 1px solid rgba(0,240,255,0.2);">
-                <h3 style="font-family: 'Orbitron'; font-size: 1rem; color: var(--cyan-glow); margin-bottom: 12px;">EDIT NAMA & LOGO TIM</h3>
+                <h3 style="font-family: 'Orbitron'; font-size: 1rem; color: var(--cyan-glow); margin-bottom: 12px;">EDIT NAMA & UPLOAD LOGO TIM</h3>
                 <div class="grid-2" id="admin-teams-list"></div>
             </div>
 
+            <!-- EDIT MATCH & SKOR -->
             <div style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; margin-bottom: 20px; border: 1px solid rgba(0,240,255,0.2);">
                 <h3 style="font-family: 'Orbitron'; font-size: 1rem; color: var(--cyan-glow); margin-bottom: 12px;">EDIT SKOR, TIM & JADWAL MATCH</h3>
                 <div class="grid-2" id="admin-matches-list"></div>
@@ -698,7 +741,8 @@
                 season: "SEASON 01 CHAMPIONSHIP",
                 sub: "Mobile Legends Dormitory Champions",
                 status: "● LIVE MATCH",
-                prize: "Rp 5.000.000"
+                prize: "Rp 5.000.000",
+                liveUrl: ""
             },
             teams: [
                 { id: "T1", tag: "AE", name: "Alter Ego", logo: "https://via.placeholder.com/40/00f0ff/ffffff?text=AE", captain: "Pai", players: ["Nino", "Celiboy", "Udil", "Pai", "LeoMurphy"] },
@@ -730,12 +774,12 @@
         let currentZoom = 1;
 
         function loadData() {
-            const saved = localStorage.getItem('MDC_TOURNAMENT_FULL_DATA_V3');
+            const saved = localStorage.getItem('MDC_TOURNAMENT_FULL_DATA_V5');
             return saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_DATA));
         }
 
         function saveData() {
-            localStorage.setItem('MDC_TOURNAMENT_FULL_DATA_V3', JSON.stringify(appData));
+            localStorage.setItem('MDC_TOURNAMENT_FULL_DATA_V5', JSON.stringify(appData));
             renderAll();
         }
 
@@ -763,6 +807,14 @@
             document.getElementById('banner-sub').innerText = appData.banner.sub;
             document.getElementById('banner-status').innerText = appData.banner.status;
             document.getElementById('banner-prize').innerText = appData.banner.prize;
+
+            const liveBtn = document.getElementById('banner-live-btn');
+            if (appData.banner.liveUrl && appData.banner.liveUrl.trim() !== '') {
+                liveBtn.href = appData.banner.liveUrl;
+                liveBtn.style.display = 'inline-block';
+            } else {
+                liveBtn.style.display = 'none';
+            }
         }
 
         function autoCalculateBracketProgression() {
@@ -784,8 +836,6 @@
                 return null;
             };
 
-            // LOWER BRACKET 2-1-1 AUTOMATION
-            // LB3 mempertemukan pemenang LB1 dan LB2
             if (m.LB3) {
                 const wLB1 = getWinner('LB1');
                 if (wLB1) m.LB3.teamA = wLB1;
@@ -793,7 +843,6 @@
                 if (wLB2) m.LB3.teamB = wLB2;
             }
 
-            // LB5 mempertemukan pemenang LB3 melawan tim yang KALAH di Semi Final Upper (M6_LOSER atau M5_LOSER)
             if (m.LB5) {
                 const wLB3 = getWinner('LB3');
                 if (wLB3) m.LB5.teamA = wLB3;
@@ -801,7 +850,6 @@
                 if (loserSemi) m.LB5.teamB = loserSemi;
             }
 
-            // Grand Final mempertemukan pemenang Upper Final (M7) melawan pemenang Lower Final (LB5)
             if (m.M9) {
                 const winnerM7 = getWinner('M7');
                 if (winnerM7) m.M9.teamA = winnerM7;
@@ -809,7 +857,6 @@
                 if (winnerLB5) m.M9.teamB = winnerLB5;
             }
 
-            // Pemenang Grand Final masuk Trofi Gacor
             const grandChampion = getWinner('M9');
             const trophyDisplay = document.getElementById('trophy-winner-display');
             if (grandChampion) {
@@ -938,56 +985,101 @@
             }
         }
 
-        function addNewTeam() {
+        // Kompres gambar lokal otomatis ke Base64 via Canvas
+        function processImageFile(fileInput, callback) {
+            if (!fileInput.files || fileInput.files.length === 0) {
+                callback(null);
+                return;
+            }
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const MAX_WIDTH = 120;
+                    const MAX_HEIGHT = 120;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    const dataUrl = canvas.toDataURL('image/png', 0.8);
+                    callback(dataUrl);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function addNewTeamWithUpload() {
             const name = document.getElementById('new-team-name').value.trim();
             const tag = document.getElementById('new-team-tag').value.trim().toUpperCase();
-            let logo = document.getElementById('new-team-logo').value.trim();
             const captain = document.getElementById('new-team-captain').value.trim();
             const playersStr = document.getElementById('new-team-players').value.trim();
+            const fileInput = document.getElementById('new-team-file');
 
             if (!name || !tag) {
                 alert('Nama dan Tag tim wajib diisi!');
                 return;
             }
 
-            if (!logo) {
-                logo = `https://via.placeholder.com/40/00f0ff/ffffff?text=${tag}`;
-            }
+            processImageFile(fileInput, (logoBase64) => {
+                const logo = logoBase64 || `https://via.placeholder.com/40/00f0ff/ffffff?text=${tag}`;
+                const players = playersStr ? playersStr.split(',').map(p => p.trim()) : [captain || 'Captain'];
+                const newId = `T${appData.teams.length + 1}`;
 
-            const players = playersStr ? playersStr.split(',').map(p => p.trim()) : [captain];
-            const newId = `T${appData.teams.length + 1}`;
+                appData.teams.push({
+                    id: newId,
+                    tag: tag,
+                    name: name,
+                    logo: logo,
+                    captain: captain || 'Captain',
+                    players: players
+                });
 
-            appData.teams.push({
-                id: newId,
-                tag: tag,
-                name: name,
-                logo: logo,
-                captain: captain || 'Captain',
-                players: players
+                document.getElementById('new-team-name').value = '';
+                document.getElementById('new-team-tag').value = '';
+                document.getElementById('new-team-captain').value = '';
+                document.getElementById('new-team-players').value = '';
+                document.getElementById('new-team-file').value = '';
+
+                saveData();
+                alert(`Tim ${name} (${tag}) berhasil ditambahkan dengan logo dari album!`);
             });
-
-            document.getElementById('new-team-name').value = '';
-            document.getElementById('new-team-tag').value = '';
-            document.getElementById('new-team-logo').value = '';
-            document.getElementById('new-team-captain').value = '';
-            document.getElementById('new-team-players').value = '';
-
-            saveData();
-            alert(`Tim ${name} (${tag}) berhasil ditambahkan dan otomatis terhubung ke bracket serta roster!`);
         }
 
         function renderAdminInputs() {
             document.getElementById('edit-season-title').value = appData.banner.season;
             document.getElementById('edit-status-badge').value = appData.banner.status;
             document.getElementById('edit-prize-pool').value = appData.banner.prize;
+            document.getElementById('edit-live-url').value = appData.banner.liveUrl || '';
 
             const teamsBox = document.getElementById('admin-teams-list');
             teamsBox.innerHTML = appData.teams.map((t, idx) => `
-                <div style="background:rgba(0,0,0,0.4); padding:10px; border-radius:6px; border:1px solid rgba(255,255,255,0.1);">
-                    <label style="color:var(--cyan-glow);">Tim #${idx+1} (${t.id})</label>
-                    <input type="text" value="${t.name}" class="form-control" style="margin-bottom:6px;" onchange="updateTeamData('${t.id}', 'name', this.value)">
-                    <input type="text" value="${t.tag}" class="form-control" style="margin-bottom:6px;" onchange="updateTeamData('${t.id}', 'tag', this.value)">
-                    <input type="text" value="${t.logo}" class="form-control" placeholder="URL Logo" onchange="updateTeamData('${t.id}', 'logo', this.value)">
+                <div style="background:rgba(0,0,0,0.4); padding:10px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); margin-bottom:10px;">
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+                        <img src="${t.logo}" style="width:24px; height:24px; border-radius:50%; object-fit:cover;">
+                        <label style="color:var(--cyan-glow); font-weight:bold;">Tim #${idx+1} (${t.id})</label>
+                    </div>
+                    <input type="text" value="${t.name}" class="form-control" style="margin-bottom:6px;" onchange="updateTeamData('${t.id}', 'name', this.value)" placeholder="Nama Tim">
+                    <input type="text" value="${t.tag}" class="form-control" style="margin-bottom:6px;" onchange="updateTeamData('${t.id}', 'tag', this.value)" placeholder="Tag Tim">
+                    <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px;">Ganti Logo dari Album HP/Laptop:</div>
+                    <input type="file" class="form-control" accept="image/*" onchange="updateTeamLogoFile('${t.id}', this)">
                 </div>
             `).join('');
 
@@ -1011,10 +1103,24 @@
             }).join('');
         }
 
+        function updateTeamLogoFile(id, fileInput) {
+            processImageFile(fileInput, (logoBase64) => {
+                if (logoBase64) {
+                    const team = appData.teams.find(t => t.id === id);
+                    if (team) {
+                        team.logo = logoBase64;
+                        saveData();
+                        alert('Logo tim berhasil diperbarui dari file/album!');
+                    }
+                }
+            });
+        }
+
         function updateBannerInfo() {
             appData.banner.season = document.getElementById('edit-season-title').value;
             appData.banner.status = document.getElementById('edit-status-badge').value;
             appData.banner.prize = document.getElementById('edit-prize-pool').value;
+            appData.banner.liveUrl = document.getElementById('edit-live-url').value;
             saveData();
         }
 
@@ -1027,6 +1133,17 @@
         function updateMatchData(id, field, value) {
             if (appData.matches[id]) appData.matches[id][field] = value;
             saveData();
+        }
+
+        function resetAllScoresOnly() {
+            if (confirm('Yakin ingin mengosongkan seluruh skor pertandingan menjadi 0-0?')) {
+                Object.keys(appData.matches).forEach(mId => {
+                    appData.matches[mId].scoreA = 0;
+                    appData.matches[mId].scoreB = 0;
+                });
+                saveData();
+                alert('Semua skor pertandingan berhasil dikosongkan!');
+            }
         }
 
         function exportTournamentJSON() {
@@ -1048,7 +1165,7 @@
         }
 
         function resetTournamentData() {
-            if (confirm('Yakin ingin mereset seluruh data turnamen?')) {
+            if (confirm('Yakin ingin mereset seluruh data turnamen ke semula?')) {
                 appData = JSON.parse(JSON.stringify(DEFAULT_DATA));
                 saveData();
             }
