@@ -286,11 +286,6 @@
             transition: all 0.3s;
         }
 
-        .match-card:hover {
-            border-color: var(--cyan-glow);
-            box-shadow: 0 0 20px var(--cyan-glow);
-        }
-
         .team-row {
             display: flex;
             justify-content: space-between;
@@ -602,33 +597,41 @@
                 </div>
             </div>
 
-            <!-- LOWER BRACKET (2-1-1 / 4 Tim - 2 Tim - 2 Tim) -->
+            <!-- LOWER BRACKET BARU (FORMASI 3 - 2 - 1) -->
             <div class="bracket-row" style="margin-top: 40px;" id="lower-bracket-row">
                 <div class="bracket-column" id="col-lower-1">
-                    <div class="column-header">LOWER ROUND 1 (4 Tim)</div>
+                    <div class="column-header">LOWER ROUND 1 (6 Tim)</div>
                     <div class="match-card-wrap" id="wrap-LB1">
-                        <div class="match-schedule" id="sch-LB1">22 JAN - 16:00</div>
+                        <div class="match-schedule" id="sch-LB1">22 JAN - 14:00</div>
                         <div class="match-card" id="card-LB1"></div>
                     </div>
                     <div class="match-card-wrap" id="wrap-LB2">
-                        <div class="match-schedule" id="sch-LB2">22 JAN - 19:00</div>
+                        <div class="match-schedule" id="sch-LB2">22 JAN - 16:00</div>
                         <div class="match-card" id="card-LB2"></div>
+                    </div>
+                    <div class="match-card-wrap" id="wrap-LB3">
+                        <div class="match-schedule" id="sch-LB3">22 JAN - 18:00</div>
+                        <div class="match-card" id="card-LB3"></div>
                     </div>
                 </div>
 
                 <div class="bracket-column" id="col-lower-2">
-                    <div class="column-header">LOWER SEMI (2 Tim)</div>
-                    <div class="match-card-wrap" id="wrap-LB3">
-                        <div class="match-schedule" id="sch-LB3">23 JAN - 16:00</div>
-                        <div class="match-card" id="card-LB3"></div>
+                    <div class="column-header">LOWER ROUND 2 (4 Tim)</div>
+                    <div class="match-card-wrap" id="wrap-LB4">
+                        <div class="match-schedule" id="sch-LB4">23 JAN - 16:00</div>
+                        <div class="match-card" id="card-LB4"></div>
+                    </div>
+                    <div class="match-card-wrap" id="wrap-LB5">
+                        <div class="match-schedule" id="sch-LB5">23 JAN - 19:00</div>
+                        <div class="match-card" id="card-LB5"></div>
                     </div>
                 </div>
 
                 <div class="bracket-column" id="col-lower-3">
                     <div class="column-header">LOWER FINAL (2 Tim)</div>
-                    <div class="match-card-wrap" id="wrap-LB5">
-                        <div class="match-schedule" id="sch-LB5">24 JAN - 16:00</div>
-                        <div class="match-card" id="card-LB5"></div>
+                    <div class="match-card-wrap" id="wrap-LB6">
+                        <div class="match-schedule" id="sch-LB6">24 JAN - 16:00</div>
+                        <div class="match-card" id="card-LB6"></div>
                     </div>
                 </div>
             </div>
@@ -755,18 +758,21 @@
                 { id: "T8", tag: "YG", name: "Yangon Galacticos", logo: "https://via.placeholder.com/40/00f0ff/ffffff?text=YG", captain: "Puma", players: ["Kual", "Puma", "Zenith", "Silent", "Slayer"] }
             ],
             matches: {
-                M1: { teamA: "T1", teamB: "T2", scoreA: 2, scoreB: 0, date: "18 JAN - 14:00" },
-                M2: { teamA: "T3", teamB: "T4", scoreA: 1, scoreB: 2, date: "18 JAN - 15:30" },
-                M3: { teamA: "T5", teamB: "T6", scoreA: 2, scoreB: 0, date: "18 JAN - 17:00" },
-                M4: { teamA: "T7", teamB: "T8", scoreA: 2, scoreB: 0, date: "18 JAN - 19:00" },
-                M5: { teamA: "T1", teamB: "T4", scoreA: 2, scoreB: 0, date: "21 JAN - 16:00" },
-                M6: { teamA: "T5", teamB: "T7", scoreA: 0, scoreB: 2, date: "21 JAN - 18:00" },
-                M7: { teamA: "T1", teamB: "T7", scoreA: 2, scoreB: 1, date: "24 JAN - 19:00" },
-                M9: { teamA: "T1", teamB: "LB5", scoreA: 0, scoreB: 0, date: "25 JAN - 19:00" },
-                LB1: { teamA: "T2", teamB: "T3", scoreA: 2, scoreB: 0, date: "22 JAN - 16:00" },
-                LB2: { teamA: "T6", teamB: "T8", scoreA: 0, scoreB: 2, date: "22 JAN - 19:00" },
-                LB3: { teamA: "LB1_WINNER", teamB: "LB2_WINNER", scoreA: 0, scoreB: 0, date: "23 JAN - 16:00" },
-                LB5: { teamA: "LB3_WINNER", teamB: "M6_LOSER", scoreA: 0, scoreB: 0, date: "24 JAN - 16:00" }
+                M1: { name: "Upper Round 1 - Match 1", teamA: "T1", teamB: "T2", scoreA: 2, scoreB: 0, date: "18 JAN - 14:00" },
+                M2: { name: "Upper Round 1 - Match 2", teamA: "T3", teamB: "T4", scoreA: 1, scoreB: 2, date: "18 JAN - 15:30" },
+                M3: { name: "Upper Round 1 - Match 3", teamA: "T5", teamB: "T6", scoreA: 2, scoreB: 0, date: "18 JAN - 17:00" },
+                M4: { name: "Upper Round 1 - Match 4", teamA: "T7", teamB: "T8", scoreA: 2, scoreB: 0, date: "18 JAN - 19:00" },
+                M5: { name: "Upper Semi Final - Match 1", teamA: "T1", teamB: "T4", scoreA: 2, scoreB: 0, date: "21 JAN - 16:00" },
+                M6: { name: "Upper Semi Final - Match 2", teamA: "T5", teamB: "T7", scoreA: 0, scoreB: 2, date: "21 JAN - 18:00" },
+                M7: { name: "Upper Final", teamA: "T1", teamB: "T7", scoreA: 2, scoreB: 1, date: "24 JAN - 19:00" },
+                M9: { name: "Grand Final", teamA: "T1", teamB: "LB6", scoreA: 0, scoreB: 0, date: "25 JAN - 19:00" },
+                
+                LB1: { name: "Lower Round 1 - Match 1", teamA: "M1_LOSER", teamB: "M2_LOSER", scoreA: 0, scoreB: 0, date: "22 JAN - 14:00" },
+                LB2: { name: "Lower Round 1 - Match 2", teamA: "M3_LOSER", teamB: "M4_LOSER", scoreA: 0, scoreB: 0, date: "22 JAN - 16:00" },
+                LB3: { name: "Lower Round 1 - Match 3", teamA: "T2", teamB: "T3", scoreA: 0, scoreB: 0, date: "22 JAN - 18:00" },
+                LB4: { name: "Lower Round 2 - Match 1", teamA: "LB1_WINNER", teamB: "LB2_WINNER", scoreA: 0, scoreB: 0, date: "23 JAN - 16:00" },
+                LB5: { name: "Lower Round 2 - Match 2", teamA: "LB3_WINNER", teamB: "M5_LOSER", scoreA: 0, scoreB: 0, date: "23 JAN - 19:00" },
+                LB6: { name: "Lower Final", teamA: "LB4_WINNER", teamB: "M7_LOSER", scoreA: 0, scoreB: 0, date: "24 JAN - 16:00" }
             }
         };
 
@@ -774,12 +780,12 @@
         let currentZoom = 1;
 
         function loadData() {
-            const saved = localStorage.getItem('MDC_TOURNAMENT_FULL_DATA_V5');
+            const saved = localStorage.getItem('MDC_TOURNAMENT_FULL_DATA_V6');
             return saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_DATA));
         }
 
         function saveData() {
-            localStorage.setItem('MDC_TOURNAMENT_FULL_DATA_V5', JSON.stringify(appData));
+            localStorage.setItem('MDC_TOURNAMENT_FULL_DATA_V6', JSON.stringify(appData));
             renderAll();
         }
 
@@ -836,25 +842,36 @@
                 return null;
             };
 
-            if (m.LB3) {
-                const wLB1 = getWinner('LB1');
-                if (wLB1) m.LB3.teamA = wLB1;
-                const wLB2 = getWinner('LB2');
-                if (wLB2) m.LB3.teamB = wLB2;
+            // Otomatisasi Lower Round 1 (Loser dari Upper R1)
+            if (m.LB1) {
+                const lM1 = getLoser('M1'); if (lM1) m.LB1.teamA = lM1;
+                const lM2 = getLoser('M2'); if (lM2) m.LB1.teamB = lM2;
+            }
+            if (m.LB2) {
+                const lM3 = getLoser('M3'); if (lM3) m.LB2.teamA = lM3;
+                const lM4 = getLoser('M4'); if (lM4) m.LB2.teamB = lM4;
             }
 
+            // Otomatisasi Lower Round 2
+            if (m.LB4) {
+                const wLB1 = getWinner('LB1'); if (wLB1) m.LB4.teamA = wLB1;
+                const wLB2 = getWinner('LB2'); if (wLB2) m.LB4.teamB = wLB2;
+            }
             if (m.LB5) {
-                const wLB3 = getWinner('LB3');
-                if (wLB3) m.LB5.teamA = wLB3;
-                const loserSemi = getLoser('M6') || getLoser('M5');
-                if (loserSemi) m.LB5.teamB = loserSemi;
+                const wLB3 = getWinner('LB3'); if (wLB3) m.LB5.teamA = wLB3;
+                const lM5 = getLoser('M5'); if (lM5) m.LB5.teamB = lM5;
             }
 
+            // Otomatisasi Lower Final (Tim terbawah diisi oleh yang kalah di Final Atas / M7)
+            if (m.LB6) {
+                const wLB4 = getWinner('LB4'); if (wLB4) m.LB6.teamA = wLB4;
+                const lM7 = getLoser('M7'); if (lM7) m.LB6.teamB = lM7; // Loser Upper Final
+            }
+
+            // Grand Final
             if (m.M9) {
-                const winnerM7 = getWinner('M7');
-                if (winnerM7) m.M9.teamA = winnerM7;
-                const winnerLB5 = getWinner('LB5');
-                if (winnerLB5) m.M9.teamB = winnerLB5;
+                const winnerM7 = getWinner('M7'); if (winnerM7) m.M9.teamA = winnerM7;
+                const winnerLB6 = getWinner('LB6'); if (winnerLB6) m.M9.teamB = winnerLB6;
             }
 
             const grandChampion = getWinner('M9');
@@ -946,8 +963,9 @@
                 ['wrap-M3', 'wrap-M6'], ['wrap-M4', 'wrap-M6'],
                 ['wrap-M5', 'wrap-M7'], ['wrap-M6', 'wrap-M7'],
                 ['wrap-M7', 'wrap-M9'],
-                ['wrap-LB1', 'wrap-LB3'], ['wrap-LB2', 'wrap-LB3'],
-                ['wrap-LB3', 'wrap-LB5'], ['wrap-LB5', 'wrap-M9']
+                ['wrap-LB1', 'wrap-LB4'], ['wrap-LB2', 'wrap-LB4'],
+                ['wrap-LB3', 'wrap-LB5'], ['wrap-LB4', 'wrap-LB6'], ['wrap-LB5', 'wrap-LB6'],
+                ['wrap-LB6', 'wrap-M9']
             ];
 
             const treeRect = document.getElementById('bracket-tree').getBoundingClientRect();
@@ -985,7 +1003,6 @@
             }
         }
 
-        // Kompres gambar lokal otomatis ke Base64 via Canvas
         function processImageFile(fileInput, callback) {
             if (!fileInput.files || fileInput.files.length === 0) {
                 callback(null);
@@ -1003,15 +1020,9 @@
                     let height = img.height;
 
                     if (width > height) {
-                        if (width > MAX_WIDTH) {
-                            height *= MAX_WIDTH / width;
-                            width = MAX_WIDTH;
-                        }
+                        if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
                     } else {
-                        if (height > MAX_HEIGHT) {
-                            width *= MAX_HEIGHT / height;
-                            height = MAX_HEIGHT;
-                        }
+                        if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
                     }
 
                     canvas.width = width;
@@ -1088,7 +1099,7 @@
                 const m = appData.matches[mId];
                 return `
                     <div style="background:rgba(0,0,0,0.4); padding:10px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); margin-bottom:10px;">
-                        <label style="color:var(--cyan-glow); font-weight:bold;">Match: ${mId}</label>
+                        <label style="color:var(--cyan-glow); font-weight:bold;">${m.name} (${mId})</label>
                         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:6px; margin:6px 0;">
                             <input type="text" value="${m.teamA}" class="form-control" placeholder="Tim A" onchange="updateMatchData('${mId}', 'teamA', this.value)">
                             <input type="text" value="${m.teamB}" class="form-control" placeholder="Tim B" onchange="updateMatchData('${mId}', 'teamB', this.value)">
