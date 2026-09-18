@@ -2,10 +2,9 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MDC TOURNAMENT - Mobile Legends Champions</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MDC TOURNAMENT MANAGER FULL</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
             --bg-dark: #030712;
@@ -23,9 +22,8 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            user-select: none;
             font-family: 'Rajdhani', sans-serif;
-            -webkit-tap-highlight-color: transparent;
+            user-select: none;
         }
 
         body {
@@ -42,7 +40,6 @@
             background-size: 100% 100%, 25px 25px, 25px 25px;
         }
 
-        /* Top Bar */
         .top-bar {
             background: rgba(8, 16, 29, 0.95);
             backdrop-filter: blur(12px);
@@ -54,25 +51,14 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 20px rgba(0, 240, 255, 0.1);
         }
 
         .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
             font-family: 'Orbitron', sans-serif;
             font-weight: 900;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: #fff;
             text-shadow: 0 0 10px var(--cyan-glow);
-        }
-
-        .brand img {
-            width: 34px;
-            height: 34px;
-            filter: drop-shadow(0 0 8px var(--cyan-glow));
-            border-radius: 50%;
         }
 
         .nav-tabs {
@@ -93,7 +79,6 @@
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 0.9rem;
         }
 
         .tab-btn.active, .tab-btn:hover {
@@ -102,89 +87,29 @@
             box-shadow: 0 0 15px var(--cyan-glow);
         }
 
-        /* Hero Banner */
         .hero {
-            position: relative;
             margin: 16px auto;
             width: 95%;
-            max-width: 1400px;
-            background: linear-gradient(135deg, rgba(8, 16, 29, 0.95), rgba(0, 240, 255, 0.15)), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
+            max-width: 1600px;
+            background: linear-gradient(135deg, rgba(8, 16, 29, 0.95), rgba(0, 240, 255, 0.15));
             border-radius: 12px;
             padding: 24px 30px;
             border: 1px solid var(--border-glow);
-            box-shadow: 0 0 25px rgba(0, 240, 255, 0.15);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 20px;
         }
 
         .hero-title {
             font-family: 'Orbitron', sans-serif;
             font-size: 1.8rem;
-            font-weight: 900;
             color: #fff;
             text-shadow: 0 0 15px var(--cyan-glow);
-            letter-spacing: 1px;
         }
 
-        .status-badge {
-            display: inline-block;
-            background: #ff0055;
-            color: white;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 800;
-            letter-spacing: 1px;
-            animation: pulse 1.5s infinite;
-            margin-bottom: 8px;
-            box-shadow: 0 0 10px rgba(255, 0, 85, 0.5);
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-
-        .bracket-header-tools {
-            width: 95%;
-            max-width: 1400px;
-            margin: 0 auto 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        .zoom-btns {
-            display: flex;
-            gap: 8px;
-        }
-
-        .zoom-btn {
-            background: rgba(8, 16, 29, 0.8);
-            border: 1px solid var(--border-glow);
-            color: var(--cyan-glow);
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 8px rgba(0, 240, 255, 0.2);
-        }
-
-        /* Bracket View Area */
         .bracket-viewport {
             width: 95%;
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto 30px;
             overflow: auto;
             background: rgba(3, 7, 18, 0.95);
@@ -192,49 +117,19 @@
             border-radius: 12px;
             padding: 40px;
             position: relative;
-            cursor: grab;
-            box-shadow: inset 0 0 35px rgba(0, 240, 255, 0.08);
-        }
-
-        .bracket-viewport:active {
-            cursor: grabbing;
         }
 
         .bracket-tree {
             display: flex;
             flex-direction: column;
             gap: 40px;
-            min-width: 1400px;
+            min-width: 1600px;
             position: relative;
-            transform-origin: 0 0;
-            transition: transform 0.2s ease;
-        }
-
-        .bracket-section-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.9rem;
-            color: var(--cyan-glow);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            text-shadow: 0 0 10px var(--cyan-glow);
-        }
-
-        .bracket-section-title::before, .bracket-section-title::after {
-            content: '';
-            height: 1px;
-            background: var(--cyan-glow);
-            flex-grow: 1;
-            opacity: 0.4;
-            box-shadow: 0 0 8px var(--cyan-glow);
         }
 
         .bracket-row {
             display: flex;
-            gap: 70px;
+            gap: 60px;
             position: relative;
             align-items: center;
         }
@@ -243,8 +138,8 @@
             display: flex;
             flex-direction: column;
             justify-content: space-around;
-            width: 200px;
-            gap: 30px;
+            width: 210px;
+            gap: 20px;
             z-index: 2;
         }
 
@@ -254,46 +149,18 @@
             color: #fff;
             background: rgba(0, 240, 255, 0.12);
             border: 1px solid var(--border-glow);
-            padding: 6px 12px;
+            padding: 6px;
             border-radius: 20px;
             text-align: center;
             margin-bottom: 10px;
-            letter-spacing: 1px;
-            box-shadow: 0 0 10px rgba(0, 240, 255, 0.15);
-        }
-
-        .match-card-wrap {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .match-schedule {
-            font-size: 0.7rem;
-            color: var(--cyan-glow);
-            font-weight: 700;
-            text-align: center;
-            background: rgba(0, 240, 255, 0.08);
-            padding: 2px 6px;
-            border-radius: 4px;
-            border: 1px solid rgba(0, 240, 255, 0.2);
-            letter-spacing: 0.5px;
-            text-shadow: 0 0 5px var(--cyan-glow);
         }
 
         .match-card {
             background: var(--bg-card);
             border: 1px solid var(--border-glow);
             border-radius: 8px;
-            padding: 8px;
-            position: relative;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.8), 0 0 12px rgba(0, 240, 255, 0.1);
-            transition: all 0.3s;
-        }
-
-        .match-card:hover {
-            border-color: var(--cyan-glow);
-            box-shadow: 0 0 20px var(--cyan-glow);
+            padding: 6px;
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
         }
 
         .team-row {
@@ -304,108 +171,33 @@
             border-radius: 4px;
             margin: 2px 0;
             background: rgba(0,0,0,0.5);
-            transition: all 0.3s;
+            font-weight: 700;
+            font-size: 0.85rem;
         }
 
         .team-row.winner {
             background: rgba(0, 240, 255, 0.2);
             border-left: 3px solid var(--cyan-glow);
-            box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.2);
-        }
-
-        .team-row.loser {
-            opacity: 0.35;
-            filter: grayscale(80%);
-        }
-
-        .team-info {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 700;
-            font-size: 0.85rem;
-        }
-
-        .team-logo {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            background: #111;
-            object-fit: cover;
-            border: 1px solid rgba(0, 240, 255, 0.4);
         }
 
         .score {
             font-family: 'Orbitron', sans-serif;
-            font-weight: 800;
-            font-size: 0.9rem;
             color: var(--cyan-glow);
-            text-shadow: 0 0 8px var(--cyan-glow);
         }
 
-        /* Champion Trophy Node */
-        .trophy-node {
+        .trophy-box {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: radial-gradient(circle, rgba(0, 240, 255, 0.2) 0%, rgba(8, 16, 29, 0.95) 75%);
+            background: radial-gradient(circle, rgba(0,240,255,0.2) 0%, rgba(8,16,29,0.9) 80%);
             border: 2px solid var(--cyan-glow);
-            border-radius: 16px;
+            border-radius: 12px;
             padding: 20px;
-            box-shadow: 0 0 40px rgba(0, 240, 255, 0.4);
-            text-align: center;
-            width: 240px;
-            align-self: center;
-            margin-left: 30px;
-            position: relative;
+            box-shadow: 0 0 30px rgba(0,240,255,0.3);
+            width: 220px;
         }
 
-        .trophy-icon {
-            font-size: 3rem;
-            filter: drop-shadow(0 0 15px var(--gold-glow));
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-
-        .trophy-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 900;
-            color: var(--gold-glow);
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
-            margin: 6px 0;
-        }
-
-        .winner-box {
-            width: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 8px;
-            padding: 8px;
-            margin-top: 6px;
-            border: 1px solid rgba(255, 215, 0, 0.4);
-        }
-
-        .winner-rank {
-            font-size: 0.7rem;
-            font-weight: 800;
-            color: var(--cyan-glow);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .winner-team-name {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1rem;
-            font-weight: 800;
-            color: #fff;
-        }
-
-        /* SVG Dynamic Lines */
         .bracket-svg {
             position: absolute;
             top: 0;
@@ -420,15 +212,13 @@
             fill: none;
             stroke: var(--cyan-glow);
             stroke-width: 2;
-            stroke-opacity: 0.85;
-            filter: drop-shadow(0 0 6px var(--cyan-glow));
+            filter: drop-shadow(0 0 4px var(--cyan-glow));
         }
 
-        /* Panels */
         .content-panel {
             display: none;
             width: 95%;
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto 30px;
             background: var(--bg-card);
             border: 1px solid var(--border-glow);
@@ -436,103 +226,58 @@
             padding: 24px;
         }
 
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 14px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 6px;
-            font-weight: 700;
-        }
-
         .form-control {
             width: 100%;
-            padding: 10px;
+            padding: 8px 12px;
             background: rgba(0,0,0,0.5);
             border: 1px solid var(--border-glow);
             border-radius: 6px;
             color: #fff;
-            font-size: 0.9rem;
+            margin-bottom: 10px;
         }
 
         .btn {
             background: var(--blue-accent);
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 8px 16px;
             border-radius: 6px;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
-            transition: all 0.3s;
+            margin-top: 5px;
         }
 
-        .btn:hover {
-            background: var(--cyan-glow);
-            color: #000;
-            box-shadow: 0 0 20px var(--cyan-glow);
-        }
-
-        .btn-danger {
-            background: #ff0055;
-            box-shadow: 0 0 10px rgba(255, 0, 85, 0.4);
-        }
-
-        .team-card-grid {
+        .admin-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
         }
 
-        .team-profile-card {
-            background: rgba(0,0,0,0.4);
+        .roster-tag {
+            display: inline-block;
+            background: rgba(0,240,255,0.15);
             border: 1px solid var(--border-glow);
-            border-radius: 8px;
-            padding: 16px;
-            text-align: center;
-        }
-
-        .team-profile-logo {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            margin-bottom: 10px;
-            border: 2px solid var(--cyan-glow);
-        }
-
-        @media (max-width: 768px) {
-            .top-bar { flex-direction: column; gap: 10px; }
-            .hero { flex-direction: column; text-align: center; }
-            .bracket-viewport { padding: 20px; }
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            margin: 2px;
         }
     </style>
 </head>
 <body>
 
     <div class="top-bar">
-        <div class="brand">
-            <img id="brand-logo-img" src="https://via.placeholder.com/40/00f0ff/ffffff?text=MDC" alt="MDC Logo">
-            <span id="brand-title-text">MDC TOURNAMENT</span>
-        </div>
+        <div class="brand">MDC TOURNAMENT</div>
         <div class="nav-tabs">
             <button class="tab-btn active" onclick="switchTab('bracket')">Bracket</button>
-            <button class="tab-btn" onclick="switchTab('teams')">Tim & Roster</button>
-            <button class="tab-btn" onclick="switchTab('admin')">Admin PIN</button>
+            <button class="tab-btn" onclick="switchTab('roster')">Roster Tim</button>
+            <button class="tab-btn" onclick="switchTab('admin')">Panel Admin</button>
         </div>
     </div>
 
-    <div class="hero" id="hero-banner">
+    <div class="hero">
         <div>
-            <span class="status-badge" id="banner-status">● LIVE MATCH</span>
+            <span style="background:#ff0055; color:#fff; padding:3px 8px; border-radius:4px; font-size:0.7rem; font-weight:800;" id="banner-status">● LIVE MATCH</span>
             <h1 class="hero-title" id="banner-season">SEASON 01 CHAMPIONSHIP</h1>
             <p style="color: var(--text-muted)" id="banner-sub">Mobile Legends Dormitory Champions</p>
         </div>
@@ -542,231 +287,233 @@
         </div>
     </div>
 
-    <div id="bracket-tools" class="bracket-header-tools">
-        <span>👈 Geser kiri/kanan untuk melihat seluruh bracket</span>
-        <div class="zoom-btns">
-            <button class="zoom-btn" onclick="adjustZoom(0.1)">+</button>
-            <button class="zoom-btn" onclick="adjustZoom(-0.1)">-</button>
-            <button class="zoom-btn" onclick="resetZoom()">100%</button>
-        </div>
-    </div>
-
+    <!-- VIEW BRACKET -->
     <div id="bracket-view" class="bracket-viewport">
         <div id="bracket-tree" class="bracket-tree">
             <svg id="bracket-svg" class="bracket-svg"></svg>
 
             <!-- UPPER BRACKET -->
-            <div class="bracket-section-title">UPPER BRACKET</div>
+            <div style="font-family:'Orbitron'; color:var(--cyan-glow); font-size:0.9rem;">UPPER BRACKET</div>
             <div class="bracket-row">
                 <div class="bracket-column">
                     <div class="column-header">ROUND 1</div>
-                    <div class="match-card-wrap" id="wrap-M1">
-                        <div class="match-schedule" id="sch-M1">18 JAN - 14:00</div>
-                        <div class="match-card" id="card-M1"></div>
-                    </div>
-                    <div class="match-card-wrap" id="wrap-M2">
-                        <div class="match-schedule" id="sch-M2">18 JAN - 15:30</div>
-                        <div class="match-card" id="card-M2"></div>
-                    </div>
-                    <div class="match-card-wrap" id="wrap-M3">
-                        <div class="match-schedule" id="sch-M3">18 JAN - 17:00</div>
-                        <div class="match-card" id="card-M3"></div>
-                    </div>
-                    <div class="match-card-wrap" id="wrap-M4">
-                        <div class="match-schedule" id="sch-M4">18 JAN - 19:00</div>
-                        <div class="match-card" id="card-M4"></div>
-                    </div>
+                    <div id="wrap-UB_R1_1"></div>
+                    <div id="wrap-UB_R1_2"></div>
+                    <div id="wrap-UB_R1_3"></div>
+                    <div id="wrap-UB_R1_4"></div>
+                </div>
+
+                <div class="bracket-column">
+                    <div class="column-header">QUARTER FINAL</div>
+                    <div id="wrap-UB_QF_1"></div>
+                    <div id="wrap-UB_QF_2"></div>
                 </div>
 
                 <div class="bracket-column">
                     <div class="column-header">SEMI FINAL</div>
-                    <div class="match-card-wrap" id="wrap-M5">
-                        <div class="match-schedule" id="sch-M5">21 JAN - 16:00</div>
-                        <div class="match-card" id="card-M5"></div>
-                    </div>
-                    <div class="match-card-wrap" id="wrap-M6">
-                        <div class="match-schedule" id="sch-M6">21 JAN - 19:00</div>
-                        <div class="match-card" id="card-M6"></div>
-                    </div>
+                    <div id="wrap-UB_SF"></div>
                 </div>
 
                 <div class="bracket-column">
                     <div class="column-header">UPPER FINAL</div>
-                    <div class="match-card-wrap" id="wrap-M7">
-                        <div class="match-schedule" id="sch-M7">24 JAN - 19:00</div>
-                        <div class="match-card" id="card-M7"></div>
-                    </div>
+                    <div id="wrap-UB_F"></div>
                 </div>
 
-                <div class="bracket-column" style="width: auto;">
-                    <div class="column-header">GRAND FINAL</div>
-                    <div class="match-card-wrap" id="wrap-M11" style="width: 200px;">
-                        <div class="match-schedule" id="sch-M11">25 JAN - 20:00</div>
-                        <div class="match-card" id="card-M11"></div>
-                    </div>
-                </div>
-
-                <div class="trophy-node" id="trophy-node-element">
-                    <div class="trophy-icon">🏆</div>
-                    <div class="trophy-title">JUARA MDC</div>
-                    
-                    <div class="winner-box">
-                        <div class="winner-rank">🥇 JUARA 1 (CHAMPION)</div>
-                        <div class="winner-team-name" id="trophy-champ-1">-</div>
-                    </div>
-
-                    <div class="winner-box" style="border-color: rgba(0, 240, 255, 0.3);">
-                        <div class="winner-rank" style="color: #aaa;">🥈 JUARA 2 (RUNNER-UP)</div>
-                        <div class="winner-team-name" id="trophy-champ-2" style="font-size: 0.9rem;">-</div>
-                    </div>
+                <div class="trophy-box" style="margin-left: auto;">
+                    <div style="font-size: 2.5rem;">🏆</div>
+                    <div style="font-family:'Orbitron'; color:var(--gold-glow); font-weight:800;">CHAMPION</div>
+                    <div style="font-family:'Orbitron'; font-size:1.2rem; color:#fff;" id="champ-name">-</div>
                 </div>
             </div>
 
             <!-- LOWER BRACKET -->
-            <div class="bracket-section-title" style="margin-top: 30px;">LOWER BRACKET</div>
+            <div style="font-family:'Orbitron'; color:var(--cyan-glow); font-size:0.9rem; margin-top:20px;">LOWER BRACKET</div>
             <div class="bracket-row">
                 <div class="bracket-column">
-                    <div class="column-header">LOWER R1</div>
-                    <div class="match-card-wrap" id="wrap-M8">
-                        <div class="match-schedule" id="sch-M8">22 JAN - 16:00</div>
-                        <div class="match-card" id="card-M8"></div>
-                    </div>
-                    <div class="match-card-wrap" id="wrap-M9">
-                        <div class="match-schedule" id="sch-M9">22 JAN - 19:00</div>
-                        <div class="match-card" id="card-M9"></div>
-                    </div>
+                    <div class="column-header">ROUND 1</div>
+                    <div id="wrap-LB_R1_1"></div>
+                    <div id="wrap-LB_R1_2"></div>
+                </div>
+
+                <div class="bracket-column">
+                    <div class="column-header">ROUND 2</div>
+                    <div id="wrap-LB_R2_1"></div>
+                    <div id="wrap-LB_R2_2"></div>
+                </div>
+
+                <div class="bracket-column">
+                    <div class="column-header">ROUND 3</div>
+                    <div id="wrap-LB_R3"></div>
                 </div>
 
                 <div class="bracket-column">
                     <div class="column-header">LOWER FINAL</div>
-                    <div class="match-card-wrap" id="wrap-M10">
-                        <div class="match-schedule" id="sch-M10">23 JAN - 19:00</div>
-                        <div class="match-card" id="card-M10"></div>
-                    </div>
+                    <div id="wrap-LB_F"></div>
+                </div>
+
+                <div class="bracket-column" style="margin-left: auto;">
+                    <div class="column-header">GRAND FINAL</div>
+                    <div id="wrap-GF"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="teams-view" class="content-panel">
-        <h2 style="font-family: 'Orbitron'; color: var(--cyan-glow); margin-bottom: 20px;">TIM & ROSTER PEMAIN</h2>
-        <div class="team-card-grid" id="teams-container"></div>
+    <!-- VIEW ROSTER -->
+    <div id="roster-view" class="content-panel">
+        <h2 style="font-family: 'Orbitron'; color: var(--cyan-glow); margin-bottom: 20px;">DAFTAR TIM & ROSTER</h2>
+        <div id="roster-grid" class="admin-grid"></div>
     </div>
 
+    <!-- VIEW ADMIN -->
     <div id="admin-view" class="content-panel">
-        <h2 style="font-family: 'Orbitron'; color: var(--cyan-glow); margin-bottom: 20px;">PANEL ADMIN TOURNAMENT</h2>
+        <h2 style="font-family: 'Orbitron'; color: var(--cyan-glow); margin-bottom: 20px;">PANEL KONTROL ADMIN</h2>
         
-        <div id="admin-login-box">
-            <p style="margin-bottom: 12px; color: var(--text-muted);">Masukkan PIN Admin untuk mengedit data turnamen:</p>
-            <div style="display: flex; gap: 10px; max-width: 400px;">
-                <input type="password" id="admin-pin-input" class="form-control" placeholder="PIN Admin (012570)">
-                <button class="btn" onclick="authenticateAdmin()">Login</button>
-            </div>
-        </div>
-
-        <div id="admin-controls-box" style="display: none;">
-            <p style="color: #00f0ff; font-weight: bold; margin-bottom: 20px;">✓ Akses Admin Aktif. Semua perubahan disimpan otomatis!</p>
-
-            <div style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; margin-bottom: 20px; border: 1px solid rgba(0,240,255,0.2);">
-                <h3 style="font-family: 'Orbitron'; font-size: 1rem; color: var(--cyan-glow); margin-bottom: 12px;">EDIT HERO BANNER & INFORMASI</h3>
-                <div class="grid-2">
-                    <div class="form-group">
-                        <label>Judul Season / Banner</label>
-                        <input type="text" id="edit-season-title" class="form-control" onchange="updateBannerInfo()">
-                    </div>
-                    <div class="form-group">
-                        <label>Status Match (LIVE / UPCOMING / FINISHED)</label>
-                        <input type="text" id="edit-status-badge" class="form-control" onchange="updateBannerInfo()">
-                    </div>
-                    <div class="form-group">
-                        <label>Total Hadiah</label>
-                        <input type="text" id="edit-prize-pool" class="form-control" onchange="updateBannerInfo()">
-                    </div>
-                </div>
+        <div class="admin-grid">
+            <!-- EDIT BANNER -->
+            <div style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; border: 1px solid var(--border-glow);">
+                <h3 style="color: var(--cyan-glow); margin-bottom: 10px;">EDIT BANNER UTAMA</h3>
+                <label>Judul Tournament</label>
+                <input type="text" id="edit-season" class="form-control" onchange="saveBanner()">
+                <label>Sub-Judul</label>
+                <input type="text" id="edit-sub" class="form-control" onchange="saveBanner()">
+                <label>Status Pertandingan</label>
+                <input type="text" id="edit-status" class="form-control" onchange="saveBanner()">
+                <label>Total Hadiah</label>
+                <input type="text" id="edit-prize" class="form-control" onchange="saveBanner()">
             </div>
 
-            <div style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; margin-bottom: 20px; border: 1px solid rgba(0,240,255,0.2);">
-                <h3 style="font-family: 'Orbitron'; font-size: 1rem; color: var(--cyan-glow); margin-bottom: 12px;">EDIT NAMA & LOGO TIM (8 TIM)</h3>
-                <div class="grid-2" id="admin-teams-list"></div>
+            <!-- TAMBAH TIM -->
+            <div style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; border: 1px solid var(--border-glow);">
+                <h3 style="color: var(--cyan-glow); margin-bottom: 10px;">TAMBAH TIM & ROSTER</h3>
+                <input type="text" id="new-team-id" placeholder="Kode Singkatan (misal: RRQ)" class="form-control">
+                <input type="text" id="new-team-name" placeholder="Nama Lengkap Tim" class="form-control">
+                <textarea id="new-team-roster" placeholder="Daftar Roster (Pisahkan dengan koma)" class="form-control" rows="3"></textarea>
+                <button class="btn" onclick="addTeam()">Simpan Tim</button>
             </div>
 
-            <div style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; margin-bottom: 20px; border: 1px solid rgba(0,240,255,0.2);">
-                <h3 style="font-family: 'Orbitron'; font-size: 1rem; color: var(--cyan-glow); margin-bottom: 12px;">EDIT SKOR & JADWAL MATCH</h3>
-                <div class="grid-2" id="admin-matches-list"></div>
-            </div>
-
-            <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px;">
-                <button class="btn" onclick="exportTournamentJSON()">📥 Export JSON Backup</button>
-                <label class="btn" style="background: var(--cyan-glow); color: #000; cursor: pointer;">
-                    📤 Import JSON Backup
-                    <input type="file" accept=".json" onchange="importTournamentJSON(event)" style="display: none;">
-                </label>
-                <button class="btn btn-danger" onclick="resetTournamentData()">⚠️ Reset All Data</button>
+            <!-- INPUT SKOR BRACKET -->
+            <div style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; border: 1px solid var(--border-glow); grid-column: 1 / -1;">
+                <h3 style="color: var(--cyan-glow); margin-bottom: 10px;">INPUT SKOR PERTANDINGAN</h3>
+                <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:15px;">Skor otomatis mentok di 2 (BO3) atau 3 (BO5/Grand Final). Pemenang otomatis maju ke babak berikutnya.</p>
+                <div id="admin-matches-list" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:12px;"></div>
             </div>
         </div>
     </div>
 
     <script>
         const DEFAULT_DATA = {
-            banner: {
-                season: "SEASON 01 CHAMPIONSHIP",
-                sub: "Mobile Legends Dormitory Champions",
-                status: "● LIVE MATCH",
-                prize: "Rp 5.000.000"
+            banner: { 
+                season: "SEASON 01 CHAMPIONSHIP", 
+                sub: "Mobile Legends Dormitory Champions", 
+                status: "● LIVE MATCH", 
+                prize: "Rp 5.000.000" 
             },
-            teams: [
-                { id: "T1", tag: "AE", name: "Alter Ego", logo: "https://via.placeholder.com/40/00f0ff/ffffff?text=AE", captain: "Pai", players: ["Nino", "Celiboy", "Udil", "Pai", "LeoMurphy"] },
-                { id: "T2", tag: "ONIC", name: "ONIC Esports", logo: "https://via.placeholder.com/40/00f0ff/ffffff?text=ONIC", captain: "Kairi", players: ["Sanz", "CW", "Kiboy", "Butsss", "Kairi"] },
-                { id: "T3", tag: "TL", name: "Team Liquid", logo: "https://via.placeholder.com/40/00f0ff/ffffff?text=TL", captain: "Faviannn", players: ["AeronnShikii", "Yehezkiel", "Kabuki", "Jeytm", "Wawi"] },
-                { id: "T4", tag: "RORA", name: "Aurora Gaming", logo: "https://via.placeholder.com/40/00f0ff/ffffff?text=RORA", captain: "Renejay", players: ["Domeng", "Demonkite", "Edward", "Light", "B2K"] },
-                { id: "T5", tag: "SRG", name: "Selangor Red Giants", logo: "https://via.placeholder.com/40/00f0ff/ffffff?text=SRG", captain: "Yoppu", players: ["Sekys", "Stormie", "Innocent", "Yoppu", "YUMS"] },
-                { id: "T6", tag: "TS", name: "Team Snexty", logo: "https://via.placeholder.com/40/00f0ff/ffffff?text=TS", captain: "NevTryz", players: ["NevTryz", "Paradox", "Shadow", "Blaze", "Viper"] },
-                { id: "T7", tag: "AUR", name: "Aura Fire", logo: "https://via.placeholder.com/40/00f0ff/ffffff?text=AUR", captain: "High", players: ["Kabuki", "High", "Facehugger", "God1va", "Fluffy"] },
-                { id: "T8", tag: "YG", name: "Yangon Galacticos", logo: "https://via.placeholder.com/40/00f0ff/ffffff?text=YG", captain: "Puma", players: ["Kual", "Puma", "Zenith", "Silent", "Slayer"] }
-            ],
+            teams: {
+                "AE": { name: "Alter Ego", roster: ["Nino", "Pai", "Celiboy", "REZZ", "Rasy"] },
+                "ONIC": { name: "Onic Esports", roster: ["Kairi", "Sanz", "CW", "Kiboy", "Luthii"] },
+                "TL": { name: "Team Liquid", roster: ["Aeronn", "Kabuki", "Yehezkiel", "Aran", "Jeytm"] },
+                "RORA": { name: "Aurora", roster: ["Rene", "Domiv", "Yue", "Demonkite", "Edward"] },
+                "SRG": { name: "Selangor Red Giants", roster: ["Sekys", "YumS", "Stormie", "Innocent", "Kramm"] },
+                "TS": { name: "Team Secret", roster: ["Boxi", "Nisha", "Micke", "Zai", "Insania"] },
+                "AUR": { name: "Aura Fire", roster: ["High", "Kabuki", "God1va", "Fluffy", "FACEBUG"] },
+                "YG": { name: "Yangon Galacticos", roster: ["Kiel", "Zero", "Luka", "Ruby", "H2O"] }
+            },
             matches: {
-                M1: { teamA: "T1", teamB: "T2", scoreA: 2, scoreB: 0, date: "18 JAN - 14:00" },
-                M2: { teamA: "T3", teamB: "T4", scoreA: 1, scoreB: 2, date: "18 JAN - 15:30" },
-                M3: { teamA: "T5", teamB: "T6", scoreA: 2, scoreB: 0, date: "18 JAN - 17:00" },
-                M4: { teamA: "T7", teamB: "T8", scoreA: 2, scoreB: 0, date: "18 JAN - 19:00" },
-                M5: { teamA: "T1", teamB: "T4", scoreA: 2, scoreB: 0, date: "21 JAN - 16:00" },
-                M6: { teamA: "T5", teamB: "T7", scoreA: 0, scoreB: 2, date: "21 JAN - 19:00" },
-                M7: { teamA: "T1", teamB: "T7", scoreA: 2, scoreB: 1, date: "24 JAN - 19:00" },
-                M8: { teamA: "T2", teamB: "T3", scoreA: 2, scoreB: 0, date: "22 JAN - 16:00" },
-                M9: { teamA: "T6", teamB: "T8", scoreA: 0, scoreB: 2, date: "22 JAN - 19:00" },
-                M10: { teamA: "T2", teamB: "T8", scoreA: 2, scoreB: 1, date: "23 JAN - 19:00" },
-                M11: { teamA: "T1", teamB: "T7", scoreA: 3, scoreB: 1, date: "25 JAN - 20:00" }
+                UB_R1_1: { t1: "AE", t2: "ONIC", s1: 2, s2: 0, bo: 3, date: "JAN 18" },
+                UB_R1_2: { t1: "TL", t2: "RORA", s1: 1, s2: 2, bo: 3, date: "JAN 18" },
+                UB_R1_3: { t1: "SRG", t2: "TS", s1: 2, s2: 0, bo: 3, date: "JAN 18" },
+                UB_R1_4: { t1: "AUR", t2: "YG", s1: 2, s2: 0, bo: 3, date: "JAN 18" },
+
+                UB_QF_1: { t1: "", t2: "", s1: 2, s2: 0, bo: 3, date: "JAN 21" },
+                UB_QF_2: { t1: "", t2: "", s1: 0, s2: 2, bo: 3, date: "JAN 21" },
+
+                UB_SF:   { t1: "", t2: "", s1: 2, s2: 1, bo: 3, date: "JAN 24" },
+                UB_F:    { t1: "", t2: "", s1: 2, s2: 0, bo: 3, date: "JAN 25" },
+
+                LB_R1_1: { t1: "", t2: "", s1: 2, s2: 0, bo: 3, date: "JAN 22" },
+                LB_R1_2: { t1: "", t2: "", s1: 0, s2: 2, bo: 3, date: "JAN 22" },
+
+                LB_R2_1: { t1: "", t2: "", s1: 0, s2: 2, bo: 3, date: "JAN 23" },
+                LB_R2_2: { t1: "", t2: "", s1: 2, s2: 1, bo: 3, date: "JAN 23" },
+
+                LB_R3:   { t1: "", t2: "", s1: 2, s2: 0, bo: 3, date: "JAN 24" },
+                LB_F:    { t1: "", t2: "", s1: 2, s2: 1, bo: 3, date: "JAN 25" },
+
+                GF:      { t1: "", t2: "", s1: 3, s2: 1, bo: 5, date: "JAN 26" }
             }
         };
 
-        let appData = loadData();
-        let currentZoom = 1;
+        let appData = JSON.parse(localStorage.getItem('MDC_TOURNAMENT_FULL_SYSTEM')) || DEFAULT_DATA;
 
-        function loadData() {
-            const saved = localStorage.getItem('MDC_TOURNAMENT_FULL_DATA');
-            return saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_DATA));
+        function getWinner(m) {
+            const winTarget = m.bo === 5 ? 3 : 2;
+            if (m.s1 >= winTarget) return m.t1;
+            if (m.s2 >= winTarget) return m.t2;
+            return "";
         }
 
-        function saveData() {
-            localStorage.setItem('MDC_TOURNAMENT_FULL_DATA', JSON.stringify(appData));
-            renderAll();
+        function getLoser(m) {
+            const winTarget = m.bo === 5 ? 3 : 2;
+            if (m.s1 >= winTarget) return m.t2;
+            if (m.s2 >= winTarget) return m.t1;
+            return "";
+        }
+
+        function calculateProgression() {
+            const m = appData.matches;
+
+            // UB Round 1 -> UB QF & LB Round 1
+            m.UB_QF_1.t1 = getWinner(m.UB_R1_1);
+            m.UB_QF_1.t2 = getWinner(m.UB_R1_2);
+            m.UB_QF_2.t1 = getWinner(m.UB_R1_3);
+            m.UB_QF_2.t2 = getWinner(m.UB_R1_4);
+
+            m.LB_R1_1.t1 = getLoser(m.UB_R1_1);
+            m.LB_R1_1.t2 = getLoser(m.UB_R1_2);
+            m.LB_R1_2.t1 = getLoser(m.UB_R1_3);
+            m.LB_R1_2.t2 = getLoser(m.UB_R1_4);
+
+            // UB QF -> UB SF & LB Round 2
+            m.UB_SF.t1 = getWinner(m.UB_QF_1);
+            m.UB_SF.t2 = getWinner(m.UB_QF_2);
+
+            m.LB_R2_1.t1 = getLoser(m.UB_QF_1);
+            m.LB_R2_1.t2 = getWinner(m.LB_R1_1);
+            m.LB_R2_2.t1 = getLoser(m.UB_QF_2);
+            m.LB_R2_2.t2 = getWinner(m.LB_R1_2);
+
+            // LB Round 2 -> LB Round 3
+            m.LB_R3.t1 = getWinner(m.LB_R2_1);
+            m.LB_R3.t2 = getWinner(m.LB_R2_2);
+
+            // UB SF & LB R3 -> UB Final & LB Final
+            m.UB_F.t1 = getWinner(m.UB_SF);
+            m.UB_F.t2 = getLoser(m.UB_SF); 
+
+            m.LB_F.t1 = getLoser(m.UB_SF);
+            m.LB_F.t2 = getWinner(m.LB_R3);
+
+            // Grand Final
+            m.GF.t1 = getWinner(m.UB_F);
+            m.GF.t2 = getWinner(m.LB_F);
         }
 
         function switchTab(tab) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             event.target.classList.add('active');
-
+            
             document.getElementById('bracket-view').style.display = tab === 'bracket' ? 'block' : 'none';
-            document.getElementById('bracket-tools').style.display = tab === 'bracket' ? 'flex' : 'none';
-            document.getElementById('teams-view').style.display = tab === 'teams' ? 'block' : 'none';
+            document.getElementById('roster-view').style.display = tab === 'roster' ? 'block' : 'none';
             document.getElementById('admin-view').style.display = tab === 'admin' ? 'block' : 'none';
         }
 
         function renderAll() {
+            calculateProgression();
             renderBanner();
             renderBracket();
-            renderTeams();
-            renderAdminInputs();
+            renderRoster();
+            renderAdmin();
             setTimeout(drawConnectors, 100);
         }
 
@@ -779,82 +526,65 @@
 
         function renderBracket() {
             Object.keys(appData.matches).forEach(mId => {
-                const match = appData.matches[mId];
-                const teamA = appData.teams.find(t => t.id === match.teamA) || { tag: 'TBD', logo: '' };
-                const teamB = appData.teams.find(t => t.id === match.teamB) || { tag: 'TBD', logo: '' };
+                const m = appData.matches[mId];
+                const wrap = document.getElementById(`wrap-${mId}`);
+                if (!wrap) return;
 
-                const isAFinished = match.scoreA > 0 || match.scoreB > 0;
-                const winnerA = match.scoreA > match.scoreB;
-                const winnerB = match.scoreB > match.scoreA;
+                const target = m.bo === 5 ? 3 : 2;
+                const w1 = m.s1 >= target;
+                const w2 = m.s2 >= target;
 
-                document.getElementById(`sch-${mId}`).innerText = match.date;
-                document.getElementById(`card-${mId}`).innerHTML = `
-                    <div class="team-row ${isAFinished ? (winnerA ? 'winner' : 'loser') : ''}">
-                        <div class="team-info">
-                            <img src="${teamA.logo}" class="team-logo">
-                            <span>${teamA.tag}</span>
-                        </div>
-                        <span class="score">${match.scoreA}</span>
+                wrap.innerHTML = `
+                    <div style="font-size:0.65rem; color:var(--cyan-glow); font-weight:700; margin-bottom:2px;">
+                        ${mId} (${m.date || 'BO' + m.bo})
                     </div>
-                    <div class="team-row ${isAFinished ? (winnerB ? 'winner' : 'loser') : ''}">
-                        <div class="team-info">
-                            <img src="${teamB.logo}" class="team-logo">
-                            <span>${teamB.tag}</span>
+                    <div class="match-card">
+                        <div class="team-row ${w1 ? 'winner' : ''}">
+                            <span>${m.t1 || 'TBD'}</span>
+                            <span class="score">${m.s1}</span>
                         </div>
-                        <span class="score">${match.scoreB}</span>
+                        <div class="team-row ${w2 ? 'winner' : ''}">
+                            <span>${m.t2 || 'TBD'}</span>
+                            <span class="score">${m.s2}</span>
+                        </div>
                     </div>
                 `;
             });
 
-            const gf = appData.matches.M11;
-            if (gf.scoreA > 0 || gf.scoreB > 0) {
-                const champ1 = gf.scoreA > gf.scoreB ? gf.teamA : gf.teamB;
-                const champ2 = gf.scoreA > gf.scoreB ? gf.teamB : gf.teamA;
-
-                const team1 = appData.teams.find(t => t.id === champ1);
-                const team2 = appData.teams.find(t => t.id === champ2);
-
-                document.getElementById('trophy-champ-1').innerText = team1 ? `${team1.name} (${team1.tag})` : '-';
-                document.getElementById('trophy-champ-2').innerText = team2 ? `${team2.name} (${team2.tag})` : '-';
-            }
-        }
-
-        function renderTeams() {
-            const container = document.getElementById('teams-container');
-            container.innerHTML = appData.teams.map(t => `
-                <div class="team-profile-card">
-                    <img src="${t.logo}" class="team-profile-logo">
-                    <h3 style="font-family:'Orbitron'; color:#fff; font-size:1rem;">${t.name} (${t.tag})</h3>
-                    <p style="color:var(--cyan-glow); font-size:0.8rem; margin: 4px 0;">Captain: ${t.captain}</p>
-                    <div style="font-size:0.75rem; color:var(--text-muted); margin-top:8px;">
-                        Roster: ${t.players.join(', ')}
-                    </div>
-                </div>
-            `).join('');
+            const champ = getWinner(appData.matches.GF);
+            document.getElementById('champ-name').innerText = champ || '-';
         }
 
         function drawConnectors() {
             const svg = document.getElementById('bracket-svg');
             svg.innerHTML = '';
-            
+
             const connections = [
-                ['wrap-M1', 'wrap-M5'], ['wrap-M2', 'wrap-M5'],
-                ['wrap-M3', 'wrap-M6'], ['wrap-M4', 'wrap-M6'],
-                ['wrap-M5', 'wrap-M7'], ['wrap-M6', 'wrap-M7'],
-                ['wrap-M7', 'wrap-M11'], ['wrap-M11', 'trophy-node-element'],
-                ['wrap-M8', 'wrap-M10'], ['wrap-M9', 'wrap-M10']
+                ['wrap-UB_R1_1', 'wrap-UB_QF_1'],
+                ['wrap-UB_R1_2', 'wrap-UB_QF_1'],
+                ['wrap-UB_R1_3', 'wrap-UB_QF_2'],
+                ['wrap-UB_R1_4', 'wrap-UB_QF_2'],
+                ['wrap-UB_QF_1', 'wrap-UB_SF'],
+                ['wrap-UB_QF_2', 'wrap-UB_SF'],
+                ['wrap-UB_SF', 'wrap-UB_F'],
+                ['wrap-UB_F', 'wrap-GF'],
+                ['wrap-LB_R1_1', 'wrap-LB_R2_1'],
+                ['wrap-LB_R1_2', 'wrap-LB_R2_2'],
+                ['wrap-LB_R2_1', 'wrap-LB_R3'],
+                ['wrap-LB_R2_2', 'wrap-LB_R3'],
+                ['wrap-LB_R3', 'wrap-LB_F'],
+                ['wrap-LB_F', 'wrap-GF']
             ];
 
             const treeRect = document.getElementById('bracket-tree').getBoundingClientRect();
 
-            connections.forEach(([startId, endId]) => {
-                const startEl = document.getElementById(startId);
-                const endEl = document.getElementById(endId);
+            connections.forEach(([sId, eId]) => {
+                const el1 = document.getElementById(sId);
+                const el2 = document.getElementById(eId);
+                if (!el1 || !el2) return;
 
-                if (!startEl || !endEl) return;
-
-                const r1 = startEl.getBoundingClientRect();
-                const r2 = endEl.getBoundingClientRect();
+                const r1 = el1.getBoundingClientRect();
+                const r2 = el2.getBoundingClientRect();
 
                 const x1 = r1.right - treeRect.left;
                 const y1 = r1.top + r1.height / 2 - treeRect.top;
@@ -863,128 +593,93 @@
 
                 const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
                 const midX = x1 + (x2 - x1) / 2;
-                
+
                 path.setAttribute('d', `M ${x1} ${y1} L ${midX} ${y1} L ${midX} ${y2} L ${x2} ${y2}`);
                 path.setAttribute('class', 'bracket-line');
                 svg.appendChild(path);
             });
         }
 
-        function authenticateAdmin() {
-            const pin = document.getElementById('admin-pin-input').value;
-            if (pin === '012570') {
-                document.getElementById('admin-login-box').style.display = 'none';
-                document.getElementById('admin-controls-box').style.display = 'block';
-            } else {
-                alert('PIN Admin Salah!');
-            }
-        }
-
-        function renderAdminInputs() {
-            document.getElementById('edit-season-title').value = appData.banner.season;
-            document.getElementById('edit-status-badge').value = appData.banner.status;
-            document.getElementById('edit-prize-pool').value = appData.banner.prize;
-
-            const teamsBox = document.getElementById('admin-teams-list');
-            teamsBox.innerHTML = appData.teams.map((t, idx) => `
-                <div style="background:rgba(0,0,0,0.4); padding:10px; border-radius:6px; border:1px solid rgba(255,255,255,0.1);">
-                    <label style="color:var(--cyan-glow);">Tim #${idx+1}</label>
-                    <input type="text" value="${t.name}" class="form-control" style="margin-bottom:6px;" onchange="updateTeamData('${t.id}', 'name', this.value)">
-                    <input type="text" value="${t.tag}" class="form-control" style="margin-bottom:6px;" onchange="updateTeamData('${t.id}', 'tag', this.value)">
-                    <input type="text" value="${t.logo}" class="form-control" placeholder="URL Logo" onchange="updateTeamData('${t.id}', 'logo', this.value)">
-                </div>
-            `).join('');
-
-            const matchesBox = document.getElementById('admin-matches-list');
-            matchesBox.innerHTML = Object.keys(appData.matches).map(mId => {
-                const m = appData.matches[mId];
+        function renderRoster() {
+            const container = document.getElementById('roster-grid');
+            container.innerHTML = Object.keys(appData.teams).map(code => {
+                const t = appData.teams[code];
+                const rosterList = Array.isArray(t.roster) ? t.roster : t.roster.split(',');
                 return `
-                    <div style="background:rgba(0,0,0,0.4); padding:10px; border-radius:6px; border:1px solid rgba(255,255,255,0.1);">
-                        <label style="color:var(--cyan-glow);">${mId} (${m.date})</label>
-                        <input type="text" value="${m.date}" class="form-control" style="margin-bottom:6px;" onchange="updateMatchData('${mId}', 'date', this.value)">
-                        <div style="display:flex; gap:8px;">
-                            <input type="number" value="${m.scoreA}" class="form-control" onchange="updateMatchData('${mId}', 'scoreA', parseInt(this.value)||0)">
-                            <input type="number" value="${m.scoreB}" class="form-control" onchange="updateMatchData('${mId}', 'scoreB', parseInt(this.value)||0)">
+                    <div style="background:rgba(0,0,0,0.4); padding:16px; border-radius:8px; border:1px solid var(--border-glow);">
+                        <h3 style="color:var(--cyan-glow); font-family:'Orbitron';">[${code}] ${t.name}</h3>
+                        <div style="margin-top:10px;">
+                            ${rosterList.map(r => `<span class="roster-tag">${r.trim()}</span>`).join('')}
                         </div>
                     </div>
                 `;
             }).join('');
         }
 
-        function updateBannerInfo() {
-            appData.banner.season = document.getElementById('edit-season-title').value;
-            appData.banner.status = document.getElementById('edit-status-badge').value;
-            appData.banner.prize = document.getElementById('edit-prize-pool').value;
+        function renderAdmin() {
+            document.getElementById('edit-season').value = appData.banner.season;
+            document.getElementById('edit-sub').value = appData.banner.sub;
+            document.getElementById('edit-status').value = appData.banner.status;
+            document.getElementById('edit-prize').value = appData.banner.prize;
+
+            const list = document.getElementById('admin-matches-list');
+            list.innerHTML = Object.keys(appData.matches).map(mId => {
+                const m = appData.matches[mId];
+                const max = m.bo === 5 ? 3 : 2;
+                return `
+                    <div style="background:rgba(0,0,0,0.5); padding:10px; border-radius:6px; border:1px solid rgba(0,240,255,0.2);">
+                        <div style="font-weight:bold; color:var(--cyan-glow); font-size:0.85rem;">${mId} (BO${m.bo})</div>
+                        <div style="font-size:0.8rem; margin:4px 0;">${m.t1 || 'TBD'} VS ${m.t2 || 'TBD'}</div>
+                        <div style="display:flex; gap:6px;">
+                            <input type="number" min="0" max="${max}" value="${m.s1}" class="form-control" style="margin:0;" onchange="updateScore('${mId}', 's1', this.value, ${max})">
+                            <input type="number" min="0" max="${max}" value="${m.s2}" class="form-control" style="margin:0;" onchange="updateScore('${mId}', 's2', this.value, ${max})">
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateScore(mId, field, val, max) {
+            let num = parseInt(val) || 0;
+            if (num > max) num = max;
+            appData.matches[mId][field] = num;
             saveData();
         }
 
-        function updateTeamData(id, field, value) {
-            const team = appData.teams.find(t => t.id === id);
-            if (team) team[field] = value;
-            saveData();
-        }
+        function addTeam() {
+            const id = document.getElementById('new-team-id').value.trim().toUpperCase();
+            const name = document.getElementById('new-team-name').value.trim();
+            const roster = document.getElementById('new-team-roster').value.trim();
 
-        function updateMatchData(id, field, value) {
-            if (appData.matches[id]) appData.matches[id][field] = value;
-            saveData();
-        }
-
-        function exportTournamentJSON() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appData, null, 2));
-            const a = document.createElement('a');
-            a.href = dataStr;
-            a.download = `MDC_Tournament_Data.json`;
-            a.click();
-        }
-
-        function importTournamentJSON(e) {
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                appData = JSON.parse(evt.target.result);
-                saveData();
-                alert('Data berhasil diimport!');
+            if (!id || !name) return alert('Mohon isi kode dan nama tim!');
+            
+            appData.teams[id] = { 
+                name: name, 
+                roster: roster ? roster.split(',') : [] 
             };
-            reader.readAsText(e.target.files[0]);
+            
+            document.getElementById('new-team-id').value = '';
+            document.getElementById('new-team-name').value = '';
+            document.getElementById('new-team-roster').value = '';
+
+            saveData();
+            alert(`Tim ${name} berhasil ditambahkan!`);
         }
 
-        function resetTournamentData() {
-            if (confirm('Yakin ingin mereset seluruh data turnamen?')) {
-                appData = JSON.parse(JSON.stringify(DEFAULT_DATA));
-                saveData();
-            }
+        function saveBanner() {
+            appData.banner.season = document.getElementById('edit-season').value;
+            appData.banner.sub = document.getElementById('edit-sub').value;
+            appData.banner.status = document.getElementById('edit-status').value;
+            appData.banner.prize = document.getElementById('edit-prize').value;
+            saveData();
         }
 
-        function adjustZoom(delta) {
-            currentZoom = Math.min(Math.max(0.6, currentZoom + delta), 1.4);
-            document.getElementById('bracket-tree').style.transform = `scale(${currentZoom})`;
-            setTimeout(drawConnectors, 200);
+        function saveData() {
+            localStorage.setItem('MDC_TOURNAMENT_FULL_SYSTEM', JSON.stringify(appData));
+            renderAll();
         }
-
-        function resetZoom() {
-            currentZoom = 1;
-            document.getElementById('bracket-tree').style.transform = `scale(1)`;
-            setTimeout(drawConnectors, 200);
-        }
-
-        const slider = document.getElementById('bracket-view');
-        let isDown = false, startX, scrollLeft;
-
-        slider.addEventListener('mousedown', (e) => {
-            isDown = true;
-            startX = e.pageX - slider.offsetLeft;
-            scrollLeft = slider.scrollLeft;
-        });
-        slider.addEventListener('mouseleave', () => isDown = false);
-        slider.addEventListener('mouseup', () => isDown = false);
-        slider.addEventListener('mousemove', (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - slider.offsetLeft;
-            slider.scrollLeft = scrollLeft - (x - startX) * 2;
-        });
 
         window.addEventListener('resize', drawConnectors);
-
         renderAll();
     </script>
 </body>
