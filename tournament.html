@@ -509,10 +509,10 @@
         <div id="bracket-tree" class="bracket-tree">
             <svg id="bracket-svg" class="bracket-svg"></svg>
 
-            <!-- UPPER BRACKET -->
-            <div class="bracket-row">
-                <div class="bracket-column">
-                    <div class="column-header">ROUND 1</div>
+            <!-- UPPER BRACKET (4-2-1) -->
+            <div class="bracket-row" id="upper-bracket-row">
+                <div class="bracket-column" id="col-upper-1">
+                    <div class="column-header">ROUND 1 (8 Tim)</div>
                     <div class="match-card-wrap" id="wrap-M1">
                         <div class="match-schedule" id="sch-M1">18 JAN - 14:00</div>
                         <div class="match-card" id="card-M1"></div>
@@ -531,8 +531,8 @@
                     </div>
                 </div>
 
-                <div class="bracket-column">
-                    <div class="column-header">QUARTER FINAL</div>
+                <div class="bracket-column" id="col-upper-2">
+                    <div class="column-header">SEMI FINAL (4 Tim)</div>
                     <div class="match-card-wrap" id="wrap-M5">
                         <div class="match-schedule" id="sch-M5">21 JAN - 16:00</div>
                         <div class="match-card" id="card-M5"></div>
@@ -543,16 +543,16 @@
                     </div>
                 </div>
 
-                <div class="bracket-column">
-                    <div class="column-header">SEMI FINAL</div>
+                <div class="bracket-column" id="col-upper-3">
+                    <div class="column-header">FINAL ATAS (2 Tim)</div>
                     <div class="match-card-wrap" id="wrap-M7">
                         <div class="match-schedule" id="sch-M7">24 JAN - 19:00</div>
                         <div class="match-card" id="card-M7"></div>
                     </div>
                 </div>
 
-                <!-- KOTAK FINAL DI TENGAH ANTARA UPPER & LOWER -->
-                <div class="bracket-column" style="justify-content: center;">
+                <!-- GRAND FINAL TENGAH -->
+                <div class="bracket-column" style="justify-content: center;" id="col-grand-final">
                     <div class="column-header">GRAND FINAL</div>
                     <div class="match-card-wrap" id="wrap-M9">
                         <div class="match-schedule" id="sch-M9">25 JAN - 19:00</div>
@@ -561,7 +561,7 @@
                 </div>
 
                 <!-- TROPHY GACOR DI DEPAN FINAL -->
-                <div class="bracket-column" style="justify-content: center; align-items: center;">
+                <div class="bracket-column" style="justify-content: center; align-items: center;" id="col-trophy">
                     <div class="column-header" style="color: var(--gold-glow); border-color: var(--gold-glow); background: rgba(255,215,0,0.1);">CHAMPION</div>
                     <div class="trophy-section" id="trophy-container">
                         <div class="trophy-icon">🏆</div>
@@ -573,10 +573,10 @@
                 </div>
             </div>
 
-            <!-- LOWER BRACKET (OTOMATIS KALAH DARI ATAS) -->
-            <div class="bracket-row" style="margin-top: 40px;">
-                <div class="bracket-column">
-                    <div class="column-header">LOWER ROUND 1</div>
+            <!-- LOWER BRACKET (2-1-1 / 4 Tim - 2 Tim - 2 Tim) -->
+            <div class="bracket-row" style="margin-top: 40px;" id="lower-bracket-row">
+                <div class="bracket-column" id="col-lower-1">
+                    <div class="column-header">LOWER ROUND 1 (4 Tim)</div>
                     <div class="match-card-wrap" id="wrap-LB1">
                         <div class="match-schedule" id="sch-LB1">22 JAN - 16:00</div>
                         <div class="match-card" id="card-LB1"></div>
@@ -587,27 +587,19 @@
                     </div>
                 </div>
 
-                <div class="bracket-column">
-                    <div class="column-header">LOWER ROUND 2</div>
+                <div class="bracket-column" id="col-lower-2">
+                    <div class="column-header">LOWER SEMI (2 Tim)</div>
                     <div class="match-card-wrap" id="wrap-LB3">
                         <div class="match-schedule" id="sch-LB3">23 JAN - 16:00</div>
                         <div class="match-card" id="card-LB3"></div>
                     </div>
                 </div>
 
-                <div class="bracket-column">
-                    <div class="column-header">LOWER SEMI FINAL</div>
+                <div class="bracket-column" id="col-lower-3">
+                    <div class="column-header">LOWER FINAL (2 Tim)</div>
                     <div class="match-card-wrap" id="wrap-LB5">
                         <div class="match-schedule" id="sch-LB5">24 JAN - 16:00</div>
                         <div class="match-card" id="card-LB5"></div>
-                    </div>
-                </div>
-
-                <div class="bracket-column">
-                    <div class="column-header">LOWER FINAL</div>
-                    <div class="match-card-wrap" id="wrap-LB6">
-                        <div class="match-schedule" id="sch-LB6">25 JAN - 16:00</div>
-                        <div class="match-card" id="card-LB6"></div>
                     </div>
                 </div>
             </div>
@@ -726,12 +718,11 @@
                 M5: { teamA: "T1", teamB: "T4", scoreA: 2, scoreB: 0, date: "21 JAN - 16:00" },
                 M6: { teamA: "T5", teamB: "T7", scoreA: 0, scoreB: 2, date: "21 JAN - 18:00" },
                 M7: { teamA: "T1", teamB: "T7", scoreA: 2, scoreB: 1, date: "24 JAN - 19:00" },
-                M9: { teamA: "T1", teamB: "LB6", scoreA: 0, scoreB: 0, date: "25 JAN - 19:00" },
+                M9: { teamA: "T1", teamB: "LB5", scoreA: 0, scoreB: 0, date: "25 JAN - 19:00" },
                 LB1: { teamA: "T2", teamB: "T3", scoreA: 2, scoreB: 0, date: "22 JAN - 16:00" },
                 LB2: { teamA: "T6", teamB: "T8", scoreA: 0, scoreB: 2, date: "22 JAN - 19:00" },
-                LB3: { teamA: "M5_LOSER", teamB: "LB1_WINNER", scoreA: 0, scoreB: 0, date: "23 JAN - 16:00" },
-                LB5: { teamA: "M7_LOSER", teamB: "LB3_WINNER", scoreA: 0, scoreB: 0, date: "24 JAN - 16:00" },
-                LB6: { teamA: "LB5_WINNER", teamB: "LB_SEMI_WINNER", scoreA: 0, scoreB: 0, date: "25 JAN - 16:00" }
+                LB3: { teamA: "LB1_WINNER", teamB: "LB2_WINNER", scoreA: 0, scoreB: 0, date: "23 JAN - 16:00" },
+                LB5: { teamA: "LB3_WINNER", teamB: "M6_LOSER", scoreA: 0, scoreB: 0, date: "24 JAN - 16:00" }
             }
         };
 
@@ -739,12 +730,12 @@
         let currentZoom = 1;
 
         function loadData() {
-            const saved = localStorage.getItem('MDC_TOURNAMENT_FULL_DATA');
+            const saved = localStorage.getItem('MDC_TOURNAMENT_FULL_DATA_V3');
             return saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_DATA));
         }
 
         function saveData() {
-            localStorage.setItem('MDC_TOURNAMENT_FULL_DATA', JSON.stringify(appData));
+            localStorage.setItem('MDC_TOURNAMENT_FULL_DATA_V3', JSON.stringify(appData));
             renderAll();
         }
 
@@ -774,55 +765,51 @@
             document.getElementById('banner-prize').innerText = appData.banner.prize;
         }
 
-        // SISTEM OTOMATIS: KALAH ATAS TURUN KE BAWAH & PEMENANG MASUK TROFI
         function autoCalculateBracketProgression() {
             const m = appData.matches;
             
-            // Helper untuk tentukan pemenang & yang kalah dari match
             const getWinner = (matchId) => {
                 const match = m[matchId];
                 if (!match || (match.scoreA === 0 && match.scoreB === 0)) return null;
-                if (match.scoreA > match.scoreB) return resolveTeamName(match.teamA);
-                if (match.scoreB > match.scoreA) return resolveTeamName(match.teamB);
+                if (match.scoreA > match.scoreB) return match.teamA;
+                if (match.scoreB > match.scoreA) return match.teamB;
                 return null;
             };
 
             const getLoser = (matchId) => {
                 const match = m[matchId];
                 if (!match || (match.scoreA === 0 && match.scoreB === 0)) return null;
-                if (match.scoreA < match.scoreB) return resolveTeamName(match.teamA);
-                if (match.scoreB < match.scoreA) return resolveTeamName(match.teamB);
+                if (match.scoreA < match.scoreB) return match.teamA;
+                if (match.scoreB < match.scoreA) return match.teamB;
                 return null;
             };
 
-            // Otomatisasi Lower Bracket dari Upper Bracket
+            // LOWER BRACKET 2-1-1 AUTOMATION
+            // LB3 mempertemukan pemenang LB1 dan LB2
             if (m.LB3) {
-                const loserM5 = getLoser('M5');
-                if (loserM5) m.LB3.teamA = loserM5;
-                const winnerLB1 = getWinner('LB1');
-                if (winnerLB1) m.LB3.teamB = winnerLB1;
+                const wLB1 = getWinner('LB1');
+                if (wLB1) m.LB3.teamA = wLB1;
+                const wLB2 = getWinner('LB2');
+                if (wLB2) m.LB3.teamB = wLB2;
             }
 
+            // LB5 mempertemukan pemenang LB3 melawan tim yang KALAH di Semi Final Upper (M6_LOSER atau M5_LOSER)
             if (m.LB5) {
-                const loserM7 = getLoser('M7');
-                if (loserM7) m.LB5.teamA = loserM7;
-                const winnerLB3 = getWinner('LB3');
-                if (winnerLB3) m.LB5.teamB = winnerLB3;
+                const wLB3 = getWinner('LB3');
+                if (wLB3) m.LB5.teamA = wLB3;
+                const loserSemi = getLoser('M6') || getLoser('M5');
+                if (loserSemi) m.LB5.teamB = loserSemi;
             }
 
-            if (m.LB6) {
-                const winnerLB5 = getWinner('LB5');
-                if (winnerLB5) m.LB6.teamA = winnerLB5;
-            }
-
+            // Grand Final mempertemukan pemenang Upper Final (M7) melawan pemenang Lower Final (LB5)
             if (m.M9) {
                 const winnerM7 = getWinner('M7');
                 if (winnerM7) m.M9.teamA = winnerM7;
-                const winnerLB6 = getWinner('LB6');
-                if (winnerLB6) m.M9.teamB = winnerLB6;
+                const winnerLB5 = getWinner('LB5');
+                if (winnerLB5) m.M9.teamB = winnerLB5;
             }
 
-            // Pemenang Grand Final Masuk ke Trofi
+            // Pemenang Grand Final masuk Trofi Gacor
             const grandChampion = getWinner('M9');
             const trophyDisplay = document.getElementById('trophy-winner-display');
             if (grandChampion) {
@@ -835,7 +822,6 @@
                         <span style="font-size: 0.9rem; font-weight: 900; color: var(--gold-glow); font-family: 'Orbitron';">${tName}</span>
                     </div>
                 `;
-                // Efek confetti jika menang
                 if (window.confetti && !window.hasCelebrated) {
                     confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
                     window.hasCelebrated = true;
@@ -844,10 +830,6 @@
                 trophyDisplay.innerHTML = `<span style="font-size: 0.85rem; font-weight: 700; color: #fff;">BELUM ADA PEMENANG</span>`;
                 window.hasCelebrated = false;
             }
-        }
-
-        function resolveTeamName(key) {
-            return key;
         }
 
         function renderBracket() {
@@ -879,14 +861,14 @@
                     <div class="team-row ${isFinished ? (winA ? 'winner' : 'loser') : ''}">
                         <div class="team-info">
                             <img src="${tA.logo}" class="team-logo">
-                            <span style="${!appData.teams.find(t=>t.id===match.teamA||t.tag===match.teamA)?'font-size:10px; color:#00f0ff;':''}">${tA.name}</span>
+                            <span>${tA.name}</span>
                         </div>
                         <span class="score">${match.scoreA}</span>
                     </div>
                     <div class="team-row ${isFinished ? (winB ? 'winner' : 'loser') : ''}">
                         <div class="team-info">
                             <img src="${tB.logo}" class="team-logo">
-                            <span style="${!appData.teams.find(t=>t.id===match.teamB||t.tag===match.teamB)?'font-size:10px; color:#00f0ff;':''}">${tB.name}</span>
+                            <span>${tB.name}</span>
                         </div>
                         <span class="score">${match.scoreB}</span>
                     </div>
@@ -918,8 +900,7 @@
                 ['wrap-M5', 'wrap-M7'], ['wrap-M6', 'wrap-M7'],
                 ['wrap-M7', 'wrap-M9'],
                 ['wrap-LB1', 'wrap-LB3'], ['wrap-LB2', 'wrap-LB3'],
-                ['wrap-LB3', 'wrap-LB5'],
-                ['wrap-LB5', 'wrap-LB6'], ['wrap-LB6', 'wrap-M9']
+                ['wrap-LB3', 'wrap-LB5'], ['wrap-LB5', 'wrap-M9']
             ];
 
             const treeRect = document.getElementById('bracket-tree').getBoundingClientRect();
@@ -985,7 +966,6 @@
                 players: players
             });
 
-            // Reset input form
             document.getElementById('new-team-name').value = '';
             document.getElementById('new-team-tag').value = '';
             document.getElementById('new-team-logo').value = '';
@@ -993,7 +973,7 @@
             document.getElementById('new-team-players').value = '';
 
             saveData();
-            alert(`Tim ${name} (${tag}) berhasil ditambahkan dan otomatis masuk ke daftar tim & roster!`);
+            alert(`Tim ${name} (${tag}) berhasil ditambahkan dan otomatis terhubung ke bracket serta roster!`);
         }
 
         function renderAdminInputs() {
