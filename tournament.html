@@ -1091,6 +1091,43 @@ window.onload = function(){
   location.reload();
 
   }
+  // ===========================
+// AUTO JUARA GRAND FINAL
+// ===========================
+
+function updateChampion(){
+
+    const finalMatch = document.querySelector(".round:last-child .match");
+    const teams = finalMatch.querySelectorAll(".team");
+
+    const scoreA = Number(teams[0].querySelector(".score").innerText);
+    const scoreB = Number(teams[1].querySelector(".score").innerText);
+
+    const nameA = teams[0].children[0].innerText;
+    const nameB = teams[1].children[0].innerText;
+
+    if(scoreA > scoreB){
+        document.querySelector(".juara1 .nama-team").innerText = nameA;
+        document.querySelector(".juara2 .nama-team").innerText = nameB;
+    }
+
+    if(scoreB > scoreA){
+        document.querySelector(".juara1 .nama-team").innerText = nameB;
+        document.querySelector(".juara2 .nama-team").innerText = nameA;
+    }
+
+}
+
+// Jalankan setiap selesai save
+const oldSave = saveMatch;
+
+saveMatch = function(){
+    oldSave();
+    updateChampion();
+}
+
+// Jalankan saat web dibuka
+window.addEventListener("load", updateChampion);
 </script>
 
 </body>
