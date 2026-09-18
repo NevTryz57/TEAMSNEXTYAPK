@@ -1,574 +1,457 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MDC Tournament V12</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MDC TOURNAMENT - Mobile Legends Champions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --bg-dark: #070c14;
+            --bg-card: #0d1626;
+            --cyan-glow: #00f0ff;
+            --cyan-dim: rgba(0, 240, 255, 0.15);
+            --blue-accent: #0072ff;
+            --text-main: #e0f7fc;
+            --text-muted: #62829c;
+            --border-glow: #00f0ff88;
+        }
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{
-background:#020611;
-background-image:
-radial-gradient(circle at top,#063b70 0%,transparent 35%),
-linear-gradient(rgba(0,170,255,.05) 1px,transparent 1px),
-linear-gradient(90deg,rgba(0,170,255,.05) 1px,transparent 1px);
-background-size:auto,45px 45px,45px 45px;
-color:white;
-overflow:hidden;
-}
-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:18px;
-background:#03111F;
-border-bottom:2px solid #00c8ff;
-}
-header h1{color:#00d5ff;font-size:26px}
-header p{font-size:12px;color:#8fdfff}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            font-family: 'Rajdhani', sans-serif;
+        }
 
-.menu{
-display:flex;
-gap:10px;
-padding:15px;
-background:#020b18;
-}
-.menu button{
-flex:1;
-padding:12px;
-background:#06203b;
-border:1px solid #00aaff44;
-color:white;
-border-radius:10px;
-cursor:pointer;
-}
-.menu button:hover{
-background:#008cff;
-}
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            background-image: 
+                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
 
-.page{
-height:calc(100vh - 120px);
-overflow:hidden;
-display:flex;
-flex-direction:column;
-}
-#teamPage{display:none;}
+        /* Top Bar */
+        .top-bar {
+            background: rgba(13, 22, 38, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-.title{
-padding:18px;
-}
-.title h2{font-size:30px;color:#fff}
-.title p{color:#7ccbe8}
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: #fff;
+            text-shadow: 0 0 10px var(--cyan-glow);
+        }
 
-/* BRACKET */
+        .brand img {
+            width: 36px;
+            height: 36px;
+            filter: drop-shadow(0 0 5px var(--cyan-glow));
+        }
 
-.bracket-scroll{
-flex:1;
-overflow-x:auto;
-overflow-y:hidden;
-padding:15px;
-scroll-behavior:smooth;
-}
-.bracket{
-display:flex;
-gap:45px;
-width:max-content;
-align-items:flex-start;
-}
-.round{
-width:170px;
-}
-.round-title{
-text-align:center;
-color:#00d5ff;
-margin-bottom:12px;
-font-size:13px;
-letter-spacing:1px;
-}
-.match{
-margin-bottom:22px;
-position:relative;
-}
-.match::after{
-content:"";
-position:absolute;
-right:-45px;
-top:50%;
-width:45px;
-height:2px;
-background:#00c8ff;
-}
-.round:last-child .match::after{
-display:none;
-}
-.date{
-font-size:10px;
-text-align:center;
-color:#72ddff;
-margin-bottom:6px;
-}
-.match-box{
-background:#07131d;
-padding:8px;
-border-radius:12px;
-border:1px solid #00aaff44;
-}
-.team{
-display:flex;
-justify-content:space-between;
-padding:8px;
-background:#08121c;
-margin:4px 0;
-border-radius:7px;
-font-size:13px;
-}
-.team.win{
-background:linear-gradient(90deg,#006eff,#00bfff);
-box-shadow:0 0 10px #00c8ff;
-}
-.team.lose{
-opacity:.35;
-}
-.score{font-weight:bold;color:#fff;}
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 4px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 240, 255, 0.1);
+        }
 
-.grand .match-box{
-border:2px solid gold;
-box-shadow:0 0 15px gold;
-}
-.grand .round-title{
-color:gold;
-}
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
 
-/* PODIUM */
+        .tab-btn.active, .tab-btn:hover {
+            background: var(--blue-accent);
+            color: #fff;
+            box-shadow: 0 0 12px var(--cyan-glow);
+        }
 
-.podium{
-display:flex;
-justify-content:center;
-align-items:flex-end;
-gap:15px;
-padding:20px;
-background:#041322;
-}
-.rank2,.rank1{
-width:140px;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-border-radius:18px 18px 0 0;
-}
-.rank2{
-height:150px;
-background:#596d86;
-}
-.rank1{
-height:200px;
-background:linear-gradient(#00d5ff,#007cff,#003566);
-box-shadow:0 0 20px #00c8ff;
-}
-.rank1 h3,.rank2 h3{margin-top:10px}
+        /* Hero Banner */
+        .hero {
+            position: relative;
+            margin: 20px auto;
+            width: 95%;
+            max-width: 1400px;
+            background: linear-gradient(135deg, rgba(13, 22, 38, 0.9), rgba(0, 114, 255, 0.2)), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-/* TEAM PAGE */
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 15px var(--cyan-glow);
+        }
 
-.team-grid{
-padding:20px;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
-gap:15px;
-}
-.team-card{
-background:#07131d;
-padding:15px;
-border-radius:15px;
-border:1px solid #00aaff33;
-}
-.team-card h3{color:#00d5ff}
-.team-card p{color:#8fdfff;font-size:12px;margin:5px 0 8px}
-.team-card li{
-list-style:none;
-padding:5px 0;
-font-size:13px;
-border-bottom:1px solid #ffffff11;
-}
+        .status-badge {
+            display: inline-block;
+            background: #ff0055;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            animation: pulse 1.5s infinite;
+        }
 
-/* ADMIN */
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
 
-#adminPanel{
-display:none;
-position:fixed;
-inset:0;
-background:#000a;
-backdrop-filter:blur(8px);
-justify-content:center;
-align-items:center;
-}
-.admin-box{
-width:90%;
-max-width:350px;
-background:#07131d;
-padding:20px;
-border-radius:18px;
-border:1px solid #00c8ff;
-}
-.admin-box h2{
-text-align:center;
-margin-bottom:15px;
-color:#00d5ff;
-}
-.admin-box input{
-width:100%;
-padding:10px;
-margin:6px 0;
-background:#020b18;
-border:1px solid #00aaff33;
-color:white;
-border-radius:8px;
-}
-.admin-box button{
-width:100%;
-padding:12px;
-margin-top:8px;
-background:#008cff;
-border:none;
-color:white;
-border-radius:8px;
-cursor:pointer;
-}
-</style>
+        /* Bracket View Area */
+        .bracket-viewport {
+            width: 95%;
+            max-width: 1400px;
+            margin: 0 auto 30px;
+            overflow: auto;
+            background: rgba(7, 12, 20, 0.8);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            border-radius: 12px;
+            padding: 40px;
+            position: relative;
+            cursor: grab;
+        }
+
+        .bracket-viewport:active {
+            cursor: grabbing;
+        }
+
+        .bracket-container {
+            display: flex;
+            gap: 60px;
+            min-width: 1100px;
+            position: relative;
+        }
+
+        .round {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 220px;
+            gap: 20px;
+        }
+
+        .round-title {
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--cyan-glow);
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .match-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            border-radius: 8px;
+            padding: 10px;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            transition: all 0.3s;
+        }
+
+        .match-card:hover {
+            border-color: var(--cyan-glow);
+            box-shadow: 0 0 15px var(--cyan-dim);
+        }
+
+        .team-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px;
+            border-radius: 4px;
+            margin: 2px 0;
+            background: rgba(0,0,0,0.3);
+        }
+
+        .team-row.winner {
+            background: rgba(0, 240, 255, 0.15);
+            border-left: 3px solid var(--cyan-glow);
+        }
+
+        .team-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+        }
+
+        .team-logo {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #fff;
+            object-fit: cover;
+        }
+
+        .score {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            color: var(--cyan-glow);
+        }
+
+        /* Admin Controls */
+        .admin-panel {
+            display: none;
+            width: 95%;
+            max-width: 1400px;
+            margin: 0 auto 30px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-glow);
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .btn {
+            background: var(--blue-accent);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 114, 255, 0.4);
+        }
+
+        .btn:hover {
+            background: var(--cyan-glow);
+            color: #000;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .top-bar { flex-direction: column; gap: 12px; }
+            .hero { flex-direction: column; text-align: center; gap: 15px; }
+        }
+    </style>
 </head>
-
 <body>
 
-<header>
-<div>
-<h1>🏆 MDC TOURNAMENT</h1>
-<p>SEASON 01 • MOBILE LEGENDS</p>
-</div>
-<div style="color:#00d5ff;border:1px solid #00d5ff;padding:8px 12px;border-radius:20px;">
-LIVE
-</div>
-</header>
-
-<div class="menu">
-<button onclick="showBracket()">🏆 Bracket</button>
-<button onclick="showTeam()">👥 Team</button>
-<button onclick="openAdmin()">⚙ Admin</button>
-</div>
-
-<!-- BRACKET PAGE -->
-<div id="bracketPage" class="page">
-
-<div class="title">
-<h2>MDC PLAYOFF</h2>
-<p>Upper Bracket • Lower Bracket • Grand Final</p>
-</div>
-
-<div class="bracket-scroll">
-
-<div class="bracket">
-
-<div class="round">
-<div class="round-title">UPPER R1</div>
-
-<div class="match">
-<div class="date">18 JAN • 19:30</div>
-<div class="match-box">
-<div class="team win"><span>NevTryz</span><span class="score">2</span></div>
-<div class="team lose"><span>Santaeee</span><span class="score">1</span></div>
-</div>
-</div>
-
-<div class="match">
-<div class="date">18 JAN • 20:30</div>
-<div class="match-box">
-<div class="team"><span>PARADOX</span><span class="score">0</span></div>
-<div class="team"><span>Alfazira</span><span class="score">0</span></div>
-</div>
-</div>
-
-<div class="match">
-<div class="date">19 JAN</div>
-<div class="match-box">
-<div class="team"><span>Strawberry</span><span class="score">0</span></div>
-<div class="team"><span>BlackWolf</span><span class="score">0</span></div>
-</div>
-</div>
-
-<div class="match">
-<div class="date">19 JAN</div>
-<div class="match-box">
-<div class="team"><span>NightRaid</span><span class="score">0</span></div>
-<div class="team"><span>Monarch TNX</span><span class="score">0</span></div>
-</div>
-</div>
-
-</div>
-
-<div class="round">
-<div class="round-title">UPPER SEMI</div>
-
-<div class="match">
-<div class="date">20 JAN</div>
-<div class="match-box">
-<div class="team"><span>Winner M1</span><span class="score">0</span></div>
-<div class="team"><span>Winner M2</span><span class="score">0</span></div>
-</div>
-</div>
-
-<div class="match">
-<div class="date">20 JAN</div>
-<div class="match-box">
-<div class="team"><span>Winner M3</span><span class="score">0</span></div>
-<div class="team"><span>Winner M4</span><span class="score">0</span></div>
-</div>
-</div>
-
-</div>
-
-<div class="round">
-<div class="round-title">UPPER FINAL</div>
-
-<div class="match">
-<div class="date">22 JAN</div>
-<div class="match-box">
-<div class="team"><span>Upper Winner</span><span class="score">0</span></div>
-<div class="team"><span>Upper Winner</span><span class="score">0</span></div>
-</div>
-</div>
-
-</div>
-
-<div class="round">
-<div class="round-title">LOWER R1</div>
-
-<div class="match">
-<div class="date">20 JAN</div>
-<div class="match-box">
-<div class="team"><span>Loser M1</span><span class="score">0</span></div>
-<div class="team"><span>Loser M2</span><span class="score">0</span></div>
-</div>
-</div>
-
-<div class="match">
-<div class="date">21 JAN</div>
-<div class="match-box">
-<div class="team"><span>Loser M3</span><span class="score">0</span></div>
-<div class="team"><span>Loser M4</span><span class="score">0</span></div>
-</div>
-</div>
-
-</div>
-
-<div class="round">
-<div class="round-title">LOWER FINAL</div>
-
-<div class="match">
-<div class="date">22 JAN</div>
-<div class="match-box">
-<div class="team"><span>Lower Winner</span><span class="score">0</span></div>
-<div class="team"><span>Lower Winner</span><span class="score">0</span></div>
-</div>
-</div>
-
-</div>
-
-<div class="round grand">
-<div class="round-title">🏆 GRAND FINAL</div>
-
-<div class="match">
-<div class="date">23 JAN • 20:00</div>
-<div class="match-box">
-<div class="team"><span>Upper Winner</span><span class="score">0</span></div>
-<div class="team"><span>Lower Winner</span><span class="score">0</span></div>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="podium">
-<div class="rank2">
-<div style="font-size:40px">🥈</div>
-<b>JUARA 2</b>
-<h3 id="runnerName">-</h3>
-</div>
-
-<div class="rank1">
-<div style="font-size:50px">🏆</div>
-<b>JUARA 1</b>
-<h3 id="champName">-</h3>
-</div>
-</div>
-
-</div>
-
-<!-- TEAM PAGE -->
-<div id="teamPage" class="page">
-
-<div class="team-grid">
-
-<div class="team-card">
-<h3>NevTryz Esports</h3>
-<p>Code : NVT</p>
-<ul>
-<li>Player 1</li><li>Player 2</li><li>Player 3</li><li>Player 4</li><li>Player 5</li>
-</ul>
-</div>
-
-<div class="team-card">
-<h3>PARADOX</h3>
-<p>Code : PDX</p>
-<ul>
-<li>Player 1</li><li>Player 2</li><li>Player 3</li><li>Player 4</li><li>Player 5</li>
-</ul>
-</div>
-
-<div class="team-card">
-<h3>Santaeee</h3>
-<p>Code : STE</p>
-<ul>
-<li>Player 1</li><li>Player 2</li><li>Player 3</li><li>Player 4</li><li>Player 5</li>
-</ul>
-</div>
-
-<div class="team-card">
-<h3>BlackWolf</h3>
-<p>Code : BW</p>
-<ul>
-<li>Player 1</li><li>Player 2</li><li>Player 3</li><li>Player 4</li><li>Player 5</li>
-</ul>
-</div>
-
-</div>
-
-</div>
-
-<!-- ADMIN -->
-<div id="adminPanel">
-<div class="admin-box">
-
-<h2>ADMIN PANEL</h2>
-
-<div id="loginBox">
-<input type="password" id="pin" placeholder="PIN 012570">
-<button onclick="login()">MASUK</button>
-</div>
-
-<div id="editBox" style="display:none">
-<input id="team1" placeholder="Nama Tim 1">
-<input id="team2" placeholder="Nama Tim 2">
-<input id="score1" type="number" placeholder="Skor Tim 1">
-<input id="score2" type="number" placeholder="Skor Tim 2">
-<input id="date" placeholder="Tanggal Match">
-
-<button onclick="save()">💾 SIMPAN MATCH</button>
-<button onclick="closeAdmin()">TUTUP</button>
-</div>
-
-</div>
-</div>
-
-<script>
-
-const ADMIN_PIN="012570";
-
-function showBracket(){
-document.getElementById("bracketPage").style.display="flex";
-document.getElementById("teamPage").style.display="none";
-}
-
-function showTeam(){
-document.getElementById("teamPage").style.display="flex";
-document.getElementById("bracketPage").style.display="none";
-}
-
-function openAdmin(){
-document.getElementById("adminPanel").style.display="flex";
-}
-
-function closeAdmin(){
-document.getElementById("adminPanel").style.display="none";
-document.getElementById("loginBox").style.display="block";
-document.getElementById("editBox").style.display="none";
-}
-
-function login(){
-if(pin.value===ADMIN_PIN){
-loginBox.style.display="none";
-editBox.style.display="block";
-}else{
-alert("PIN SALAH!");
-}
-}
-
-function save(){
-
-const match=document.querySelector(".match");
-const teams=match.querySelectorAll(".team");
-
-teams[0].children[0].innerText=team1.value;
-teams[1].children[0].innerText=team2.value;
-teams[0].children[1].innerText=score1.value;
-teams[1].children[1].innerText=score2.value;
-match.querySelector(".date").innerText=date.value;
-
-teams[0].classList.remove("win","lose");
-teams[1].classList.remove("win","lose");
-
-if(Number(score1.value)>Number(score2.value)){
-teams[0].classList.add("win");
-teams[1].classList.add("lose");
-champName.innerText=team1.value;
-runnerName.innerText=team2.value;
-}else if(Number(score2.value)>Number(score1.value)){
-teams[1].classList.add("win");
-teams[0].classList.add("lose");
-champName.innerText=team2.value;
-runnerName.innerText=team1.value;
-}
-
-localStorage.setItem("mdcData",JSON.stringify({
-t1:team1.value,t2:team2.value,s1:score1.value,s2:score2.value,d:date.value
-}));
-
-alert("Berhasil disimpan!");
-closeAdmin();
-
-}
-
-window.onload=()=>{
-const data=JSON.parse(localStorage.getItem("mdcData"));
-if(!data)return;
-
-team1.value=data.t1;
-team2.value=data.t2;
-score1.value=data.s1;
-score2.value=data.s2;
-date.value=data.d;
-
-const match=document.querySelector(".match");
-const teams=match.querySelectorAll(".team");
-
-teams[0].children[0].innerText=data.t1;
-teams[1].children[0].innerText=data.t2;
-teams[0].children[1].innerText=data.s1;
-teams[1].children[1].innerText=data.s2;
-match.querySelector(".date").innerText=data.d;
-
-if(Number(data.s1)>Number(data.s2)){
-champName.innerText=data.t1;
-runnerName.innerText=data.t2;
-}else if(Number(data.s2)>Number(data.s1)){
-champName.innerText=data.t2;
-runnerName.innerText=data.t1;
-}
-};
-
-</script>
-
+    <!-- Header -->
+    <div class="top-bar">
+        <div class="brand">
+            <img src="https://via.placeholder.com/40/00f0ff/ffffff?text=MDC" alt="Logo">
+            <span>MDC TOURNAMENT</span>
+        </div>
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('bracket')">Bracket</button>
+            <button class="tab-btn" onclick="switchTab('jadwal')">Jadwal</button>
+            <button class="tab-btn" onclick="switchTab('admin')">Admin PIN</button>
+        </div>
+    </div>
+
+    <!-- Banner -->
+    <div class="hero">
+        <div>
+            <span class="status-badge">● LIVE MATCH</span>
+            <h1 class="hero-title">SEASON 01 CHAMPIONSHIP</h1>
+            <p style="color: var(--text-muted)">Mobile Legends Dormitory Champions</p>
+        </div>
+        <div style="text-align: right;">
+            <div style="font-size: 0.8rem; color: var(--text-muted)">TOTAL HADIAH</div>
+            <div style="font-family: 'Orbitron'; font-size: 1.8rem; color: var(--cyan-glow)">Rp 5.000.000</div>
+        </div>
+    </div>
+
+    <!-- Bracket Area -->
+    <div id="bracket-view" class="bracket-viewport">
+        <div class="bracket-container">
+            <!-- Round 1 -->
+            <div class="round">
+                <div class="round-title">Upper Round 1</div>
+                <div class="match-card">
+                    <div class="team-row winner">
+                        <div class="team-info">
+                            <img src="https://via.placeholder.com/20" class="team-logo">
+                            <span>AE</span>
+                        </div>
+                        <span class="score">2</span>
+                    </div>
+                    <div class="team-row">
+                        <div class="team-info">
+                            <img src="https://via.placeholder.com/20" class="team-logo">
+                            <span>ONIC</span>
+                        </div>
+                        <span class="score">0</span>
+                    </div>
+                </div>
+                <div class="match-card">
+                    <div class="team-row">
+                        <div class="team-info">
+                            <img src="https://via.placeholder.com/20" class="team-logo">
+                            <span>TL</span>
+                        </div>
+                        <span class="score">1</span>
+                    </div>
+                    <div class="team-row winner">
+                        <div class="team-info">
+                            <img src="https://via.placeholder.com/20" class="team-logo">
+                            <span>RORA</span>
+                        </div>
+                        <span class="score">2</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Semi Final -->
+            <div class="round">
+                <div class="round-title">Semi Final</div>
+                <div class="match-card">
+                    <div class="team-row winner">
+                        <div class="team-info">
+                            <img src="https://via.placeholder.com/20" class="team-logo">
+                            <span>AE</span>
+                        </div>
+                        <span class="score">2</span>
+                    </div>
+                    <div class="team-row">
+                        <div class="team-info">
+                            <img src="https://via.placeholder.com/20" class="team-logo">
+                            <span>RORA</span>
+                        </div>
+                        <span class="score">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grand Final -->
+            <div class="round">
+                <div class="round-title">Grand Final</div>
+                <div class="match-card" style="border-color: var(--cyan-glow); box-shadow: 0 0 20px var(--cyan-dim);">
+                    <div class="team-row winner">
+                        <div class="team-info">
+                            <img src="https://via.placeholder.com/20" class="team-logo">
+                            <span>AE</span>
+                        </div>
+                        <span class="score">3</span>
+                    </div>
+                    <div class="team-row">
+                        <div class="team-info">
+                            <img src="https://via.placeholder.com/20" class="team-logo">
+                            <span>AUR</span>
+                        </div>
+                        <span class="score">1</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="admin-view" class="admin-panel">
+        <h2 style="font-family: 'Orbitron'; margin-bottom: 16px; color: var(--cyan-glow)">PANEL ADMIN</h2>
+        <div id="admin-login">
+            <p style="margin-bottom: 10px;">Masukkan PIN Admin untuk mengedit bracket:</p>
+            <input type="password" id="pin-input" placeholder="PIN Admin" style="padding: 10px; border-radius: 6px; border: 1px solid var(--border-glow); background: rgba(0,0,0,0.5); color: #fff; margin-right: 10px;">
+            <button class="btn" onclick="checkPin()">Login Admin</button>
+        </div>
+        <div id="admin-controls" style="display: none; margin-top: 20px;">
+            <p style="color: #00f0ff; margin-bottom: 15px;">✓ Login Berhasil! Anda memiliki akses penuh.</p>
+            <button class="btn" onclick="triggerConfetti()">Uji Efek Selebrasi Juara</button>
+            <button class="btn" style="background: #ff0055;" onclick="alert('Data berhasil di-reset.')">Reset Turnamen</button>
+        </div>
+    </div>
+
+    <script>
+        // Tab Switcher
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if (tabName === 'admin') {
+                document.getElementById('bracket-view').style.display = 'none';
+                document.getElementById('admin-view').style.display = 'block';
+            } else {
+                document.getElementById('bracket-view').style.display = 'block';
+                document.getElementById('admin-view').style.display = 'none';
+            }
+        }
+
+        // Admin PIN Check
+        function checkPin() {
+            const pin = document.getElementById('pin-input').value;
+            if (pin === '012570') {
+                document.getElementById('admin-login').style.display = 'none';
+                document.getElementById('admin-controls').style.display = 'block';
+            } else {
+                alert('PIN Salah! Masukkan PIN yang benar.');
+            }
+        }
+
+        // Selebrasi Juara (Confetti)
+        function triggerConfetti() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+
+        // Horizontal Drag Scroll untuk HP & Laptop
+        const slider = document.querySelector('.bracket-viewport');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+        slider.addEventListener('mouseleave', () => { isDown = false; });
+        slider.addEventListener('mouseup', () => { isDown = false; });
+        slider.addEventListener('mousemove', (e) => {
+            if(!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+    </script>
 </body>
-  </html>
+</html>
