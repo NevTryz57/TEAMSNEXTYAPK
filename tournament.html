@@ -514,6 +514,113 @@
             .hero { flex-direction: column; text-align: center; }
             .bracket-viewport { padding: 20px; }
         }
+        /* STYLING HEADER BRACKET (UPPER & LOWER BADGE) */
+.bracket-section-header {
+    margin-bottom: 15px;
+}
+.bracket-title-badge {
+    background: linear-gradient(90deg, rgba(0, 153, 255, 0.3), rgba(0, 50, 120, 0.1));
+    border: 1px solid var(--cyan-glow);
+    color: var(--cyan-glow);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 5px 15px;
+    border-radius: 4px;
+    display: inline-block;
+    box-shadow: 0 0 10px rgba(0, 210, 255, 0.2);
+}
+
+/* HEADER KOLOM RONDE */
+.column-header {
+    background: linear-gradient(180deg, rgba(0, 110, 220, 0.4), rgba(2, 20, 50, 0.6));
+    border: 1px solid rgba(0, 210, 255, 0.4);
+    color: #aed8ff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    padding: 4px 10px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+    box-shadow: inset 0 0 8px rgba(0, 210, 255, 0.2);
+}
+
+/* JADWAL & TEKS DI ATAS KOTAK MATCH */
+.match-schedule {
+    font-size: 9px;
+    color: #72a2ce;
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 4px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+/* KOTAK KARTU BRACKET MATCH */
+.match-card {
+    background: rgba(6, 26, 52, 0.85);
+    border: 1px solid rgba(0, 180, 255, 0.4);
+    border-radius: 6px;
+    width: 150px;
+    padding: 4px 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(0, 150, 255, 0.1);
+    backdrop-filter: blur(4px);
+}
+
+/* BARIS DUA TIM DI DALAM KOTAK */
+.match-team-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3px 4px;
+    border-radius: 4px;
+    margin: 2px 0;
+}
+.match-team-row.winner {
+    background: rgba(0, 180, 255, 0.15);
+}
+
+.team-info-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    overflow: hidden;
+}
+.team-logo-small {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+}
+.team-code-text {
+    font-size: 11px;
+    font-weight: bold;
+    color: #ffffff;
+    font-family: 'Rajdhani', sans-serif;
+    white-space: nowrap;
+}
+.team-score-num {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--cyan-glow);
+    font-family: 'Orbitron', sans-serif;
+}
+
+/* TEKS TBD (BELUM ADA TIM / PLACEHOLDER LOSER OF MATCH) */
+.team-placeholder-text {
+    font-size: 9px;
+    color: #4a759e;
+    font-weight: 600;
+    font-family: 'Orbitron', sans-serif;
+}
+
+/* GARIS SVG CONNECTOR */
+.bracket-line {
+    stroke: #00b4ff;
+    stroke-width: 2px;
+    fill: none;
+    filter: drop-shadow(0 0 4px #00b4ff);
+}
     </style>
 </head>
 <body>
@@ -551,102 +658,150 @@
         </div>
     </div>
 
-    <div id="bracket-view" class="bracket-viewport">
-        <div id="bracket-tree" class="bracket-tree">
-            <svg id="bracket-svg" class="bracket-svg"></svg>
+    <!-- BRACKET VIEW (PERSIS SESUAI GAMBAR) -->
+<div id="bracket-view" class="content-panel active">
+    <div id="bracket-tree" class="bracket-container" style="position: relative; overflow-x: auto; padding: 20px 10px;">
+        <!-- Canvas SVG untuk Garis Connector -->
+        <svg id="bracket-svg" style="position: absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:1;"></svg>
 
-            <!-- UPPER BRACKET -->
-            <div class="bracket-section-title">UPPER BRACKET</div>
-            <div class="bracket-row">
-                <div class="bracket-column">
-                    <div class="column-header">ROUND 1</div>
-                    <div class="match-card-wrap" id="wrap-M1">
-                        <div class="match-schedule" id="sch-M1">18 JAN - 14:00</div>
-                        <div class="match-card" id="card-M1"></div>
-                    </div>
-                    <div class="match-card-wrap" id="wrap-M2">
-                        <div class="match-schedule" id="sch-M2">18 JAN - 15:30</div>
-                        <div class="match-card" id="card-M2"></div>
-                    </div>
-                    <div class="match-card-wrap" id="wrap-M3">
-                        <div class="match-schedule" id="sch-M3">18 JAN - 17:00</div>
-                        <div class="match-card" id="card-M3"></div>
-                    </div>
-                    <div class="match-card-wrap" id="wrap-M4">
-                        <div class="match-schedule" id="sch-M4">18 JAN - 19:00</div>
-                        <div class="match-card" id="card-M4"></div>
-                    </div>
+        <!-- UPPER BRACKET SECTION -->
+        <div class="bracket-section-header">
+            <span class="bracket-title-badge">‹ UPPER BRACKET</span>
+        </div>
+
+        <div class="bracket-row upper" style="display: flex; gap: 40px; align-items: flex-start; margin-bottom: 40px;">
+            <!-- UB ROUND 1 -->
+            <div class="bracket-column">
+                <div class="column-header">ROUND 1</div>
+                <div id="wrap-UB_R1_1">
+                    <div class="match-schedule">MATCH 1 • JAN 18</div>
+                    <div class="match-card" id="card-UB_R1_1"></div>
                 </div>
-
-                <div class="bracket-column">
-                    <div class="column-header">SEMI FINAL</div>
-                    <div class="match-card-wrap" id="wrap-M5">
-                        <div class="match-schedule" id="sch-M5">21 JAN - 16:00</div>
-                        <div class="match-card" id="card-M5"></div>
-                    </div>
-                    <div class="match-card-wrap" id="wrap-M6">
-                        <div class="match-schedule" id="sch-M6">21 JAN - 19:00</div>
-                        <div class="match-card" id="card-M6"></div>
-                    </div>
+                <div id="wrap-UB_R1_2" style="margin-top: 15px;">
+                    <div class="match-schedule">MATCH 2 • JAN 18</div>
+                    <div class="match-card" id="card-UB_R1_2"></div>
                 </div>
-
-                <div class="bracket-column">
-                    <div class="column-header">UPPER FINAL</div>
-                    <div class="match-card-wrap" id="wrap-M7">
-                        <div class="match-schedule" id="sch-M7">24 JAN - 19:00</div>
-                        <div class="match-card" id="card-M7"></div>
-                    </div>
+                <div id="wrap-UB_R1_3" style="margin-top: 15px;">
+                    <div class="match-schedule">MATCH 3 • JAN 18</div>
+                    <div class="match-card" id="card-UB_R1_3"></div>
                 </div>
-
-                <div class="bracket-column" style="width: auto;">
-                    <div class="column-header">GRAND FINAL</div>
-                    <div class="match-card-wrap" id="wrap-M11" style="width: 200px;">
-                        <div class="match-schedule" id="sch-M11">25 JAN - 20:00</div>
-                        <div class="match-card" id="card-M11"></div>
-                    </div>
-                </div>
-
-                <div class="trophy-node" id="trophy-node-element">
-                    <div class="trophy-icon">🏆</div>
-                    <div class="trophy-title">JUARA MDC</div>
-                    
-                    <div class="winner-box">
-                        <div class="winner-rank">🥇 JUARA 1 (CHAMPION)</div>
-                        <div class="winner-team-name" id="trophy-champ-1">-</div>
-                    </div>
-
-                    <div class="winner-box" style="border-color: rgba(0, 240, 255, 0.3);">
-                        <div class="winner-rank" style="color: #aaa;">🥈 JUARA 2 (RUNNER-UP)</div>
-                        <div class="winner-team-name" id="trophy-champ-2" style="font-size: 0.9rem;">-</div>
-                    </div>
+                <div id="wrap-UB_R1_4" style="margin-top: 15px;">
+                    <div class="match-schedule">MATCH 4 • JAN 18</div>
+                    <div class="match-card" id="card-UB_R1_4"></div>
                 </div>
             </div>
 
-            <!-- LOWER BRACKET -->
-            <div class="bracket-section-title" style="margin-top: 30px;">LOWER BRACKET</div>
-            <div class="bracket-row">
-                <div class="bracket-column">
-                    <div class="column-header">LOWER R1</div>
-                    <div class="match-card-wrap" id="wrap-M8">
-                        <div class="match-schedule" id="sch-M8">22 JAN - 16:00</div>
-                        <div class="match-card" id="card-M8"></div>
-                    </div>
-                    <div class="match-card-wrap" id="wrap-M9">
-                        <div class="match-schedule" id="sch-M9">22 JAN - 19:00</div>
-                        <div class="match-card" id="card-M9"></div>
-                    </div>
+            <!-- UB QUARTER FINAL -->
+            <div class="bracket-column" style="margin-top: 30px;">
+                <div class="column-header">QUARTER FINAL</div>
+                <div id="wrap-UB_QF_1" style="margin-bottom: 75px;">
+                    <div class="match-schedule">MATCH 5 • JAN 21</div>
+                    <div class="match-card" id="card-UB_QF_1"></div>
                 </div>
+                <div id="wrap-UB_QF_2">
+                    <div class="match-schedule">MATCH 6 • JAN 21</div>
+                    <div class="match-card" id="card-UB_QF_2"></div>
+                </div>
+            </div>
 
-                <div class="bracket-column">
-                    <div class="column-header">LOWER FINAL</div>
-                    <div class="match-card-wrap" id="wrap-M10">
-                        <div class="match-schedule" id="sch-M10">23 JAN - 19:00</div>
-                        <div class="match-card" id="card-M10"></div>
+            <!-- UB SEMI FINAL -->
+            <div class="bracket-column" style="margin-top: 100px;">
+                <div class="column-header">SEMI FINAL</div>
+                <div id="wrap-UB_SF">
+                    <div class="match-schedule">MATCH 7 • JAN 24</div>
+                    <div class="match-card" id="card-UB_SF"></div>
+                </div>
+            </div>
+
+            <!-- UB FINAL -->
+            <div class="bracket-column" style="margin-top: 100px;">
+                <div class="column-header">FINAL</div>
+                <div id="wrap-UB_F">
+                    <div class="match-schedule">MATCH 9 • JAN 25</div>
+                    <div class="match-card" id="card-UB_F"></div>
+                </div>
+            </div>
+
+            <!-- PIALA & CHAMPION BADGE -->
+            <div class="bracket-column trophy-column" style="margin-top: 40px; text-align: center; display: flex; flex-direction: column; align-items: center;">
+                <div class="trophy-wrapper" style="position: relative; margin-bottom: 10px;">
+                    <img src="https://img.icons8.com/3d-fluency/180/trophy.png" alt="Trophy" class="trophy-img" style="width: 140px; height: 140px; filter: drop-shadow(0 0 15px var(--cyan-glow));">
+                    <div class="trophy-banner-text" style="background: linear-gradient(180deg, #1178ff, #003680); color: #fff; font-family: 'Orbitron'; font-size: 11px; padding: 2px 16px; border-radius: 4px; border: 1px solid var(--cyan-glow); box-shadow: 0 0 10px rgba(0,210,255,0.5); font-weight: bold; margin-top: -15px;">HANCUR</div>
+                </div>
+                
+                <div id="wrap-GF" class="champion-card-box" style="background: rgba(4, 28, 58, 0.95); border: 2px solid var(--cyan-glow); border-radius: 10px; padding: 10px 18px; width: 190px; box-shadow: 0 0 20px rgba(0, 210, 255, 0.4); margin-top: 10px;">
+                    <div style="font-size: 10px; color: var(--cyan-glow); font-weight: bold; font-family: 'Orbitron'; letter-spacing: 1px; display: flex; align-items: center; justify-content: center; gap: 5px; margin-bottom: 6px;">
+                        <span>👑</span> CHAMPION
+                    </div>
+                    <div id="champion-team-display" class="champion-team-wrap" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        <!-- Pemenang akan otomatis masuk ke sini lewat script -->
+                        <span style="color: var(--text-muted); font-size: 12px;">TBD</span>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- LOWER BRACKET SECTION -->
+        <div class="bracket-section-header" style="margin-top: 20px;">
+            <span class="bracket-title-badge">‹ LOWER BRACKET</span>
+        </div>
+
+        <div class="bracket-row lower" style="display: flex; gap: 40px; align-items: flex-start;">
+            <!-- LB ROUND 1 -->
+            <div class="bracket-column">
+                <div class="column-header">ROUND 1</div>
+                <div id="wrap-LB_R1_1">
+                    <div class="match-schedule">MATCH 1 • JAN 22</div>
+                    <div class="match-card" id="card-LB_R1_1"></div>
+                </div>
+                <div id="wrap-LB_R1_2" style="margin-top: 15px;">
+                    <div class="match-schedule">MATCH 2 • JAN 22</div>
+                    <div class="match-card" id="card-LB_R1_2"></div>
+                </div>
+            </div>
+
+            <!-- LB ROUND 2 -->
+            <div class="bracket-column">
+                <div class="column-header">ROUND 2</div>
+                <div id="wrap-LB_R2_1">
+                    <div class="match-schedule">MATCH 3 • JAN 23</div>
+                    <div class="match-card" id="card-LB_R2_1"></div>
+                </div>
+                <div id="wrap-LB_R2_2" style="margin-top: 15px;">
+                    <div class="match-schedule">MATCH 4 • JAN 23</div>
+                    <div class="match-card" id="card-LB_R2_2"></div>
+                </div>
+            </div>
+
+            <!-- LB ROUND 3 -->
+            <div class="bracket-column">
+                <div class="column-header">ROUND 3</div>
+                <div id="wrap-LB_R3">
+                    <div class="match-schedule">MATCH 5 • JAN 24</div>
+                    <div class="match-card" id="card-LB_R3"></div>
+                </div>
+            </div>
+
+            <!-- LB FINAL -->
+            <div class="bracket-column">
+                <div class="column-header">FINAL</div>
+                <div id="wrap-LB_F">
+                    <div class="match-schedule">MATCH 6 • JAN 25</div>
+                    <div class="match-card" id="card-LB_F"></div>
+                </div>
+            </div>
+
+            <!-- GRAND FINAL LB DISPLAY -->
+            <div class="bracket-column" style="margin-left: 20px;">
+                <div class="column-header">GRAND FINAL</div>
+                <div id="wrap-GF_LB">
+                    <div class="match-schedule">MATCH 10 • JAN 26</div>
+                    <div class="match-card" id="card-GF_LB"></div>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 
     <div id="teams-view" class="content-panel">
         <h2 style="font-family: 'Orbitron'; color: var(--cyan-glow); margin-bottom: 20px;">TIM & ROSTER PEMAIN</h2>
