@@ -351,7 +351,78 @@ cursor:pointer;
 .admin-box button:hover{
 box-shadow:0 0 20px #00C8FF;
 }
-  
+  /* ===== PART 8 BRACKET MPL ===== */
+
+.bracket-scroll{
+    overflow-x:auto;
+    overflow-y:hidden;
+    cursor:grab;
+    scroll-behavior:smooth;
+    padding:20px 10px;
+}
+
+.bracket-scroll:active{
+    cursor:grabbing;
+}
+
+.round{
+    display:flex;
+    flex-direction:column;
+    gap:40px;
+    min-width:230px;
+}
+
+.round-title{
+    color:#00d5ff;
+    text-align:center;
+    letter-spacing:2px;
+    margin-bottom:10px;
+    text-shadow:0 0 10px #00c8ff;
+}
+
+.match{
+    position:relative;
+}
+
+.match-box{
+    background:linear-gradient(145deg,#07192F,#020A15);
+    border:1px solid #00aaff55;
+    border-radius:16px;
+    padding:10px;
+    box-shadow:0 0 20px rgba(0,170,255,.25);
+}
+
+.match::after{
+    content:"";
+    position:absolute;
+    top:50%;
+    right:-36px;
+    width:36px;
+    height:2px;
+    background:#00c8ff;
+    box-shadow:0 0 10px #00c8ff;
+}
+
+.round:last-child .match::after{
+    display:none;
+}
+
+.team.winner{
+    background:linear-gradient(90deg,#005eff,#00c8ff);
+    box-shadow:0 0 15px #00c8ff;
+}
+
+.team.loser{
+    opacity:.35;
+    filter:grayscale(100%);
+}
+
+.date{
+    text-align:center;
+    color:#73dfff;
+    font-size:12px;
+    margin-bottom:8px;
+}
 </style>
 </head>
 
