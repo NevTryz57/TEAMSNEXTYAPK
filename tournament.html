@@ -702,6 +702,36 @@
                     <input type="file" accept=".json" onchange="importTournamentJSON(event)" style="display: none;">
                 </label>
                 <button class="btn btn-danger" onclick="resetTournamentData()">⚠️ Reset All Data</button>
+            <!-- KONTROL BRACKET & ROSTER DI ADMIN -->
+<div class="admin-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;">
+    
+    <!-- FORM TAMBAH BRACKET/MATCH BARU -->
+    <div style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 8px; border: 1px solid var(--border-glow);">
+        <h3 style="color: var(--cyan-glow); margin-bottom: 10px;">+ TAMBAH SLOT BRACKET</h3>
+        <input type="text" id="new-match-id" placeholder="ID Match (misal: UB_R2_1)" class="form-control">
+        
+        <select id="new-match-round" class="form-control">
+            <option value="UB">Upper Bracket</option>
+            <option value="LB">Lower Bracket</option>
+        </select>
+        
+        <input type="text" id="new-match-src1" placeholder="Asal Match 1 (opsional, misal: UB_R1_1)" class="form-control">
+        <input type="text" id="new-match-src2" placeholder="Asal Match 2 (opsional, misal: UB_R1_2)" class="form-control">
+        
+        <button class="btn" onclick="addNewMatch()">Buat Slot & Garis</button>
+    </div>
+
+    <!-- FORM KELOLA TIM & ROSTER -->
+    <div style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 8px; border: 1px solid var(--border-glow);">
+        <h3 style="color: var(--cyan-glow); margin-bottom: 10px;">+ TAMBAH TIM & ROSTER</h3>
+        <input type="text" id="admin-team-code" placeholder="Kode Tim (misal: RRQ)" class="form-control">
+        <input type="text" id="admin-team-name" placeholder="Nama Lengkap Tim" class="form-control">
+        <textarea id="admin-team-roster" placeholder="Daftar Roster (pisahkan dengan koma)" class="form-control" rows="2"></textarea>
+        
+        <button class="btn" onclick="addNewTeam()">Simpan Tim</button>
+    </div>
+
+</div>
             </div>
         </div>
     </div>
