@@ -514,6 +514,63 @@
             .hero { flex-direction: column; text-align: center; }
             .bracket-viewport { padding: 20px; }
         }
+        /* Layout Kontainer Bracket Utama */
+.bracket-tree {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    min-width: 1200px;
+}
+
+/* Row untuk Upper dan Lower sejajar */
+.bracket-row {
+    display: flex;
+    gap: 50px;
+    align-items: center;
+}
+
+/* Kolom Slot Match */
+.bracket-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 220px;
+    gap: 20px;
+    z-index: 2;
+}
+
+/* Area Tengah Antara UB & LB (Grand Final & Piala di Ujung) */
+.grand-final-center-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Posisi rapat ke kanan sejajar ujung final */
+    gap: 25px;
+    margin: 20px 0;
+    padding-right: 10px;
+    z-index: 2;
+}
+
+/* Tampilan Kotak Piala Neon Cyber */
+.trophy-box-mantap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, rgba(8, 16, 29, 0.95) 85%);
+    border: 2px solid #ffd700;
+    border-radius: 12px;
+    padding: 15px 25px;
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.4), inset 0 0 15px rgba(255, 215, 0, 0.2);
+    min-width: 180px;
+    text-align: center;
+    animation: trophyGlow 3s infinite alternate;
+}
+
+@keyframes trophyGlow {
+    0% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); border-color: #ffd700; }
+    100% { box-shadow: 0 0 35px rgba(255, 215, 0, 0.7); border-color: #fff066; }
+}
     </style>
 </head>
 <body>
@@ -550,9 +607,67 @@
             <button class="zoom-btn" onclick="resetZoom()">100%</button>
         </div>
     </div>
+<!-- VIEW BRACKET -->
+<div id="bracket-view" class="bracket-viewport">
+    <div id="bracket-tree" class="bracket-tree">
+        <svg id="bracket-svg" class="bracket-svg"></svg>
 
-    <div id="bracket-view" class="bracket-viewport">
-        <div id="bracket-tree" class="bracket-tree">
+        <!-- BAGIAN 1: UPPER BRACKET -->
+        <div style="font-family:'Orbitron'; color:var(--cyan-glow); font-size:0.9rem; font-weight:800; letter-spacing:1px;">▲ UPPER BRACKET</div>
+        <div class="bracket-row upper">
+            <div class="bracket-column">
+                <div class="column-header">ROUND 1</div>
+                <div id="wrap-UB_R1_1"></div>
+                <div id="wrap-UB_R1_2"></div>
+            </div>
+            <div class="bracket-column">
+                <div class="column-header">SEMI FINAL</div>
+                <div id="wrap-UB_SF_1"></div>
+            </div>
+            <div class="bracket-column">
+                <div class="column-header">UPPER FINAL</div>
+                <div id="wrap-UB_F"></div>
+            </div>
+        </div>
+
+        <!-- BAGIAN 2: GRAND FINAL & PIALA (DITARUH DI TENGAH ANTARA UB & LB, UJUNG KANAN) -->
+        <div class="grand-final-center-row">
+            <!-- Kotak Pertandingan Grand Final -->
+            <div class="bracket-column" style="width: 230px;">
+                <div class="column-header" style="border-color: #ffd700; color: #ffd700; background: rgba(255,215,0,0.1); font-weight:800;">🔥 GRAND FINAL (BO5)</div>
+                <div id="wrap-GF"></div>
+            </div>
+
+            <!-- Arrow Indicator / Icon -->
+            <div style="color: #ffd700; font-size: 1.5rem; font-weight: bold;">➔</div>
+
+            <!-- Kotak Piala / Juara Utama -->
+            <div class="trophy-box-mantap">
+                <div style="font-size: 3.2rem; filter: drop-shadow(0 0 12px #ffd700); margin-bottom: 2px;">🏆</div>
+                <div style="font-family:'Orbitron'; color:#ffd700; font-size:0.75rem; font-weight:900; letter-spacing:2px;">CHAMPION</div>
+                <div style="font-family:'Orbitron'; font-size:1.3rem; font-weight:800; color:#fff; text-shadow:0 0 10px var(--cyan-glow); margin-top:4px;" id="champ-name">-</div>
+            </div>
+        </div>
+
+        <!-- BAGIAN 3: LOWER BRACKET -->
+        <div style="font-family:'Orbitron'; color:var(--cyan-glow); font-size:0.9rem; font-weight:800; letter-spacing:1px;">▼ LOWER BRACKET</div>
+        <div class="bracket-row lower">
+            <div class="bracket-column">
+                <div class="column-header">ROUND 1</div>
+                <div id="wrap-LB_R1_1"></div>
+                <div id="wrap-LB_R1_2"></div>
+            </div>
+            <div class="bracket-column">
+                <div class="column-header">SEMI FINAL</div>
+                <div id="wrap-LB_SF_1"></div>
+            </div>
+            <div class="bracket-column">
+                <div class="column-header">LOWER FINAL</div>
+                <div id="wrap-LB_F"></div>
+            </div>
+        </div>
+    </div>
+</div>
             <svg id="bracket-svg" class="bracket-svg"></svg>
 
             <!-- UPPER BRACKET -->
