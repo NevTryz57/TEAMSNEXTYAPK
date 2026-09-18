@@ -107,7 +107,7 @@
             position: relative;
             margin: 16px auto;
             width: 95%;
-            max-width: 1400px;
+            max-width: 1600px;
             background: linear-gradient(135deg, rgba(8, 16, 29, 0.95), rgba(0, 240, 255, 0.15)), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-position: center;
@@ -152,7 +152,7 @@
 
         .bracket-header-tools {
             width: 95%;
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto 8px;
             display: flex;
             justify-content: space-between;
@@ -184,7 +184,7 @@
         /* Bracket View Area */
         .bracket-viewport {
             width: 95%;
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto 30px;
             overflow: auto;
             background: rgba(3, 7, 18, 0.95);
@@ -203,8 +203,8 @@
         .bracket-tree {
             display: flex;
             flex-direction: column;
-            gap: 40px;
-            min-width: 1400px;
+            gap: 50px;
+            min-width: 1600px;
             position: relative;
             transform-origin: 0 0;
             transition: transform 0.2s ease;
@@ -234,7 +234,7 @@
 
         .bracket-row {
             display: flex;
-            gap: 70px;
+            gap: 50px;
             position: relative;
             align-items: center;
         }
@@ -243,8 +243,8 @@
             display: flex;
             flex-direction: column;
             justify-content: space-around;
-            width: 200px;
-            gap: 30px;
+            width: 210px;
+            gap: 25px;
             z-index: 2;
         }
 
@@ -269,7 +269,7 @@
         }
 
         .match-schedule {
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             color: var(--cyan-glow);
             font-weight: 700;
             text-align: center;
@@ -324,6 +324,9 @@
             gap: 8px;
             font-weight: 700;
             font-size: 0.85rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .team-logo {
@@ -333,6 +336,7 @@
             background: #111;
             object-fit: cover;
             border: 1px solid rgba(0, 240, 255, 0.4);
+            flex-shrink: 0;
         }
 
         .score {
@@ -357,7 +361,7 @@
             text-align: center;
             width: 240px;
             align-self: center;
-            margin-left: 30px;
+            margin-left: 20px;
             position: relative;
         }
 
@@ -428,7 +432,7 @@
         .content-panel {
             display: none;
             width: 95%;
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto 30px;
             background: var(--bg-card);
             border: 1px solid var(--border-glow);
@@ -579,69 +583,92 @@
                 </div>
 
                 <div class="bracket-column">
-                    <div class="column-header">SEMI FINAL</div>
+                    <div class="column-header">QUARTER FINAL</div>
                     <div class="match-card-wrap" id="wrap-M5">
                         <div class="match-schedule" id="sch-M5">21 JAN - 16:00</div>
                         <div class="match-card" id="card-M5"></div>
                     </div>
-                    <div class="match-card-wrap" id="wrap-M6">
-                        <div class="match-schedule" id="sch-M6">21 JAN - 19:00</div>
-                        <div class="match-card" id="card-M6"></div>
+                    <!-- Match cadangan kuartal atas sesuai gambar referensi -->
+                    <div class="match-card-wrap" id="wrap-M5b" style="visibility: hidden; height: 0; overflow: hidden;">
+                        <div class="match-schedule"></div>
+                        <div class="match-card"></div>
                     </div>
                 </div>
 
                 <div class="bracket-column">
-                    <div class="column-header">UPPER FINAL</div>
+                    <div class="column-header">SEMI FINAL</div>
                     <div class="match-card-wrap" id="wrap-M7">
                         <div class="match-schedule" id="sch-M7">24 JAN - 19:00</div>
                         <div class="match-card" id="card-M7"></div>
                     </div>
                 </div>
 
-                <div class="bracket-column" style="width: auto;">
-                    <div class="column-header">GRAND FINAL</div>
-                    <div class="match-card-wrap" id="wrap-M11" style="width: 200px;">
-                        <div class="match-schedule" id="sch-M11">25 JAN - 20:00</div>
-                        <div class="match-card" id="card-M11"></div>
+                <div class="bracket-column">
+                    <div class="column-header">FINAL</div>
+                    <div class="match-card-wrap" id="wrap-M9">
+                        <div class="match-schedule" id="sch-M9">25 JAN - 19:00</div>
+                        <div class="match-card" id="card-M9"></div>
                     </div>
                 </div>
 
                 <div class="trophy-node" id="trophy-node-element">
                     <div class="trophy-icon">🏆</div>
-                    <div class="trophy-title">JUARA MDC</div>
-                    
+                    <div class="trophy-title">CHAMPION</div>
                     <div class="winner-box">
-                        <div class="winner-rank">🥇 JUARA 1 (CHAMPION)</div>
+                        <div class="winner-rank">JUARA UTAMA</div>
                         <div class="winner-team-name" id="trophy-champ-1">-</div>
-                    </div>
-
-                    <div class="winner-box" style="border-color: rgba(0, 240, 255, 0.3);">
-                        <div class="winner-rank" style="color: #aaa;">🥈 JUARA 2 (RUNNER-UP)</div>
-                        <div class="winner-team-name" id="trophy-champ-2" style="font-size: 0.9rem;">-</div>
                     </div>
                 </div>
             </div>
 
             <!-- LOWER BRACKET -->
-            <div class="bracket-section-title" style="margin-top: 30px;">LOWER BRACKET</div>
+            <div class="bracket-section-title" style="margin-top: 40px;">LOWER BRACKET</div>
             <div class="bracket-row">
                 <div class="bracket-column">
-                    <div class="column-header">LOWER R1</div>
-                    <div class="match-card-wrap" id="wrap-M8">
-                        <div class="match-schedule" id="sch-M8">22 JAN - 16:00</div>
-                        <div class="match-card" id="card-M8"></div>
+                    <div class="column-header">ROUND 1</div>
+                    <div class="match-card-wrap" id="wrap-LB1">
+                        <div class="match-schedule" id="sch-LB1">22 JAN - 16:00</div>
+                        <div class="match-card" id="card-LB1"></div>
                     </div>
-                    <div class="match-card-wrap" id="wrap-M9">
-                        <div class="match-schedule" id="sch-M9">22 JAN - 19:00</div>
-                        <div class="match-card" id="card-M9"></div>
+                    <div class="match-card-wrap" id="wrap-LB2">
+                        <div class="match-schedule" id="sch-LB2">22 JAN - 19:00</div>
+                        <div class="match-card" id="card-LB2"></div>
                     </div>
                 </div>
 
                 <div class="bracket-column">
-                    <div class="column-header">LOWER FINAL</div>
-                    <div class="match-card-wrap" id="wrap-M10">
-                        <div class="match-schedule" id="sch-M10">23 JAN - 19:00</div>
-                        <div class="match-card" id="card-M10"></div>
+                    <div class="column-header">ROUND 2</div>
+                    <div class="match-card-wrap" id="wrap-LB3">
+                        <div class="match-schedule" id="sch-LB3">23 JAN - 16:00</div>
+                        <div class="match-card" id="card-LB3"></div>
+                    </div>
+                    <div class="match-card-wrap" id="wrap-LB4">
+                        <div class="match-schedule" id="sch-LB4">23 JAN - 19:00</div>
+                        <div class="match-card" id="card-LB4"></div>
+                    </div>
+                </div>
+
+                <div class="bracket-column">
+                    <div class="column-header">ROUND 3</div>
+                    <div class="match-card-wrap" id="wrap-LB5">
+                        <div class="match-schedule" id="sch-LB5">24 JAN - 16:00</div>
+                        <div class="match-card" id="card-LB5"></div>
+                    </div>
+                </div>
+
+                <div class="bracket-column">
+                    <div class="column-header">FINAL</div>
+                    <div class="match-card-wrap" id="wrap-LB6">
+                        <div class="match-schedule" id="sch-LB6">25 JAN - 16:00</div>
+                        <div class="match-card" id="card-LB6"></div>
+                    </div>
+                </div>
+
+                <div class="bracket-column" style="width: 210px;">
+                    <div class="column-header">GRAND FINAL</div>
+                    <div class="match-card-wrap" id="wrap-GF">
+                        <div class="match-schedule" id="sch-GF">25 JAN - 20:00</div>
+                        <div class="match-card" id="card-GF"></div>
                     </div>
                 </div>
             </div>
@@ -691,7 +718,7 @@
             </div>
 
             <div style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; margin-bottom: 20px; border: 1px solid rgba(0,240,255,0.2);">
-                <h3 style="font-family: 'Orbitron'; font-size: 1rem; color: var(--cyan-glow); margin-bottom: 12px;">EDIT SKOR & JADWAL MATCH</h3>
+                <h3 style="font-family: 'Orbitron'; font-size: 1rem; color: var(--cyan-glow); margin-bottom: 12px;">EDIT SKOR, TIM & JADWAL MATCH (LENGKAP SEMUA MATCH)</h3>
                 <div class="grid-2" id="admin-matches-list"></div>
             </div>
 
@@ -730,12 +757,15 @@
                 M3: { teamA: "T5", teamB: "T6", scoreA: 2, scoreB: 0, date: "18 JAN - 17:00" },
                 M4: { teamA: "T7", teamB: "T8", scoreA: 2, scoreB: 0, date: "18 JAN - 19:00" },
                 M5: { teamA: "T1", teamB: "T4", scoreA: 2, scoreB: 0, date: "21 JAN - 16:00" },
-                M6: { teamA: "T5", teamB: "T7", scoreA: 0, scoreB: 2, date: "21 JAN - 19:00" },
                 M7: { teamA: "T1", teamB: "T7", scoreA: 2, scoreB: 1, date: "24 JAN - 19:00" },
-                M8: { teamA: "T2", teamB: "T3", scoreA: 2, scoreB: 0, date: "22 JAN - 16:00" },
-                M9: { teamA: "T6", teamB: "T8", scoreA: 0, scoreB: 2, date: "22 JAN - 19:00" },
-                M10: { teamA: "T2", teamB: "T8", scoreA: 2, scoreB: 1, date: "23 JAN - 19:00" },
-                M11: { teamA: "T1", teamB: "T7", scoreA: 3, scoreB: 1, date: "25 JAN - 20:00" }
+                M9: { teamA: "T1", teamB: "T7", scoreA: 3, scoreB: 1, date: "25 JAN - 19:00" },
+                LB1: { teamA: "T2", teamB: "T3", scoreA: 2, scoreB: 0, date: "22 JAN - 16:00" },
+                LB2: { teamA: "T6", teamB: "T8", scoreA: 0, scoreB: 2, date: "22 JAN - 19:00" },
+                LB3: { teamA: "LOSER OF MATCH 1", teamB: "WINNER OF MATCH 2", scoreA: 0, scoreB: 0, date: "23 JAN - 16:00" },
+                LB4: { teamA: "LOSER OF MATCH 2", teamB: "WINNER OF MATCH 1", scoreA: 0, scoreB: 0, date: "23 JAN - 19:00" },
+                LB5: { teamA: "LOSER OF MATCH 5", teamB: "WINNER OF MATCH 6", scoreA: 0, scoreB: 0, date: "24 JAN - 16:00" },
+                LB6: { teamA: "WINNER OF MATCH 7", teamB: "WINNER OF MATCH 8", scoreA: 0, scoreB: 0, date: "25 JAN - 16:00" },
+                GF: { teamA: "T1", teamB: "WINNER LOWER BRACKET", scoreA: 0, scoreB: 0, date: "25 JAN - 20:00" }
             }
         };
 
@@ -780,42 +810,59 @@
         function renderBracket() {
             Object.keys(appData.matches).forEach(mId => {
                 const match = appData.matches[mId];
-                const teamA = appData.teams.find(t => t.id === match.teamA) || { tag: 'TBD', logo: '' };
-                const teamB = appData.teams.find(t => t.id === match.teamB) || { tag: 'TBD', logo: '' };
+                const cardEl = document.getElementById(`card-${mId}`);
+                const schEl = document.getElementById(`sch-${mId}`);
+                if (!cardEl) return;
 
-                const isAFinished = match.scoreA > 0 || match.scoreB > 0;
-                const winnerA = match.scoreA > match.scoreB;
-                const winnerB = match.scoreB > match.scoreA;
+                if (schEl) schEl.innerText = match.date;
 
-                document.getElementById(`sch-${mId}`).innerText = match.date;
-                document.getElementById(`card-${mId}`).innerHTML = `
-                    <div class="team-row ${isAFinished ? (winnerA ? 'winner' : 'loser') : ''}">
+                const getTeamHtml = (teamKey, score) => {
+                    const teamObj = appData.teams.find(t => t.id === teamKey);
+                    if (teamObj) {
+                        return {
+                            name: teamObj.tag,
+                            logo: teamObj.logo
+                        };
+                    } else {
+                        return {
+                            name: teamKey,
+                            logo: 'https://via.placeholder.com/20/00f0ff/000000?text=?'
+                        };
+                    }
+                };
+
+                const tA = getTeamHtml(match.teamA, match.scoreA);
+                const tB = getTeamHtml(match.teamB, match.scoreB);
+
+                const isFinished = match.scoreA > 0 || match.scoreB > 0;
+                const winA = match.scoreA > match.scoreB;
+                const winB = match.scoreB > match.scoreA;
+
+                cardEl.innerHTML = `
+                    <div class="team-row ${isFinished ? (winA ? 'winner' : 'loser') : ''}">
                         <div class="team-info">
-                            <img src="${teamA.logo}" class="team-logo">
-                            <span>${teamA.tag}</span>
+                            <img src="${tA.logo}" class="team-logo">
+                            <span style="${!appData.teams.find(t=>t.id===match.teamA)?'font-size:10px; color:#00f0ff;':''}">${tA.name}</span>
                         </div>
                         <span class="score">${match.scoreA}</span>
                     </div>
-                    <div class="team-row ${isAFinished ? (winnerB ? 'winner' : 'loser') : ''}">
+                    <div class="team-row ${isFinished ? (winB ? 'winner' : 'loser') : ''}">
                         <div class="team-info">
-                            <img src="${teamB.logo}" class="team-logo">
-                            <span>${teamB.tag}</span>
+                            <img src="${tB.logo}" class="team-logo">
+                            <span style="${!appData.teams.find(t=>t.id===match.teamB)?'font-size:10px; color:#00f0ff;':''}">${tB.name}</span>
                         </div>
                         <span class="score">${match.scoreB}</span>
                     </div>
                 `;
             });
 
-            const gf = appData.matches.M11;
-            if (gf.scoreA > 0 || gf.scoreB > 0) {
-                const champ1 = gf.scoreA > gf.scoreB ? gf.teamA : gf.teamB;
-                const champ2 = gf.scoreA > gf.scoreB ? gf.teamB : gf.teamA;
-
-                const team1 = appData.teams.find(t => t.id === champ1);
-                const team2 = appData.teams.find(t => t.id === champ2);
-
-                document.getElementById('trophy-champ-1').innerText = team1 ? `${team1.name} (${team1.tag})` : '-';
-                document.getElementById('trophy-champ-2').innerText = team2 ? `${team2.name} (${team2.tag})` : '-';
+            const gf = appData.matches.GF;
+            if (gf && (gf.scoreA > 0 || gf.scoreB > 0)) {
+                const champKey = gf.scoreA > gf.scoreB ? gf.teamA : gf.teamB;
+                const champObj = appData.teams.find(t => t.id === champKey);
+                document.getElementById('trophy-champ-1').innerText = champObj ? `${champObj.name} (${champObj.tag})` : champKey;
+            } else {
+                document.getElementById('trophy-champ-1').innerText = '-';
             }
         }
 
@@ -839,10 +886,12 @@
             
             const connections = [
                 ['wrap-M1', 'wrap-M5'], ['wrap-M2', 'wrap-M5'],
-                ['wrap-M3', 'wrap-M6'], ['wrap-M4', 'wrap-M6'],
-                ['wrap-M5', 'wrap-M7'], ['wrap-M6', 'wrap-M7'],
-                ['wrap-M7', 'wrap-M11'], ['wrap-M11', 'trophy-node-element'],
-                ['wrap-M8', 'wrap-M10'], ['wrap-M9', 'wrap-M10']
+                ['wrap-M3', 'wrap-M7'], ['wrap-M4', 'wrap-M7'],
+                ['wrap-M5', 'wrap-M9'], ['wrap-M7', 'wrap-M9'],
+                ['wrap-M9', 'trophy-node-element'],
+                ['wrap-LB1', 'wrap-LB3'], ['wrap-LB2', 'wrap-LB3'],
+                ['wrap-LB3', 'wrap-LB5'], ['wrap-LB4', 'wrap-LB5'],
+                ['wrap-LB5', 'wrap-LB6'], ['wrap-LB6', 'wrap-GF']
             ];
 
             const treeRect = document.getElementById('bracket-tree').getBoundingClientRect();
@@ -888,7 +937,7 @@
             const teamsBox = document.getElementById('admin-teams-list');
             teamsBox.innerHTML = appData.teams.map((t, idx) => `
                 <div style="background:rgba(0,0,0,0.4); padding:10px; border-radius:6px; border:1px solid rgba(255,255,255,0.1);">
-                    <label style="color:var(--cyan-glow);">Tim #${idx+1}</label>
+                    <label style="color:var(--cyan-glow);">Tim #${idx+1} (${t.id})</label>
                     <input type="text" value="${t.name}" class="form-control" style="margin-bottom:6px;" onchange="updateTeamData('${t.id}', 'name', this.value)">
                     <input type="text" value="${t.tag}" class="form-control" style="margin-bottom:6px;" onchange="updateTeamData('${t.id}', 'tag', this.value)">
                     <input type="text" value="${t.logo}" class="form-control" placeholder="URL Logo" onchange="updateTeamData('${t.id}', 'logo', this.value)">
@@ -899,12 +948,16 @@
             matchesBox.innerHTML = Object.keys(appData.matches).map(mId => {
                 const m = appData.matches[mId];
                 return `
-                    <div style="background:rgba(0,0,0,0.4); padding:10px; border-radius:6px; border:1px solid rgba(255,255,255,0.1);">
-                        <label style="color:var(--cyan-glow);">${mId} (${m.date})</label>
-                        <input type="text" value="${m.date}" class="form-control" style="margin-bottom:6px;" onchange="updateMatchData('${mId}', 'date', this.value)">
+                    <div style="background:rgba(0,0,0,0.4); padding:10px; border-radius:6px; border:1px solid rgba(255,255,255,0.1); margin-bottom:10px;">
+                        <label style="color:var(--cyan-glow); font-weight:bold;">Match: ${mId}</label>
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:6px; margin:6px 0;">
+                            <input type="text" value="${m.teamA}" class="form-control" placeholder="Tim A / Placeholder" onchange="updateMatchData('${mId}', 'teamA', this.value)">
+                            <input type="text" value="${m.teamB}" class="form-control" placeholder="Tim B / Placeholder" onchange="updateMatchData('${mId}', 'teamB', this.value)">
+                        </div>
                         <div style="display:flex; gap:8px;">
-                            <input type="number" value="${m.scoreA}" class="form-control" onchange="updateMatchData('${mId}', 'scoreA', parseInt(this.value)||0)">
-                            <input type="number" value="${m.scoreB}" class="form-control" onchange="updateMatchData('${mId}', 'scoreB', parseInt(this.value)||0)">
+                            <input type="text" value="${m.date}" class="form-control" style="width:50%;" onchange="updateMatchData('${mId}', 'date', this.value)">
+                            <input type="number" value="${m.scoreA}" class="form-control" style="width:25%;" onchange="updateMatchData('${mId}', 'scoreA', parseInt(this.value)||0)">
+                            <input type="number" value="${m.scoreB}" class="form-control" style="width:25%;" onchange="updateMatchData('${mId}', 'scoreB', parseInt(this.value)||0)">
                         </div>
                     </div>
                 `;
