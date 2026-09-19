@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TNEX - MLBB Macro Room & Custom Card Studio</title>
+    <title>member.html - Custom Avatar & Card Border Generator</title>
     <style>
         * {
             box-sizing: border-box;
@@ -23,98 +23,6 @@
             overflow-x: hidden;
         }
 
-        /* Dashboard Utama (Akses Cepat) */
-        .dashboard-container {
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-            flex: 1;
-            justify-content: center;
-        }
-
-        .dashboard-title {
-            font-size: 20px;
-            font-weight: bold;
-            color: #ffffff;
-            margin-bottom: -5px;
-            letter-spacing: 0.5px;
-        }
-
-        .quick-access-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-        }
-
-        @media (min-width: 768px) {
-            .quick-access-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 20px;
-            }
-        }
-
-        .feature-card {
-            background: linear-gradient(145deg, rgba(11, 25, 44, 0.95), rgba(3, 7, 18, 0.95));
-            border: 1px solid #1e293b;
-            border-radius: 16px;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card:hover {
-            border-color: #0284c7;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 25px rgba(2, 132, 199, 0.2);
-        }
-
-        .feature-card.highlight {
-            border-color: #0284c7;
-            background: linear-gradient(145deg, rgba(11, 25, 44, 1), rgba(2, 132, 199, 0.1));
-        }
-
-        .card-icon-box {
-            width: 48px;
-            height: 48px;
-            background: rgba(2, 132, 199, 0.15);
-            border: 1px solid rgba(2, 132, 199, 0.4);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-        }
-
-        .card-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #38bdf8;
-        }
-
-        .card-desc {
-            font-size: 12px;
-            color: #94a3b8;
-            line-height: 1.4;
-        }
-
-        /* Room / Macro Area Style */
-        .room-app-container {
-            display: none;
-            flex-direction: column;
-            flex: 1;
-            height: 100vh;
-        }
-
         .header {
             display: flex;
             justify-content: space-between;
@@ -122,488 +30,340 @@
             padding: 12px 20px;
             background: rgba(3, 7, 18, 0.95);
             border-bottom: 1px solid #1e293b;
-            z-index: 10;
         }
 
-        .back-btn { background: none; border: none; color: #fff; font-size: 18px; cursor: pointer; display: flex; align-items: center; gap: 5px;}
-        .room-title { font-size: 14px; font-weight: 600; color: #38bdf8; }
-        
-        .header-btn-group {
-            display: flex;
-            gap: 8px;
-        }
-
-        .admin-trigger-btn, .custom-studio-btn {
-            background: #ffffff; color: #030712; border: none;
-            padding: 6px 14px; border-radius: 20px; font-weight: bold; font-size: 11px; cursor: pointer;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-        .custom-studio-btn {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: #fff;
+        .header-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #38bdf8;
+            letter-spacing: 0.5px;
         }
 
         .main-layout {
-            display: flex; flex-direction: column; flex: 1; padding: 12px; gap: 12px; height: calc(100vh - 55px);
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            padding: 15px;
+            gap: 15px;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
         }
 
         @media (min-width: 768px) {
-            .main-layout { flex-direction: row; padding: 20px; gap: 20px; height: calc(100vh - 65px); }
+            .main-layout {
+                flex-direction: row;
+                padding: 20px;
+                gap: 20px;
+            }
         }
 
-        .map-section, .admin-map-wrapper {
-            flex: 1; background: #0b1329; border: 1px solid #0284c7; border-radius: 12px;
-            position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden;
-            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8); min-height: 300px;
+        /* Area Preview Card Besar */
+        .preview-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #0b1329;
+            border: 2px solid #0284c7;
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            min-height: 380px;
+            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8);
         }
 
-        .map-canvas {
-            width: 100%; height: 100%; position: relative;
-            background-image: url('11315.jpg');
-            background-size: contain; background-repeat: no-repeat; background-position: center;
+        /* Kotak Besar Card Utama */
+        .large-card-box {
+            width: 260px;
+            height: 320px;
+            background: linear-gradient(135deg, rgba(11, 25, 44, 0.95), rgba(3, 7, 18, 0.98));
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            gap: 15px;
+            position: relative;
+            transition: all 0.3s ease;
         }
 
-        .info-sidebar, .admin-sidebar {
-            background: rgba(11, 25, 44, 0.95); border: 1px solid #0284c7;
-            border-radius: 12px; padding: 15px; display: flex; flex-direction: column; gap: 10px; overflow-y: auto;
+        /* Container Avatar & Border Avatar */
+        .avatar-container {
+            position: relative;
+            width: 110px;
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .info-sidebar { width: 100%; max-height: 220px; }
+        /* Foto Avatar di dalam */
+        .avatar-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            position: absolute;
+            z-index: 1;
+            background: #1e293b;
+        }
+
+        /* Border Avatar di Luar Foto */
+        .avatar-border-overlay {
+            position: absolute;
+            width: 110px;
+            height: 110px;
+            z-index: 2;
+            pointer-events: none;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .card-nickname {
+            font-size: 16px;
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+
+        .card-role {
+            font-size: 11px;
+            color: #38bdf8;
+            background: rgba(2, 132, 199, 0.15);
+            border: 1px solid rgba(2, 132, 199, 0.4);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        /* Panel Kontrol Pengaturan (Kanan) */
+        .control-sidebar {
+            width: 100%;
+            background: rgba(11, 25, 44, 0.95);
+            border: 1px solid #0284c7;
+            border-radius: 16px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 520px;
+            overflow-y: auto;
+        }
+
         @media (min-width: 768px) {
-            .info-sidebar { width: 380px; max-height: none; }
-            .admin-sidebar { width: 400px; }
+            .control-sidebar {
+                width: 380px;
+            }
         }
 
-        .section-title { font-size: 11px; color: #38bdf8; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
-        .phase-display-tabs { display: flex; gap: 6px; }
-        .p-tab {
-            flex: 1; background: #030712; border: 1px solid #1e293b; color: #94a3b8;
-            padding: 7px; font-size: 11px; text-align: center; border-radius: 6px; cursor: pointer; font-weight: 600;
-        }
-        .p-tab.active { background: #0284c7; color: #fff; border-color: #38bdf8; }
-
-        .strategy-notes-display {
-            background: #030712; border: 1px solid #1e293b; padding: 8px; border-radius: 6px;
-            font-size: 11px; color: #cbd5e1; line-height: 1.4; height: 70px; overflow-y: auto;
-        }
-        @media (min-width: 768px) { .strategy-notes-display { height: 110px; } }
-
-        .playback-controls {
-            display: flex; flex-direction: column; gap: 8px; background: #030712; border: 1px solid #1e293b; padding: 10px; border-radius: 8px;
-        }
-        .btn-group { display: flex; gap: 6px; }
-        .ctrl-btn {
-            flex: 1; background: #0284c7; color: white; border: none; padding: 8px;
-            border-radius: 6px; font-weight: bold; font-size: 11px; cursor: pointer;
-        }
-        .ctrl-btn.secondary { background: #1e293b; color: #38bdf8; border: 1px solid #0284c7; }
-
-        /* Modal & Custom Studio Overlay */
-        .modal-overlay, .studio-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(3, 7, 18, 0.9); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 15px;
-        }
-        .modal-box {
-            background: #0b192c; border: 1px solid #0284c7; padding: 20px; border-radius: 12px; width: 100%; max-width: 300px; text-align: center;
-        }
-        .modal-box input {
-            width: 100%; background: #030712; border: 1px solid #1e293b; color: white;
-            padding: 10px; border-radius: 6px; margin: 12px 0; text-align: center; font-size: 16px; letter-spacing: 3px;
-        }
-        .modal-box button {
-            background: #0284c7; color: white; border: none; padding: 9px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; font-size: 12px;
+        .section-title {
+            font-size: 11px;
+            color: #38bdf8;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 2px;
         }
 
-        /* Custom Studio Card Generator */
-        .studio-container {
-            background: #0b1329; border: 2px solid #38bdf8; border-radius: 16px; width: 100%; max-width: 750px;
-            max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 0 40px rgba(2, 132, 199, 0.4);
-        }
-        .studio-header {
-            display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: rgba(3, 7, 18, 0.95); border-bottom: 1px solid #1e293b;
-        }
-        .studio-body {
-            display: flex; flex-direction: column; gap: 15px; padding: 20px; overflow-y: auto; flex: 1;
-        }
-        @media(min-width: 768px) {
-            .studio-body { flex-direction: row; }
-        }
-        .studio-preview-pane {
-            flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; background: rgba(3, 7, 18, 0.6); padding: 20px; border-radius: 12px; border: 1px dashed #1e293b;
-        }
-        .studio-controls-pane {
-            flex: 1; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; max-height: 380px; padding-right: 5px;
-        }
-        @media(min-width: 768px) { .studio-controls-pane { max-height: none; } }
-
-        /* Kartu & Kotak Besar Dinamis */
-        .dynamic-big-card {
-            width: 220px; height: 320px; border-radius: 16px; padding: 15px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.8); transition: all 0.3s ease; border: 2px solid rgba(255,255,255,0.2);
-        }
-        .avatar-frame-wrapper {
-            width: 100px; height: 100px; position: relative; display: flex; align-items: center; justify-content: center; margin-top: 10px;
-        }
-        .user-avatar-img {
-            width: 72px; height: 72px; border-radius: 50%; object-fit: cover; z-index: 1; background: #1e293b;
-        }
-        .ml-border-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 3; background-size: contain; background-repeat: no-repeat; background-position: center;
-        }
-        .card-user-name {
-            font-size: 14px; font-weight: bold; letter-spacing: 1px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); text-align: center; margin-top: 5px;
-        }
-        .card-user-role {
-            font-size: 10px; padding: 3px 10px; border-radius: 12px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.3); font-weight: 600; letter-spacing: 0.5px;
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
         }
 
-        .control-group { display: flex; flex-direction: column; gap: 5px; }
-        .control-group label { font-size: 10px; color: #38bdf8; font-weight: bold; text-transform: uppercase; }
-        .control-group input[type="text"], .control-group select {
-            background: #030712; border: 1px solid #1e293b; color: #fff; padding: 8px; border-radius: 6px; font-size: 11px; width: 100%;
-        }
-        .color-palette-grid {
-            display: flex; gap: 6px; flex-wrap: wrap;
-        }
-        .color-chip {
-            width: 26px; height: 26px; border-radius: 50%; cursor: pointer; border: 2px solid rgba(255,255,255,0.3); transition: transform 0.2s;
-        }
-        .color-chip:hover { transform: scale(1.15); border-color: #fff; }
-
-        .border-select-grid {
-            display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px;
-        }
-        .border-thumb {
-            aspect-ratio: 1; background: #030712; border: 1px solid #1e293b; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 10px; cursor: pointer; text-align: center; color: #94a3b8; font-weight: bold; transition: all 0.2s;
-        }
-        .border-thumb.active { border-color: #38bdf8; color: #38bdf8; background: rgba(56, 189, 248, 0.1); }
-
-        /* Panel Admin */
-        .admin-panel-container {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #030712; z-index: 500; flex-direction: column;
-        }
-        .admin-header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 12px 20px; background: rgba(11, 25, 44, 0.9); border-bottom: 1px solid #0284c7;
-        }
-        .admin-body { display: flex; flex-direction: column; flex: 1; padding: 12px; gap: 12px; height: calc(100vh - 55px); overflow: hidden; }
-        @media (min-width: 768px) {
-            .admin-body { flex-direction: row; padding: 20px; gap: 20px; height: calc(100vh - 65px); }
-        }
-        .admin-sidebar textarea {
-            width: 100%; background: #030712; border: 1px solid #1e293b; color: white;
-            padding: 8px; border-radius: 6px; font-size: 11px; resize: vertical; height: 50px;
+        .input-group label {
+            font-size: 11px;
+            color: #94a3b8;
         }
 
-        /* Ukuran Bidak Diperkecil & Rapi */
-        .tactical-piece {
-            position: absolute; width: 24px; height: 24px; border: 1.5px solid #fff; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
-            box-shadow: 0 0 5px rgba(0,0,0,0.8); z-index: 10; user-select: none; touch-action: none;
-            transform: translate(-50%, -50%); font-weight: bold; font-size: 8px; letter-spacing: 0.2px;
+        .input-group input, .input-group select {
+            background: #030712;
+            border: 1px solid #1e293b;
+            color: white;
+            padding: 8px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            outline: none;
         }
-        .tactical-piece.active-selected { border-color: #f59e0b; box-shadow: 0 0 10px #f59e0b; transform: translate(-50%, -50%) scale(1.2); }
 
-        .piece-team { background: radial-gradient(circle, #38bdf8 0%, #0369a1 100%); color: #ffffff; }
-        .piece-enemy { background: radial-gradient(circle, #f87171 0%, #b91c1c 100%); color: #ffffff; }
-
-        .path-line-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
-
-        .admin-action-btn {
-            background: #0284c7; color: white; border: none; padding: 8px 10px;
-            border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 11px; width: 100%; text-align: center;
+        .input-group input[type="color"] {
+            width: 100%;
+            height: 35px;
+            cursor: pointer;
+            padding: 2px;
         }
-        .admin-action-btn.danger { background: #ef4444; }
-        .admin-action-btn.success { background: #16a34a; }
 
-        .spawn-palette { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
-        .spawn-item {
-            display: flex; align-items: center; gap: 3px; background: #030712; padding: 4px 6px;
-            border-radius: 5px; border: 1px solid #1e293b; font-size: 10px; cursor: pointer; color: #cbd5e1;
+        /* Pilihan 10 Desain Border Avatar */
+        .border-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
         }
-        .spawn-item:hover { border-color: #38bdf8; background: #0b192c; }
-        .spawn-item.macro { border-color: #f59e0b; color: #f59e0b; background: rgba(245, 158, 11, 0.05); }
 
-        .role-path-list {
-            background: #030712; border: 1px solid #1e293b; padding: 6px; border-radius: 6px; font-size: 11px; max-height: 90px; overflow-y: auto;
+        .border-option {
+            background: #030712;
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            padding: 6px;
+            text-align: center;
+            font-size: 10px;
+            cursor: pointer;
+            color: #94a3b8;
+            transition: all 0.2s;
         }
-        .role-path-item {
-            display: flex; justify-content: space-between; align-items: center; padding: 4px 6px; border-bottom: 1px solid #0f172a;
+
+        .border-option:hover, .border-option.active {
+            border-color: #38bdf8;
+            color: #ffffff;
+            background: rgba(2, 132, 199, 0.2);
         }
-        .role-path-item button { background: #ef4444; border: none; color: white; padding: 2px 6px; border-radius: 3px; font-size: 9px; cursor: pointer; }
+
+        .action-btn {
+            background: #0284c7;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 12px;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            margin-top: 5px;
+            transition: background 0.2s;
+        }
+
+        .action-btn:hover {
+            background: #0369a1;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Dashboard Utama (Akses Cepat) -->
-    <div class="dashboard-container" id="dashboardView">
-        <div class="dashboard-title">Akses Cepat</div>
-        <div class="quick-access-grid">
-            <!-- Card 1: Voice Room -->
-            <div class="feature-card" onclick="alert('Masuk ke ruang komunikasi suara...')">
-                <div class="card-icon-box">🎙️</div>
-                <div class="card-title">Voice Room</div>
-                <div class="card-desc">Masuk ke ruang komunikasi suara tim secara real-time.</div>
-            </div>
-
-            <!-- Card 2: Ruang Strategi -->
-            <div class="feature-card highlight" onclick="openRoomApp()">
-                <div class="card-icon-box">🗺️</div>
-                <div class="card-title">Ruang Strategi</div>
-                <div class="card-desc">Papan taktik, analisis map, dan simulasi pergerakan bidak game.</div>
-            </div>
-
-            <!-- Card 3: MDC Tournament -->
-            <div class="feature-card" onclick="alert('Membuka MDC Tournament Bracket...')">
-                <div class="card-icon-box">🏆</div>
-                <div class="card-title">MDC Tournament</div>
-                <div class="card-desc">Mobile Legends Dormitory Champions Bracket & jadwal tanding.</div>
-            </div>
-        </div>
-        <div style="font-size: 14px; font-weight: bold; color: #94a3b8; margin-top: 10px;">Team Space</div>
+    <div class="header">
+        <div class="header-title">TNEX - member.html</div>
+        <div style="font-size: 11px; color: #94a3b8;">Custom Border Generator</div>
     </div>
 
-    <!-- Room / Macro App Container -->
-    <div class="room-app-container" id="roomAppView">
-        <div class="header">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <button class="back-btn" onclick="closeRoomApp()">←</button>
-                <div class="room-title">TNEX - Ruang Strategi Makro</div>
-            </div>
-            <div class="header-btn-group">
-                <button class="custom-studio-btn" onclick="openCustomStudio()">✨ Custom Studio</button>
-                <button class="admin-trigger-btn" onclick="openPasswordModal()">Admin Login</button>
-            </div>
-        </div>
-
-        <div class="main-layout">
-            <div class="map-section">
-                <div class="map-canvas" id="publicMapCanvas">
-                    <div id="publicPiecesContainer"></div>
+    <div class="main-layout">
+        <!-- Preview Hasil -->
+        <div class="preview-section">
+            <div class="large-card-box" id="largeCardBox">
+                <!-- Avatar & Border Avatar -->
+                <div class="avatar-container">
+                    <img id="previewAvatarImg" class="avatar-img" src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=150" alt="Avatar">
+                    <div id="previewAvatarBorder" class="avatar-border-overlay"></div>
                 </div>
-            </div>
-
-            <div class="info-sidebar">
-                <div class="section-title">⏱️ Fase Game</div>
-                <div class="phase-display-tabs">
-                    <div class="p-tab active" onclick="switchPublicPhase('early', this)">Early</div>
-                    <div class="p-tab" onclick="switchPublicPhase('mid', this)">Mid</div>
-                    <div class="p-tab" onclick="switchPublicPhase('late', this)">Late</div>
-                </div>
-
-                <div class="section-title">🎮 Simulasi Publik</div>
-                <div class="playback-controls">
-                    <div style="font-size: 10px; color: #94a3b8; text-align: center;" id="playbackStatus">Status: Siap (Smooth)</div>
-                    <div class="btn-group">
-                        <button class="ctrl-btn secondary" onclick="stepPlayback(-1)">◀ Mundur</button>
-                        <button class="ctrl-btn" onclick="togglePlaySimulation()" id="playPauseBtn">▶ Play</button>
-                        <button class="ctrl-btn secondary" onclick="stepPlayback(1)">Maju ▶</button>
-                    </div>
-                    <button class="ctrl-btn secondary" style="background:#0f172a; width:100%; padding:6px;" onclick="resetPublicAnimation()">Reset Posisi</button>
-                </div>
-
-                <div class="section-title">📋 Catatan Makro</div>
-                <div class="strategy-notes-display" id="publicNotesDisplay">Memuat...</div>
+                <div class="card-nickname" id="previewNickname">TNEX • Zaxer</div>
+                <div class="card-role" id="previewRole">Jungler Pro</div>
             </div>
         </div>
-    </div>
 
-    <!-- Custom Studio Modal (Border Avatar & Kotak Besar) -->
-    <div class="studio-overlay" id="customStudioModal">
-        <div class="studio-container">
-            <div class="studio-header">
-                <div style="font-weight: bold; color: #38bdf8; font-size: 14px;">🎨 Custom Card & Avatar Border Studio</div>
-                <button class="admin-trigger-btn" onclick="closeCustomStudio()" style="background:#ef4444; color:#fff;">Tutup</button>
-            </div>
-            <div class="studio-body">
-                <!-- Preview Pane -->
-                <div class="studio-preview-pane">
-                    <div style="font-size: 11px; color: #94a3b8;">Preview Kotak & Border Real-Time</div>
-                    
-                    <!-- Kotak Besar Dinamis -->
-                    <div class="dynamic-big-card" id="previewBigCard" style="background: linear-gradient(145deg, #0b2239, #030712); box-shadow: 0 0 25px rgba(2,132,199,0.5);">
-                        <div class="avatar-frame-wrapper">
-                            <img id="previewAvatarImg" class="user-avatar-img" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='72' height='72'><rect width='72' height='72' fill='%231e293b'/><text x='36' y='41' font-size='11' fill='%2394a3b8' text-anchor='middle'>FOTO</text></svg>">
-                            <div id="previewAvatarBorder" class="ml-border-overlay"></div>
-                        </div>
-                        <div id="previewUserName" class="card-user-name">TNEX PLAYER</div>
-                        <div id="previewUserRole" class="card-user-role">JUNGLER</div>
-                    </div>
-                </div>
-
-                <!-- Controls Pane -->
-                <div class="studio-controls-pane">
-                    <div class="control-group">
-                        <label>1. Upload / Impor Foto Avatar (Dari Album)</label>
-                        <input type="file" id="avatarFileInput" accept="image/*" onchange="loadUserAvatar(event)">
-                    </div>
-
-                    <div class="control-group">
-                        <label>2. Nama & Role Player</label>
-                        <input type="text" id="inputPlayerName" value="TNEX PLAYER" placeholder="Nama Nickname..." oninput="updateCardText()">
-                        <select id="inputPlayerRole" onchange="updateCardText()">
-                            <option value="JUNGLER">Jungler</option>
-                            <option value="EXP LANER">Exp Laner</option>
-                            <option value="MID LANER">Mid Laner</option>
-                            <option value="GOLD LANER">Gold Laner</option>
-                            <option value="ROAMER">Roamer</option>
-                        </select>
-                    </div>
-
-                    <div class="control-group">
-                        <label>3. Pilih Desain Border Avatar (10 Pilihan MLBB)</label>
-                        <div class="border-select-grid" id="borderThumbGrid">
-                            <!-- Diisi via JS 10 Border -->
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label>4. Pilih Tema / Warna Aura Kotak Besar</label>
-                        <div class="color-palette-grid">
-                            <div class="color-chip" style="background: linear-gradient(135deg, #0284c7, #0369a1);" title="Crystal Blue" onclick="setCardTheme('#0284c7', 'rgba(2,132,199,0.5)')"></div>
-                            <div class="color-chip" style="background: linear-gradient(135deg, #f59e0b, #d97706);" title="Mythic Gold" onclick="setCardTheme('#d97706', 'rgba(245,158,11,0.5)')"></div>
-                            <div class="color-chip" style="background: linear-gradient(135deg, #a855f7, #6b21a8);" title="Epic Purple" onclick="setCardTheme('#7e22ce', 'rgba(168,85,247,0.5)')"></div>
-                            <div class="color-chip" style="background: linear-gradient(135deg, #ef4444, #991b1b);" title="Blood Ruby" onclick="setCardTheme('#b91c1c', 'rgba(239,68,68,0.5)')"></div>
-                            <div class="color-chip" style="background: linear-gradient(135deg, #10b981, #065f46);" title="Emerald Green" onclick="setCardTheme('#059669', 'rgba(16,185,129,0.5)')"></div>
-                            <div class="color-chip" style="background: linear-gradient(135deg, #ec4899, #be185d);" title="Starlight Pink" onclick="setCardTheme('#db2777', 'rgba(236,72,153,0.5)')"></div>
-                            <div class="color-chip" style="background: linear-gradient(135deg, #64748b, #0f172a);" title="Dark Silver" onclick="setCardTheme('#334155', 'rgba(100,116,139,0.5)')"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Admin -->
-    <div class="modal-overlay" id="passwordModal">
-        <div class="modal-box">
-            <h3 style="color: #38bdf8; margin-bottom: 8px; font-size: 14px;">🔐 Login Admin</h3>
-            <input type="password" id="adminPasswordInput" placeholder="••••••">
-            <button onclick="verifyAdminPassword()">Masuk</button>
-            <button onclick="closePasswordModal()" style="background: transparent; border: 1px solid #1e293b; margin-top: 8px; color: #94a3b8;">Batal</button>
-        </div>
-    </div>
-
-    <!-- Panel Admin -->
-    <div class="admin-panel-container" id="adminPanelContainer">
-        <div class="admin-header">
-            <div style="font-weight: bold; color: #38bdf8; font-size: 13px;">⚙️ Admin Macro Room</div>
-            <button class="admin-trigger-btn" style="background: #16a34a; color: white;" onclick="saveAndCloseAdmin()">Selesai</button>
-        </div>
-
-        <div class="admin-body">
-            <div class="admin-sidebar">
-                <div class="section-title">1. Fase & Catatan</div>
-                <div class="phase-display-tabs" style="margin-bottom: 4px;">
-                    <div class="p-tab active" onclick="setAdminPhase('early', this)">Early</div>
-                    <div class="p-tab" onclick="setAdminPhase('mid', this)">Mid</div>
-                    <div class="p-tab" onclick="setAdminPhase('late', this)">Late</div>
-                </div>
-                <textarea id="adminNotesInput" placeholder="Tulis instruksi..."></textarea>
-                <button class="admin-action-btn" onclick="saveAdminNotes()">Simpan Catatan</button>
-
-                <hr style="border-color: #1e293b; margin: 4px 0;">
-
-                <div class="section-title">2. Spawn Bidak & Makro</div>
-                <div style="font-size: 10px; color: #38bdf8; font-weight: bold;">Tim Biru:</div>
-                <div class="spawn-palette">
-                    <div class="spawn-item" onclick="spawnPiece('J', 'team', 'Jungler')">⚡ Jgl</div>
-                    <div class="spawn-item" onclick="spawnPiece('EXP', 'team', 'Exp Laner')">⚔️ Exp</div>
-                    <div class="spawn-item" onclick="spawnPiece('MID', 'team', 'Mid Laner')">🔮 Mid</div>
-                    <div class="spawn-item" onclick="spawnPiece('GOLD', 'team', 'Gold Laner')">🏹 Gold</div>
-                    <div class="spawn-item" onclick="spawnPiece('ROAM', 'team', 'Roamer')">🛡️ Roam</div>
-                    <div class="spawn-item" onclick="spawnPiece('LORD', 'team', 'Lord')">👑 Lord</div>
-                    <div class="spawn-item" onclick="spawnPiece('TUR', 'team', 'Turtle')">🐢 Turtle</div>
-                </div>
-                
-                <div style="font-size: 10px; color: #f87171; font-weight: bold; margin-top: 4px;">Musuh Merah:</div>
-                <div class="spawn-palette">
-                    <div class="spawn-item" onclick="spawnPiece('EJ', 'enemy', 'Enemy Jungler')">⚡ EJgl</div>
-                    <div class="spawn-item" onclick="spawnPiece('EEXP', 'enemy', 'Enemy Exp')">⚔️ EExp</div>
-                    <div class="spawn-item" onclick="spawnPiece('EMID', 'enemy', 'Enemy Mid')">🔮 EMid</div>
-                    <div class="spawn-item" onclick="spawnPiece('EGOLD', 'enemy', 'Enemy Gold')">🏹 EGold</div>
-                    <div class="spawn-item" onclick="spawnPiece('EROAM', 'enemy', 'Enemy Roam')">🛡️ ERoam</div>
-                </div>
-
-                <div style="font-size: 10px; color: #f59e0b; font-weight: bold; margin-top: 4px;">Makro Gameplay:</div>
-                <div class="spawn-palette">
-                    <div class="spawn-item macro" onclick="spawnPiece('FRZ', 'macro', 'Freeze Lane')">❄️ Freeze</div>
-                    <div class="spawn-item macro" onclick="spawnPiece('ZON', 'macro', 'Zoning Area')">🚧 Zone</div>
-                    <div class="spawn-item macro" onclick="spawnPiece('INV', 'macro', 'Invade Buff')">🔥 Invade</div>
-                    <div class="spawn-item macro" onclick="spawnPiece('CLR', 'macro', 'Clear Minion')">🧹 Clear</div>
-                    <div class="spawn-item macro" onclick="spawnPiece('WRD', 'macro', 'Vision/Ward')">👁️ Ward</div>
-                </div>
-
-                <hr style="border-color: #1e293b; margin: 4px 0;">
-
-                <div class="section-title">3. Atur Jalur (Tarik Bidak)</div>
-                <div style="font-size: 11px; color: #f59e0b;" id="selectedPieceIndicator">Status: Tap bidak, lalu geser</div>
-                
-                <div style="font-size: 10px; color: #94a3b8;">Daftar Jalur (Hapus per Step):</div>
-                <div class="role-path-list" id="adminPathListContainer">
-                    <div style="color: #64748b; text-align: center;">Belum ada jalur</div>
-                </div>
-
-                <div class="btn-group" style="margin-top: 4px;">
-                    <button class="admin-action-btn success" onclick="testAdminSimulation()">▶ Test Play</button>
-                    <button class="admin-action-btn danger" onclick="resetAdminPhaseMap()">Reset Fase</button>
-                </div>
+        <!-- Panel Kontrol Pengaturan -->
+        <div class="control-sidebar">
+            <div class="section-title">1. Impor Foto Avatar</div>
+            <div class="input-group">
+                <label>Pilih Gambar dari Album/Perangkat:</label>
+                <input type="file" id="uploadAvatarInput" accept="image/*" onchange="loadCustomAvatar(event)">
             </div>
 
-            <div class="admin-map-wrapper" id="adminMapWrapper">
-                <div class="map-canvas" id="adminMapCanvas">
-                    <svg class="path-line-svg" id="adminSvgPath"></svg>
-                    <div id="adminPiecesContainer"></div>
-                </div>
+            <div class="input-group">
+                <label>Nama / Nickname:</label>
+                <input type="text" id="inputNickname" value="TNEX • Zaxer" oninput="updateText()">
             </div>
+
+            <div class="input-group">
+                <label>Role / Keterangan:</label>
+                <input type="text" id="inputRole" value="Jungler Pro" oninput="updateText()">
+            </div>
+
+            <hr style="border-color: #1e293b; margin: 4px 0;">
+
+            <div class="section-title">2. Pilih Desain Border Avatar (10 Pilihan)</div>
+            <div class="border-grid" id="borderGridContainer">
+                <!-- 10 Tombol Pilihan Border -->
+            </div>
+
+            <hr style="border-color: #1e293b; margin: 4px 0;">
+
+            <div class="section-title">3. Kustomisasi Border & Aura Kotak Besar</div>
+            <div class="input-group">
+                <label>Gaya Border Kotak Besar:</label>
+                <select id="selectCardBorder" onchange="updateCardBorderStyling()">
+                    <option value="solid">Solid Modern (Clean)</option>
+                    <option value="neon">Neon Glowing Aura</option>
+                    <option value="gold">Gold Luxury (Emas)</option>
+                    <option value="dashed">Dashed Tactical</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Warna Aura / Glow Kotak Besar:</label>
+                <input type="color" id="inputAuraColor" value="#0284c7" oninput="updateCardBorderStyling()">
+            </div>
+
+            <button class="action-btn" onclick="alert('Desain berhasil disesuaikan! Silakan screenshot atau simpan tampilan card.')">Simpan / Selesai</button>
         </div>
     </div>
 
     <script>
-        // --- 10 Desain Border Generator (SVG Vector Dinamis Ala MLBB) ---
-        const mlBorders = [
-            { id: 1, name: "Mythic Gold", svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="46" fill="none" stroke="url(#mg)" stroke-width="6"/><defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#b45309"/></linearGradient></defs></svg>` },
-            { id: 2, name: "Epic Crystal", svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="46" fill="none" stroke="url(#ec)" stroke-width="6"/><defs><linearGradient id="ec" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#38bdf8"/><stop offset="100%" stop-color="#1d4ed8"/></linearGradient></defs></svg>` },
-            { id: 3, name: "Collector Fire", svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="46" fill="none" stroke="url(#cf)" stroke-width="6"/><defs><linearGradient id="cf" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f87171"/><stop offset="100%" stop-color="#7f1d1d"/></linearGradient></defs></svg>` },
-            { id: 4, name: "Starlight Rose", svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="46" fill="none" stroke="url(#sr)" stroke-width="6"/><defs><linearGradient id="sr" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ec4899"/><stop offset="100%" stop-color="#831843"/></linearGradient></defs></svg>` },
-            { id: 5, name: "Legend Mystic", svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="46" fill="none" stroke="url(#lm)" stroke-width="6"/><defs><linearGradient id="lm" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c084fc"/><stop offset="100%" stop-color="#581c87"/></linearGradient></defs></svg>` },
-            { id: 6, name: "Emerald Cyber", svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="46" fill="none" stroke="url(#em)" stroke-width="6"/><defs><linearGradient id="em" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#34d399"/><stop offset="100%" stop-color="#064e3b"/></linearGradient></defs></svg>` },
-            { id: 7, name: "Royal Diamond", svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="46" fill="none" stroke="url(#rd)" stroke-width="7" stroke-dasharray="4,4"/><defs><linearGradient id="rd" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffffff"/><stop offset="100%" stop-color="#0284c7"/></linearGradient></defs></svg>` },
-            { id: 8, name: "Dark Assassin", svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="46" fill="none" stroke="url(#da)" stroke-width="7"/><defs><linearGradient id="da" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#64748b"/><stop offset="100%" stop-color="#020617"/></linearGradient></defs></svg>` },
-            { id: 9, name: "Solar Flare", svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="46" fill="none" stroke="url(#sf)" stroke-width="6"/><defs><linearGradient id="sf" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fb923c"/><stop offset="100%" stop-color="#c2410c"/></linearGradient></defs></svg>` },
-            { id: 10, name: "Celestial Star", svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="46" fill="none" stroke="url(#cs)" stroke-width="7" stroke-dasharray="8,2"/><defs><linearGradient id="cs" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fde047"/><stop offset="100%" stop-color="#ca8a04"/></linearGradient></defs></svg>` }
+        const borderDesigns = [
+            { id: 0, name: "Tanpa Border", css: "none" },
+            { id: 1, name: "Epic Blue", css: "radial-gradient(circle, transparent 60%, #38bdf8 65%, #0284c7 100%)" },
+            { id: 2, name: "Mythic Gold", css: "radial-gradient(circle, transparent 60%, #f59e0b 65%, #b45309 100%)" },
+            { id: 3, name: "Collector Purple", css: "radial-gradient(circle, transparent 60%, #c084fc 65%, #7e22ce 100%)" },
+            { id: 4, name: "Starlight Green", css: "radial-gradient(circle, transparent 60%, #4ade80 65%, #15803d 100%)" },
+            { id: 5, name: "Legend Red", css: "radial-gradient(circle, transparent 60%, #f87171 65%, #b91c1c 100%)" },
+            { id: 6, name: "Crystal Cyan", css: "radial-gradient(circle, transparent 58%, #22d3ee 62%, #0891b2 70%, transparent 72%)" },
+            { id: 7, name: "Royal Orange", css: "radial-gradient(circle, transparent 60%, #fb923c 65%, #c2410c 100%)" },
+            { id: 8, name: "Silver Rank", css: "radial-gradient(circle, transparent 60%, #cbd5e1 65%, #475569 100%)" },
+            { id: 9, name: "Dark Abyss", css: "radial-gradient(circle, transparent 55%, #1e293b 62%, #0f172a 75%, #38bdf8 80%)" }
         ];
 
-        let selectedBorderId = 1;
+        let currentBorderIndex = 1;
 
-        function initBorderThumbnails() {
-            const grid = document.getElementById('borderThumbGrid');
-            grid.innerHTML = '';
-            mlBorders.forEach(b => {
-                const item = document.createElement('div');
-                item.className = `border-thumb ${b.id === selectedBorderId ? 'active' : ''}`;
-                item.innerHTML = `<div style="width:30px; height:30px;">${b.svg}</div>`;
-                item.onclick = () => {
-                    selectedBorderId = b.id;
-                    document.querySelectorAll('.border-thumb').forEach(el => el.classList.remove('active'));
-                    item.classList.add('active');
-                    updatePreviewBorder();
-                };
-                grid.appendChild(item);
+        function initBorderGrid() {
+            const container = document.getElementById('borderGridContainer');
+            container.innerHTML = '';
+            borderDesigns.forEach((item, idx) => {
+                const btn = document.createElement('div');
+                btn.className = `border-option ${idx === currentBorderIndex ? 'active' : ''}`;
+                btn.innerText = `Bdr ${idx}`;
+                btn.title = item.name;
+                btn.onclick = () => selectBorderAvatar(idx);
+                container.appendChild(btn);
             });
-            updatePreviewBorder();
+            applyBorderToPreview();
         }
 
-        function updatePreviewBorder() {
-            const borderObj = mlBorders.find(x => x.id === selectedBorderId);
-            if(borderObj) {
-                document.getElementById('previewAvatarBorder').innerHTML = borderObj.svg;
+        function selectBorderAvatar(idx) {
+            currentBorderIndex = idx;
+            document.querySelectorAll('.border-option').forEach((el, i) => {
+                if(i === idx) el.classList.add('active');
+                else el.classList.remove('active');
+            });
+            applyBorderToPreview();
+        }
+
+        function applyBorderToPreview() {
+            const borderEl = document.getElementById('previewAvatarBorder');
+            const selected = borderDesigns[currentBorderIndex];
+            if(selected.id === 0) {
+                borderEl.style.background = 'none';
+                borderEl.style.border = 'none';
+            } else {
+                borderEl.style.background = selected.css;
+                borderEl.style.border = 'none';
             }
         }
 
-        function loadUserAvatar(event) {
+        function loadCustomAvatar(event) {
             const file = event.target.files[0];
-            if (file) {
+            if(file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     document.getElementById('previewAvatarImg').src = e.target.result;
@@ -612,407 +372,37 @@
             }
         }
 
-        function updateCardText() {
-            const name = document.getElementById('inputPlayerName').value;
-            const role = document.getElementById('inputPlayerRole').value;
-            document.getElementById('previewUserName').innerText = name || "TNEX PLAYER";
-            document.getElementById('previewUserRole').innerText = role;
+        function updateText() {
+            document.getElementById('previewNickname').innerText = document.getElementById('inputNickname').value;
+            document.getElementById('previewRole').innerText = document.getElementById('inputRole').value;
         }
 
-        function setCardTheme(baseColor, glowColor) {
-            const card = document.getElementById('previewBigCard');
-            card.style.background = `linear-gradient(145deg, ${baseColor}, #030712)`;
-            card.style.boxShadow = `0 10px 30px ${glowColor}`;
-            card.style.borderColor = baseColor;
+        function updateCardBorderStyling() {
+            const cardBox = document.getElementById('largeCardBox');
+            const styleType = document.getElementById('selectCardBorder').value;
+            const auraColor = document.getElementById('inputAuraColor').value;
+
+            cardBox.style.borderColor = auraColor;
+
+            if(styleType === 'solid') {
+                cardBox.style.border = `2px solid ${auraColor}`;
+                cardBox.style.boxShadow = `none`;
+            } else if(styleType === 'neon') {
+                cardBox.style.border = `2px solid ${auraColor}`;
+                cardBox.style.boxShadow = `0 0 20px ${auraColor}, inset 0 0 15px ${auraColor}40`;
+            } else if(styleType === 'gold') {
+                cardBox.style.border = `2px solid #f59e0b`;
+                cardBox.style.boxShadow = `0 0 20px rgba(245, 158, 11, 0.6)`;
+            } else if(styleType === 'dashed') {
+                cardBox.style.border = `2px dashed ${auraColor}`;
+                cardBox.style.boxShadow = `0 0 10px ${auraColor}`;
+            }
         }
 
-        function openCustomStudio() {
-            document.getElementById('customStudioModal').style.display = 'flex';
-            initBorderThumbnails();
-        }
-
-        function closeCustomStudio() {
-            document.getElementById('customStudioModal').style.display = 'none';
-        }
-
-        // --- Navigasi Room & Macro App ---
-        let currentPhase = 'early';
-        let activeAdminPhase = 'early';
-        let selectedPieceId = null;
-
-        let defaultDbData = {
-            early: { notes: "• EARLY GAME:\n- Rotasi awal buff & Freeze Lane di Gold Lane.", pieces: [] },
-            mid: { notes: "• MID GAME:\n- Kontes Turtle, Zoning musuh, & Invade Jungle.", pieces: [] },
-            late: { notes: "• LATE GAME:\n- Lord Evolved, Clear Minion cepat, & Teamfight penentuan.", pieces: [] }
+        window.onload = function() {
+            initBorderGrid();
+            updateCardBorderStyling();
         };
-
-        let savedData = localStorage.getItem('tnex_macro_data_v4');
-        let dbData = savedData ? JSON.parse(savedData) : defaultDbData;
-
-        function saveToStorage() {
-            localStorage.setItem('tnex_macro_data_v4', JSON.stringify(dbData));
-        }
-
-        function openRoomApp() {
-            document.getElementById('dashboardView').style.display = 'none';
-            document.getElementById('roomAppView').style.display = 'flex';
-            syncToPublic();
-        }
-
-        function closeRoomApp() {
-            document.getElementById('roomAppView').style.display = 'none';
-            document.getElementById('dashboardView').style.display = 'flex';
-        }
-
-        function openPasswordModal() { document.getElementById('passwordModal').style.display = 'flex'; }
-        function closePasswordModal() { document.getElementById('passwordModal').style.display = 'none'; document.getElementById('adminPasswordInput').value = ''; }
-        function verifyAdminPassword() {
-            if(document.getElementById('adminPasswordInput').value === '012570') {
-                closePasswordModal();
-                document.getElementById('adminPanelContainer').style.display = 'flex';
-                loadAdminPhaseData(activeAdminPhase);
-            } else { alert('Password Salah!'); }
-        }
-        function saveAndCloseAdmin() {
-            saveToStorage();
-            document.getElementById('adminPanelContainer').style.display = 'none';
-            syncToPublic();
-        }
-
-        function setAdminPhase(phase, el) {
-            document.querySelectorAll('.admin-sidebar .p-tab').forEach(t => t.classList.remove('active'));
-            el.classList.add('active');
-            activeAdminPhase = phase;
-            selectedPieceId = null;
-            loadAdminPhaseData(phase);
-        }
-
-        function loadAdminPhaseData(phase) {
-            document.getElementById('adminNotesInput').value = dbData[phase].notes;
-            renderAdminPiecesAndPaths();
-            updateAdminPathListUI();
-        }
-
-        function saveAdminNotes() {
-            dbData[activeAdminPhase].notes = document.getElementById('adminNotesInput').value;
-            saveToStorage();
-            alert('Catatan makro tersimpan permanen!');
-        }
-
-        function switchPublicPhase(phase, el) {
-            document.querySelectorAll('.info-sidebar .p-tab').forEach(t => t.classList.remove('active'));
-            el.classList.add('active');
-            currentPhase = phase;
-            stopSimulation();
-            syncToPublic();
-        }
-
-        function spawnPiece(label, type, fullName) {
-            const newPiece = {
-                id: 'p_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
-                label: label,
-                type: type,
-                name: fullName,
-                x: 50,
-                y: 50,
-                paths: []
-            };
-            dbData[activeAdminPhase].pieces.push(newPiece);
-            selectPiece(newPiece.id);
-            renderAdminPiecesAndPaths();
-            saveToStorage();
-        }
-
-        function selectPiece(id) {
-            selectedPieceId = id;
-            renderAdminPiecesAndPaths();
-            updateAdminPathListUI();
-            
-            const p = dbData[activeAdminPhase].pieces.find(x => x.id === id);
-            const indicator = document.getElementById('selectedPieceIndicator');
-            if(p) {
-                indicator.innerText = `Terpilih: ${p.name}`;
-                indicator.style.color = '#38bdf8';
-            }
-        }
-
-        function updateAdminPathListUI() {
-            const container = document.getElementById('adminPathListContainer');
-            container.innerHTML = '';
-            const phaseData = dbData[activeAdminPhase];
-            const p = phaseData.pieces.find(x => x.id === selectedPieceId);
-
-            if(!p || p.paths.length === 0) {
-                container.innerHTML = '<div style="color: #64748b; text-align: center;">Belum ada jalur</div>';
-                return;
-            }
-
-            p.paths.forEach((pathObj, pathIdx) => {
-                const headerItem = document.createElement('div');
-                headerItem.className = 'role-path-item';
-                headerItem.style.background = '#0f172a';
-                headerItem.innerHTML = `<span><strong>Garis ${pathIdx + 1}</strong></span> <button onclick="deleteSpecificPath('${p.id}', ${pathIdx})" style="background:#ef4444;">Hapus Semua</button>`;
-                container.appendChild(headerItem);
-
-                pathObj.points.forEach((pt, ptIdx) => {
-                    if(ptIdx % 3 === 0 || ptIdx === pathObj.points.length - 1) { 
-                        const ptItem = document.createElement('div');
-                        ptItem.className = 'role-path-item';
-                        ptItem.style.paddingLeft = '10px';
-                        ptItem.innerHTML = `<span style="font-size:10px; color:#94a3b8;">• Titik ${ptIdx+1} (${Math.round(pt.x)}%, ${Math.round(pt.y)}%)</span> <button onclick="deleteSpecificPoint('${p.id}', ${pathIdx}, ${ptIdx})">Hapus Step</button>`;
-                        container.appendChild(ptItem);
-                    }
-                });
-            });
-        }
-
-        function deleteSpecificPath(pieceId, pathIdx) {
-            const p = dbData[activeAdminPhase].pieces.find(x => x.id === pieceId);
-            if(p) {
-                p.paths.splice(pathIdx, 1);
-                renderAdminPiecesAndPaths();
-                updateAdminPathListUI();
-                saveToStorage();
-            }
-        }
-
-        function deleteSpecificPoint(pieceId, pathIdx, ptIdx) {
-            const p = dbData[activeAdminPhase].pieces.find(x => x.id === pieceId);
-            if(p && p.paths[pathIdx]) {
-                p.paths[pathIdx].points.splice(ptIdx, 1);
-                if(p.paths[pathIdx].points.length < 2) {
-                    p.paths.splice(pathIdx, 1);
-                }
-                renderAdminPiecesAndPaths();
-                updateAdminPathListUI();
-                saveToStorage();
-            }
-        }
-
-        function renderAdminPiecesAndPaths() {
-            const container = document.getElementById('adminPiecesContainer');
-            container.innerHTML = '';
-            const svg = document.getElementById('adminSvgPath');
-            svg.innerHTML = '';
-
-            dbData[activeAdminPhase].pieces.forEach((pObj) => {
-                const piece = document.createElement('div');
-                let cssClass = 'piece-team';
-                if(pObj.type === 'enemy' || pObj.type === 'macro') cssClass = 'piece-enemy';
-
-                piece.className = `tactical-piece ${cssClass} ${pObj.id === selectedPieceId ? 'active-selected' : ''}`;
-                piece.innerText = pObj.label;
-                piece.style.left = pObj.x + '%';
-                piece.style.top = pObj.y + '%';
-                
-                const handleStart = (clientX, clientY) => {
-                    selectPiece(pObj.id);
-                    initDragAndDraw(pObj, clientX, clientY, piece);
-                };
-
-                piece.onmousedown = (e) => { handleStart(e.clientX, e.clientY); e.stopPropagation(); };
-                piece.ontouchstart = (e) => {
-                    if(e.touches.length > 0) {
-                        handleStart(e.touches[0].clientX, e.touches[0].clientY);
-                        e.stopPropagation();
-                    }
-                };
-
-                container.appendChild(piece);
-
-                pObj.paths.forEach((pathObj) => {
-                    if(pathObj.points.length < 2) return;
-                    let d = `M ${pathObj.points[0].x}% ${pathObj.points[0].y}%`;
-                    for(let i=1; i<pathObj.points.length; i++) {
-                        d += ` L ${pathObj.points[i].x}% ${pathObj.points[i].y}%`;
-                    }
-                    const pathEl = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                    pathEl.setAttribute("d", d);
-                    pathEl.setAttribute("stroke", pObj.type === 'enemy' ? '#f87171' : (pObj.type === 'macro' ? '#f59e0b' : '#38bdf8'));
-                    pathEl.setAttribute("stroke-width", "2.5");
-                    pathEl.setAttribute("fill", "none");
-                    pathEl.setAttribute("stroke-dasharray", pObj.id === selectedPieceId ? "none" : "2,2");
-                    svg.appendChild(pathEl);
-                });
-            });
-        }
-
-        function initDragAndDraw(pObj, startClientX, startClientY, pieceEl) {
-            const canvas = document.getElementById('adminMapCanvas');
-            const rect = canvas.getBoundingClientRect();
-            
-            let currentPoints = [{x: pObj.x, y: pObj.y}];
-
-            function onMove(clientX, clientY) {
-                let x = Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100));
-                let y = Math.max(0, Math.min(100, ((clientY - rect.top) / rect.height) * 100));
-                
-                pObj.x = x;
-                pObj.y = y;
-                pieceEl.style.left = x + '%';
-                pieceEl.style.top = y + '%';
-
-                const lastPt = currentPoints[currentPoints.length - 1];
-                if(Math.hypot(x - lastPt.x, y - lastPt.y) > 1.2) {
-                    currentPoints.push({x, y});
-                    renderAdminPiecesAndPaths();
-                    drawTempLivePath(currentPoints, pObj.type);
-                }
-            }
-
-            function onEnd() {
-                document.removeEventListener('mousemove', onMouseMove);
-                document.removeEventListener('mouseup', onMouseUp);
-                document.removeEventListener('touchmove', onTouchMove);
-                document.removeEventListener('touchend', onTouchEnd);
-
-                if(currentPoints.length > 2) {
-                    pObj.paths.push({ points: [...currentPoints] });
-                }
-                renderAdminPiecesAndPaths();
-                updateAdminPathListUI();
-                saveToStorage();
-            }
-
-            const onMouseMove = (e) => onMove(e.clientX, e.clientY);
-            const onMouseUp = () => onEnd();
-            const onTouchMove = (e) => { if(e.touches.length > 0) onMove(e.touches[0].clientX, e.touches[0].clientY); };
-            const onTouchEnd = () => onEnd();
-
-            document.addEventListener('mousemove', onMouseMove);
-            document.addEventListener('mouseup', onMouseUp);
-            document.addEventListener('touchmove', onTouchMove);
-            document.addEventListener('touchend', onTouchEnd);
-        }
-
-        function drawTempLivePath(pts, type) {
-            if(pts.length < 2) return;
-            const svg = document.getElementById('adminSvgPath');
-            let d = `M ${pts[0].x}% ${pts[0].y}%`;
-            for(let i=1; i<pts.length; i++) { d += ` L ${pts[i].x}% ${pts[i].y}%`; }
-            const pathEl = document.createElementNS("http://www.w3.org/2000/svg", "path");
-            pathEl.setAttribute("d", d);
-            pathEl.setAttribute("stroke", type === 'macro' ? '#f59e0b' : '#38bdf8');
-            pathEl.setAttribute("stroke-width", "2.5");
-            pathEl.setAttribute("fill", "none");
-            svg.appendChild(pathEl);
-        }
-
-        function resetAdminPhaseMap() {
-            if(confirm('Yakin ingin mereset seluruh bidak & jalur di fase ini?')) {
-                dbData[activeAdminPhase].pieces = [];
-                selectedPieceId = null;
-                renderAdminPiecesAndPaths();
-                updateAdminPathListUI();
-                saveToStorage();
-            }
-        }
-
-        let pubAnimFrame = null;
-        let isPlaying = false;
-        let animProgress = 0;
-        const maxDurationFrames = 150;
-
-        function syncToPublic() {
-            document.getElementById('publicNotesDisplay').innerText = dbData[currentPhase].notes;
-            resetPublicAnimation();
-        }
-
-        function resetPublicAnimation() {
-            stopSimulation();
-            animProgress = 0;
-            document.getElementById('playbackStatus').innerText = "Status: Siap (Smooth)";
-            renderPublicPiecesAtProgress(0);
-        }
-
-        function togglePlaySimulation() {
-            if(isPlaying) { stopSimulation(); }
-            else { startPublicSimulation(); }
-        }
-
-        function startPublicSimulation() {
-            const pieces = dbData[currentPhase].pieces;
-            const hasPaths = pieces.some(p => p.paths.length > 0);
-            if(!hasPaths) {
-                alert('Belum ada jalur gerakan yang dibuat di fase ini.');
-                return;
-            }
-            isPlaying = true;
-            document.getElementById('playPauseBtn').innerText = "⏸ Pause";
-            document.getElementById('playbackStatus').innerText = "Status: Memutar...";
-
-            function loop() {
-                if(animProgress <= maxDurationFrames) {
-                    renderPublicPiecesAtProgress(animProgress / maxDurationFrames);
-                    animProgress++;
-                    pubAnimFrame = setTimeout(() => requestAnimationFrame(loop), 30);
-                } else {
-                    stopSimulation();
-                }
-            }
-            loop();
-        }
-
-        function stopSimulation() {
-            isPlaying = false;
-            clearTimeout(pubAnimFrame);
-            document.getElementById('playPauseBtn').innerText = "▶ Play";
-            document.getElementById('playbackStatus').innerText = "Status: Selesai / Dijeda";
-        }
-
-        function stepPlayback(direction) {
-            stopSimulation();
-            animProgress += direction * 15;
-            if(animProgress < 0) animProgress = 0;
-            if(animProgress > maxDurationFrames) animProgress = maxDurationFrames;
-            renderPublicPiecesAtProgress(animProgress / maxDurationFrames);
-            document.getElementById('playbackStatus').innerText = `Progress ${Math.round((animProgress/maxDurationFrames)*100)}%`;
-        }
-
-        function testAdminSimulation() {
-            syncToPublic();
-            startPublicSimulation();
-        }
-
-        function renderPublicPiecesAtProgress(progress) {
-            const container = document.getElementById('publicPiecesContainer');
-            container.innerHTML = '';
-            const pieces = dbData[currentPhase].pieces;
-
-            pieces.forEach(p => {
-                let posX = p.x;
-                let posY = p.y;
-
-                if(p.paths.length > 0) {
-                    let fullPoints = [{x: p.x, y: p.y}];
-                    p.paths.forEach(pathObj => {
-                        fullPoints.push(...pathObj.points);
-                    });
-
-                    if(fullPoints.length > 1) {
-                        let targetIdx = progress * (fullPoints.length - 1);
-                        let baseIdx = Math.floor(targetIdx);
-                        let frac = targetIdx - baseIdx;
-
-                        let pt1 = fullPoints[baseIdx] || fullPoints[0];
-                        let pt2 = fullPoints[baseIdx + 1] || pt1;
-
-                        posX = pt1.x + (pt2.x - pt1.x) * frac;
-                        posY = pt1.y + (pt2.y - pt1.y) * frac;
-                    }
-                }
-
-                const el = document.createElement('div');
-                let cssClass = 'piece-team';
-                if(p.type === 'enemy' || p.type === 'macro') cssClass = 'piece-enemy';
-
-                el.className = `tactical-piece ${cssClass}`;
-                el.innerText = p.label;
-                el.style.left = posX + '%';
-                el.style.top = posY + '%';
-                container.appendChild(el);
-            });
-        }
     </script>
 </body>
 </html>
