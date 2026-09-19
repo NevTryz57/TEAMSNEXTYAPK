@@ -3,52 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TEAM SNEXTY — Ultimate Aura Roster</title>
+<title>TEAM SNEXTY — Epic Mythic Roster</title>
 <style>
 :root {
-    --bg-base: #030507;
+    --bg-base: #030508;
     --bg-surface: #070d14;
-    --border-color: #15293d;
     --text-main: #f0f6fc;
     --text-muted: #8397ad;
     --green: #2ecc71;
     --offline-gray: #4a596a;
 }
 
-/* AURA WARNA & BOX GLOW BERDASARKAN ROLE (Membara tapi Elegan) */
+/* WARNA AURA & ORNAMEN MEWAH BERDASARKAN ROLE */
 .role-goldlaner { 
-    --aura-color: #ffd700; 
-    --aura-glow: rgba(255, 215, 0, 0.25); 
-    --card-bg: linear-gradient(145deg, #09121c, #14180d);
+    --p-color: #ffd700; 
+    --s-color: #ffaa00;
+    --aura-glow: rgba(255, 215, 0, 0.4); 
+    --card-bg: linear-gradient(145deg, #09121c, #161809);
 }
 .role-midlaner { 
-    --aura-color: #b026ff; 
-    --aura-glow: rgba(176, 38, 255, 0.28); 
-    --card-bg: linear-gradient(145deg, #09121c, #13091c);
+    --p-color: #b026ff; 
+    --s-color: #7928ca;
+    --aura-glow: rgba(176, 38, 255, 0.4); 
+    --card-bg: linear-gradient(145deg, #09121c, #15091c);
 }
 .role-jungler { 
-    --aura-color: #ff3333; 
-    --aura-glow: rgba(255, 51, 51, 0.28); 
+    --p-color: #ff3333; 
+    --s-color: #ff6b6b;
+    --aura-glow: rgba(255, 51, 51, 0.4); 
     --card-bg: linear-gradient(145deg, #09121c, #1c0909);
 }
 .role-roamer { 
-    --aura-color: #00ff66; 
-    --aura-glow: rgba(0, 255, 102, 0.28); 
+    --p-color: #00ff66; 
+    --s-color: #00b347;
+    --aura-glow: rgba(0, 255, 102, 0.4); 
     --card-bg: linear-gradient(145deg, #09121c, #091c10);
 }
 .role-subroam { 
-    --aura-color: #00ffff; 
-    --aura-glow: rgba(0, 255, 255, 0.28); 
+    --p-color: #00ffff; 
+    --s-color: #0088ff;
+    --aura-glow: rgba(0, 255, 255, 0.4); 
     --card-bg: linear-gradient(145deg, #09121c, #09191c);
 }
 .role-explaner { 
-    --aura-color: #ff8800; 
-    --aura-glow: rgba(255, 136, 0, 0.28); 
+    --p-color: #ff8800; 
+    --s-color: #ff3300;
+    --aura-glow: rgba(255, 136, 0, 0.4); 
     --card-bg: linear-gradient(145deg, #09121c, #1c1309);
 }
 .role-coach { 
-    --aura-color: #ff007f; 
-    --aura-glow: rgba(255, 0, 127, 0.28); 
+    --p-color: #ff007f; 
+    --s-color: #9900ff;
+    --aura-glow: rgba(255, 0, 127, 0.4); 
     --card-bg: linear-gradient(145deg, #09121c, #1c0915);
 }
 
@@ -65,7 +71,7 @@ body {
     color: var(--text-main);
     background-image: 
         radial-gradient(circle at 15% 10%, rgba(22, 140, 255, 0.08), transparent 35%),
-        radial-gradient(circle at 85% 90%, rgba(53, 217, 255, 0.05), transparent 40%);
+        radial-gradient(circle at 85% 90%, rgba(255, 215, 0, 0.05), transparent 40%);
     background-attachment: fixed;
     overflow-x: hidden;
 }
@@ -94,15 +100,15 @@ body::before {
 }
 
 .roster-header span {
-    color: #35d9ff;
+    color: #ffd700;
     font-size: 11px;
     font-weight: 800;
     letter-spacing: 4px;
     text-transform: uppercase;
-    background: rgba(53, 217, 255, 0.08);
+    background: rgba(255, 215, 0, 0.08);
     padding: 6px 14px;
     border-radius: 20px;
-    border: 1px solid rgba(53, 217, 255, 0.2);
+    border: 1px solid rgba(255, 215, 0, 0.3);
 }
 
 .roster-header h1 {
@@ -125,61 +131,87 @@ body::before {
 
 .roster-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 26px;
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+    gap: 30px;
 }
 
-/* KOTAK PEMAIN DENGAN BORDER & BACKGROUND AURA MEMBARA */
+/* KOTAK KARTU BESAR DENGAN BORDER ALA BORDER GAME SULTAN */
 .agent-card {
     background: var(--card-bg);
-    border: 2px solid var(--aura-color);
-    border-radius: 22px;
+    border-radius: 24px;
     overflow: hidden;
     position: relative;
     cursor: pointer;
-    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px var(--aura-glow);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    /* BORDER LAPIS MEWAH: Inner border + Outer glowing border */
+    border: 3px solid var(--p-color);
+    box-shadow: 
+        0 12px 35px rgba(0, 0, 0, 0.8), 
+        inset 0 0 15px var(--aura-glow),
+        0 0 25px var(--aura-glow);
+}
+
+/* ORNAMEN TAMBAHAN SUDUT KARTU BESAR (SAYAP / WAH EFFECT) */
+.agent-card::before {
+    content: "";
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border-radius: 24px;
+    border: 1px dashed var(--s-color);
+    pointer-events: none;
+    opacity: 0.6;
 }
 
 .agent-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8), 0 0 35px var(--aura-color);
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.9), 
+        inset 0 0 25px var(--p-color),
+        0 0 40px var(--p-color);
 }
 
 .card-banner {
-    height: 115px;
-    background: rgba(3, 7, 12, 0.7);
+    height: 125px;
+    background: rgba(3, 7, 12, 0.85);
     position: relative;
     display: flex;
     justify-content: flex-end;
-    padding: 12px;
-    border-bottom: 1px solid var(--aura-color);
+    padding: 14px;
+    border-bottom: 2px solid var(--p-color);
 }
 
 .agent-role {
-    background: rgba(3, 5, 7, 0.9);
-    border: 1px solid var(--aura-color);
-    color: var(--aura-color);
+    background: rgba(3, 5, 7, 0.95);
+    border: 1px solid var(--p-color);
+    color: var(--p-color);
     font-size: 10px;
     font-weight: 900;
     padding: 5px 12px;
     border-radius: 8px;
     letter-spacing: 1.2px;
     height: fit-content;
-    box-shadow: 0 0 10px var(--aura-glow);
+    box-shadow: 0 0 12px var(--aura-glow);
 }
 
+/* BORDER AVATAR MEWAH MENYALA */
 .agent-avatar-wrap {
     position: absolute;
     left: 20px;
-    bottom: -32px;
-    width: 82px;
-    height: 82px;
-    border-radius: 16px;
-    border: 3px solid var(--aura-color);
+    bottom: -36px;
+    width: 90px;
+    height: 90px;
+    border-radius: 20px;
+    border: 4px solid var(--p-color);
     background: var(--bg-surface);
     overflow: hidden;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.7), 0 0 15px var(--aura-glow);
+    box-shadow: 
+        0 10px 25px rgba(0,0,0,0.8), 
+        0 0 20px var(--p-color),
+        inset 0 0 10px var(--s-color);
+    z-index: 2;
 }
 
 .agent-avatar-wrap img {
@@ -189,20 +221,21 @@ body::before {
 }
 
 .card-body {
-    padding: 44px 20px 20px;
+    padding: 48px 20px 20px;
 }
 
 .agent-header-info {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
 }
 
 .agent-name {
-    font-size: 18px;
+    font-size: 19px;
     font-weight: 900;
     letter-spacing: -0.3px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
 .agent-id {
@@ -212,19 +245,20 @@ body::before {
     background: rgba(255, 255, 255, 0.05);
     padding: 2px 8px;
     border-radius: 6px;
-    border: 1px solid var(--border-color);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* KOTAK BIODATA FULL LENGKAP GENAP */
 .bio-box-full {
-    background: rgba(3, 5, 8, 0.75);
-    border: 1px solid var(--border-color);
+    background: rgba(3, 5, 8, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 14px;
     padding: 12px;
     margin-top: 10px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 8px;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.5);
 }
 
 .bio-row {
@@ -245,7 +279,7 @@ body::before {
     color: #a1b5cb;
     margin-top: 12px;
     padding-top: 10px;
-    border-top: 1px dashed var(--border-color);
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
     line-height: 1.4;
     font-style: italic;
 }
@@ -256,7 +290,7 @@ body::before {
     align-items: center;
     margin-top: 14px;
     padding-top: 10px;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .status-indicator {
@@ -284,15 +318,16 @@ body::before {
 .edit-hint {
     font-size: 10px;
     font-weight: 800;
-    color: var(--aura-color);
+    color: var(--p-color);
     letter-spacing: 1px;
+    text-shadow: 0 0 8px var(--aura-glow);
 }
 
-/* MODAL EDITOR LENGKAP */
+/* MODAL EDITOR */
 .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(2, 4, 7, 0.85);
+    background: rgba(2, 4, 7, 0.88);
     backdrop-filter: blur(12px);
     z-index: 1000;
     display: none;
@@ -311,7 +346,7 @@ body::before {
     max-height: 92vh;
     overflow-y: auto;
     background: var(--bg-surface);
-    border: 1px solid var(--border-color);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 24px;
     padding: 24px;
     box-shadow: 0 25px 60px rgba(0,0,0,0.9);
@@ -331,7 +366,7 @@ body::before {
 
 .modal-close {
     background: #0d1a26;
-    border: 1px solid var(--border-color);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     color: var(--text-main);
     width: 36px;
     height: 36px;
@@ -352,7 +387,7 @@ body::before {
     align-items: center;
     gap: 16px;
     background: #04090f;
-    border: 1px solid var(--border-color);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 14px;
     border-radius: 16px;
     margin-bottom: 18px;
@@ -363,7 +398,7 @@ body::before {
     height: 65px;
     border-radius: 14px;
     object-fit: cover;
-    border: 2px solid var(--border-color);
+    border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .preview-info h4 {
@@ -385,7 +420,7 @@ body::before {
 
 .mini-btn {
     background: #091522;
-    border: 1px solid var(--border-color);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     color: #35d9ff;
     font-size: 10px;
     font-weight: 700;
@@ -411,7 +446,7 @@ body::before {
 .form-field textarea {
     width: 100%;
     background: #04090f;
-    border: 1px solid var(--border-color);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     padding: 10px 14px;
     color: var(--text-main);
@@ -422,7 +457,7 @@ body::before {
 
 .form-field input:focus, 
 .form-field textarea:focus {
-    border-color: #35d9ff;
+    border-color: #ffd700;
 }
 
 .form-field textarea {
@@ -441,7 +476,7 @@ body::before {
     justify-content: space-between;
     align-items: center;
     background: #04090f;
-    border: 1px solid var(--border-color);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 10px 14px;
     border-radius: 10px;
 }
@@ -453,14 +488,14 @@ body::before {
 
 .status-switch-box input {
     width: auto;
-    accent-color: #35d9ff;
+    accent-color: #ffd700;
     cursor: pointer;
 }
 
 .save-action-btn {
     width: 100%;
-    background: linear-gradient(135deg, #168cff, #35d9ff);
-    color: #fff;
+    background: linear-gradient(135deg, #ffd700, #ff8800);
+    color: #030508;
     border: none;
     padding: 13px;
     border-radius: 12px;
@@ -483,8 +518,8 @@ body::before {
 <div class="wrapper">
     <div class="roster-header">
         <span>TEAM SNEXTY OFFICIAL</span>
-        <h1>ULTIMATE AURA ROSTER</h1>
-        <p>Kotak dan border avatar menyala sesuai aura role masing-masing. Ketuk kartu member untuk mengedit biodata lengkap secara real-time.</p>
+        <h1>EPIC MYTHIC AURA ROSTER</h1>
+        <p>Kotak kartu dan border avatar dirancang megah ala border game sultan dengan aura menyala penuh warna per role.</p>
     </div>
 
     <main class="roster-grid" id="rosterGrid"></main>
@@ -589,7 +624,7 @@ const defaultRoster = [
     { name:"Monarch x TNX", id:"SNX-COACH", role:"HEAD COACH", online:true, makes:"Steak", mikes:"Espresso", muskes:"Classical", norkes:"Documentary", herkes:"All Hero", hobi:"Analisis", bio:"Building the squad. Leading the vision." }
 ];
 
-let rosterData = JSON.parse(localStorage.getItem("TEAM_SNEXTY_AURA_ROSTER_V2")) || defaultRoster;
+let rosterData = JSON.parse(localStorage.getItem("TEAM_SNEXTY_MYTHIC_ROSTER_V3")) || defaultRoster;
 let currentEditIndex = 0;
 
 const rosterGrid = document.getElementById("rosterGrid");
@@ -623,7 +658,7 @@ function getRoleClass(roleStr){
     if(r.includes("GOLD")) return "role-goldlaner";
     if(r.includes("MID")) return "role-midlaner";
     if(r.includes("JUNGLE")) return "role-jungler";
-    if(r.includes("SUB")) return "role-subroam"; // Sub-Roam beda aura tersendiri!
+    if(r.includes("SUB")) return "role-subroam";
     if(r.includes("ROAM")) return "role-roamer";
     if(r.includes("EXP")) return "role-explaner";
     if(r.includes("COACH") || r.includes("HEAD")) return "role-coach";
@@ -632,7 +667,7 @@ function getRoleClass(roleStr){
 
 function generateSvgAvatar(name){
     const clean = name.replace(/[^a-zA-Z0-9]/g, "").substring(0, 2).toUpperCase() || "SN";
-    return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect width="100%" height="100%" fill="#070d14"/><text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" fill="#35d9ff" font-size="64" font-family="sans-serif" font-weight="900">${clean}</text></svg>`)}`;
+    return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect width="100%" height="100%" fill="#070d14"/><text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" fill="#ffd700" font-size="64" font-family="sans-serif" font-weight="900">${clean}</text></svg>`)}`;
 }
 
 function renderRoster(){
@@ -786,7 +821,7 @@ function commitChanges(){
 }
 
 function persistAndClose(){
-    localStorage.setItem("TEAM_SNEXTY_AURA_ROSTER_V2", JSON.stringify(rosterData));
+    localStorage.setItem("TEAM_SNEXTY_MYTHIC_ROSTER_V3", JSON.stringify(rosterData));
     renderRoster();
     closeEditor();
 }
