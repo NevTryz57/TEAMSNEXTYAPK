@@ -3,683 +3,621 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>TEAM SNEXTY — Members Pro</title>
-
+<title>TEAM SNEXTY — Command Roster</title>
 <style>
-
 /* =====================================================
-   TEAM SNEXTY
-   MEMBER PROFILE - GACOR EDITION
-   BLACK / BLUE / CYAN NEON
+   TEAM SNEXTY - COMMAND CENTER ROSTER (REDESIGNED)
+   THEME: Deep Black, Electric Blue, Cyan Neon
 ===================================================== */
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+:root {
+    --bg-base: #030507;
+    --bg-surface: #070d14;
+    --bg-card: #09121c;
+    --border-color: #15293d;
+    --border-glow: #21517a;
+    
+    --primary: #168cff;
+    --cyan: #35d9ff;
+    --cyan-glow: rgba(53, 217, 255, 0.25);
+    
+    --text-main: #f0f6fc;
+    --text-muted: #8397ad;
+    
+    --green: #2ecc71;
+    --offline-gray: #4a596a;
 }
 
-:root{
-    --black:#030507;
-    --black2:#060a10;
-    --panel:#090f17;
-    --panel2:#0c141e;
-
-    --blue:#168cff;
-    --blue2:#237dff;
-    --cyan:#35d9ff;
-    --cyan2:#75edff;
-
-    --white:#f5faff;
-    --text:#dce9f5;
-    --muted:#71849a;
-
-    --border:#17293b;
-    --border2:#225678;
-
-    --green:#38e89a;
-    --offline:#526071;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body{
-    min-height:100vh;
-    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    color:var(--white);
-    background:
-        radial-gradient(circle at 10% 0%, rgba(0,145,255,.15), transparent 30%),
-        radial-gradient(circle at 95% 90%, rgba(0,220,255,.08), transparent 28%),
-        var(--black);
-    overflow-x:hidden;
+body {
+    min-height: 100vh;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-base);
+    color: var(--text-main);
+    background-image: 
+        radial-gradient(circle at 15% 10%, rgba(22, 140, 255, 0.12), transparent 35%),
+        radial-gradient(circle at 85% 90%, rgba(53, 217, 255, 0.08), transparent 40%);
+    background-attachment: fixed;
+    overflow-x: hidden;
 }
 
-body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    opacity:.10;
-    background-image:
-        linear-gradient(rgba(50,180,255,.2) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(50,180,255,.2) 1px, transparent 1px);
-    background-size:55px 55px;
-    mask-image:linear-gradient(to bottom, black, transparent 85%);
+/* Background Cyber Grid Lines */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: 
+        linear-gradient(to right, rgba(21, 41, 61, 0.15) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(21, 41, 61, 0.15) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: -1;
 }
 
-.container{
-    width:min(1200px,100%);
-    margin:auto;
-    padding:25px 18px 70px;
+.wrapper {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 30px 20px 60px;
 }
 
-/* HEADER & BACK BUTTON */
-.header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-    margin-bottom:25px;
+/* TOP COMMAND BAR */
+.command-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(7, 13, 20, 0.85);
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(12px);
+    padding: 16px 24px;
+    border-radius: 16px;
+    margin-bottom: 35px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
-.brand{
-    display:flex;
-    align-items:center;
-    gap:14px;
+.brand-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
-.logo{
-    width:55px;
-    height:55px;
-    display:grid;
-    place-items:center;
-    border-radius:16px;
-    background:linear-gradient(145deg, #0c2c43, #050a10);
-    border:1px solid #1d638a;
-    box-shadow: 0 0 25px rgba(0,180,255,.16), inset 0 0 20px rgba(0,120,255,.08);
+.brand-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #0b1e30, #04090f);
+    border: 1px solid var(--border-glow);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    color: var(--cyan);
+    font-size: 15px;
+    box-shadow: 0 0 15px var(--cyan-glow);
 }
 
-.logo span{
-    font-size:17px;
-    font-weight:1000;
-    color:var(--cyan);
-    text-shadow: 0 0 15px rgba(53,217,255,.7);
+.brand-text h2 {
+    font-size: 18px;
+    letter-spacing: 1.5px;
+    font-weight: 800;
 }
 
-.brand-title{
-    font-size:20px;
-    font-weight:900;
-    letter-spacing:.13em;
+.brand-text p {
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 2px;
 }
 
-.brand-subtitle{
-    margin-top:4px;
-    color:var(--muted);
-    font-size:10px;
-    letter-spacing:.25em;
+.nav-actions {
+    display: flex;
+    gap: 12px;
 }
 
-.header-actions{
-    display:flex;
-    gap:10px;
+.cyber-btn {
+    background: #091522;
+    border: 1px solid var(--border-glow);
+    color: var(--cyan);
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.25s ease;
 }
 
-.header-button{
-    border:1px solid #214d6b;
-    background:#07111a;
-    color:#bfeeff;
-    padding:11px 15px;
-    border-radius:11px;
-    cursor:pointer;
-    transition:.2s;
-    font-weight:700;
-    text-decoration:none;
-    display:inline-flex;
-    align-items:center;
-    gap:6px;
-    font-size:12px;
+.cyber-btn:hover {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--cyan);
+    box-shadow: 0 0 20px var(--cyan-glow);
+    transform: translateY(-2px);
 }
 
-.header-button:hover{
-    border-color:var(--cyan);
-    color:white;
-    box-shadow: 0 0 22px rgba(0,180,255,.15);
+/* SECTION HEADER BANNER */
+.roster-header {
+    text-align: center;
+    margin-bottom: 40px;
 }
 
-/* HERO */
-.hero{
-    position:relative;
-    overflow:hidden;
-    padding:30px;
-    margin-bottom:22px;
-    border-radius:25px;
-    border:1px solid var(--border);
-    background:linear-gradient(145deg, rgba(11,22,34,.96), rgba(4,8,13,.98));
-    box-shadow: 0 25px 70px rgba(0,0,0,.65);
+.roster-header span {
+    color: var(--cyan);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    background: rgba(53, 217, 255, 0.08);
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(53, 217, 255, 0.2);
 }
 
-.hero::after{
-    content:"SNX";
-    position:absolute;
-    right:-10px;
-    bottom:-55px;
-    font-size:150px;
-    font-weight:1000;
-    color:rgba(50,200,255,.025);
-    pointer-events:none;
+.roster-header h1 {
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 900;
+    margin-top: 15px;
+    letter-spacing: -0.5px;
+    background: linear-gradient(180deg, #fff, #91b5d6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-.hero-label{
-    color:var(--cyan);
-    font-size:10px;
-    font-weight:900;
-    letter-spacing:.3em;
-    text-shadow: 0 0 14px rgba(53,217,255,.45);
+.roster-header p {
+    color: var(--text-muted);
+    font-size: 14px;
+    max-width: 550px;
+    margin: 10px auto 0;
+    line-height: 1.6;
 }
 
-.hero h1{
-    position:relative;
-    z-index:1;
-    margin-top:8px;
-    font-size:clamp(30px, 6vw, 54px);
-    letter-spacing:-.05em;
+/* MODERN SQUAD GRID */
+.roster-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 22px;
 }
 
-.hero p{
-    position:relative;
-    z-index:1;
-    max-width:650px;
-    margin-top:10px;
-    color:var(--muted);
-    line-height:1.65;
-    font-size:13px;
+/* AGENT CARD */
+.agent-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
 }
 
-/* MEMBER GRID */
-.member-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(275px,1fr));
-    gap:17px;
+.agent-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--cyan);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7), 0 0 25px var(--cyan-glow);
 }
 
-/* MEMBER CARD */
-.member-card{
-    position:relative;
-    min-height:370px;
-    overflow:hidden;
-    border-radius:23px;
-    border:1px solid var(--border);
-    background:linear-gradient(150deg, #0b121b, #04070b);
-    box-shadow: 0 18px 50px rgba(0,0,0,.68);
-    cursor:pointer;
-    transition:.25s ease;
+.card-banner {
+    height: 110px;
+    background: linear-gradient(135deg, #0d233a, #050a12);
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    padding: 12px;
 }
 
-.member-card:hover{
-    transform:translateY(-6px);
-    border-color:#267da9;
-    box-shadow: 0 28px 65px rgba(0,0,0,.8), 0 0 35px rgba(0,160,255,.10);
+.agent-role {
+    background: rgba(3, 5, 7, 0.85);
+    border: 1px solid var(--border-glow);
+    color: var(--cyan);
+    font-size: 10px;
+    font-weight: 800;
+    padding: 5px 10px;
+    border-radius: 6px;
+    letter-spacing: 1px;
+    height: fit-content;
 }
 
-.card-cover{
-    height:125px;
-    position:relative;
-    overflow:hidden;
-    background:linear-gradient(135deg, #0b293d, #050a10);
+.agent-avatar-wrap {
+    position: absolute;
+    left: 20px;
+    bottom: -32px;
+    width: 80px;
+    height: 80px;
+    border-radius: 16px;
+    border: 3px solid var(--bg-card);
+    background: var(--bg-surface);
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
 }
 
-.card-cover::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:repeating-linear-gradient(135deg, transparent 0 13px, rgba(70,210,255,.045) 14px 15px);
+.agent-avatar-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-.card-cover::after{
-    content:"";
-    position:absolute;
-    left:0;
-    bottom:0;
-    width:100%;
-    height:2px;
-    background:linear-gradient(90deg, transparent, var(--blue), var(--cyan), transparent);
-    box-shadow: 0 0 15px rgba(53,217,255,.7);
+.card-body {
+    padding: 45px 20px 20px;
 }
 
-.role-badge{
-    position:absolute;
-    z-index:5;
-    right:13px;
-    top:13px;
-    padding:7px 10px;
-    border-radius:8px;
-    background:rgba(3,10,17,.94);
-    border:1px solid #245878;
-    color:var(--cyan);
-    font-size:9px;
-    font-weight:900;
-    letter-spacing:.12em;
-    box-shadow: 0 0 18px rgba(0,180,255,.08);
+.agent-name {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.avatar{
-    position:absolute;
-    z-index:6;
-    left:18px;
-    bottom:-46px;
-    width:94px;
-    height:94px;
-    border-radius:22px;
-    object-fit:cover;
-    border:3px solid #080d13;
-    background:#0b1621;
-    box-shadow: 0 12px 30px rgba(0,0,0,.85), 0 0 20px rgba(0,160,255,.15);
+.agent-id {
+    font-family: monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 3px;
 }
 
-.card-content{
-    padding:60px 20px 20px;
+.agent-bio {
+    font-size: 12px;
+    color: #a1b5cb;
+    margin-top: 12px;
+    line-height: 1.5;
+    min-height: 36px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-.member-name{
-    overflow:hidden;
-    white-space:nowrap;
-    text-overflow:ellipsis;
-    font-size:21px;
-    font-weight:900;
-    letter-spacing:-.03em;
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 18px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-color);
 }
 
-.member-id{
-    margin-top:5px;
-    color:#63819b;
-    font-family:monospace;
-    font-size:11px;
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
 }
 
-.member-bio{
-    min-height:38px;
-    margin-top:15px;
-    color:#8ea2b7;
-    font-size:12px;
-    line-height:1.55;
+.dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 10px var(--green);
 }
 
-.card-footer{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-top:18px;
-    padding-top:14px;
-    border-top:1px solid #162535;
+.dot.offline {
+    background: var(--offline-gray);
+    box-shadow: none;
 }
 
-.status{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    color:#a8b8ca;
-    font-size:11px;
+.edit-hint {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--cyan);
+    letter-spacing: 1px;
 }
 
-.status-dot{
-    width:8px;
-    height:8px;
-    border-radius:50%;
-    background:var(--green);
-    box-shadow: 0 0 12px rgba(56,232,154,.75);
+/* CUSTOM MODAL OVERLAY */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 4, 7, 0.82);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
 }
 
-.status-dot.offline{
-    background:var(--offline);
-    box-shadow:none;
+.modal-overlay.active {
+    display: flex;
 }
 
-.edit-label{
-    color:var(--cyan);
-    font-size:10px;
-    font-weight:900;
-    letter-spacing:.12em;
+.modal-container {
+    width: 100%;
+    max-width: 520px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-glow);
+    border-radius: 24px;
+    padding: 25px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 30px var(--cyan-glow);
+    animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* MODAL */
-.modal{
-    position:fixed;
-    inset:0;
-    z-index:1000;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:16px;
-    background:rgba(0,3,7,.86);
-    backdrop-filter:blur(15px);
+@keyframes modalPop {
+    0% { opacity: 0; transform: scale(0.95) translateY(10px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-.modal.active{
-    display:flex;
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
 }
 
-.modal-box{
-    width:min(570px,100%);
-    max-height:92vh;
-    overflow-y:auto;
-    padding:21px;
-    border-radius:25px;
-    border:1px solid #21425a;
-    background:linear-gradient(145deg, #0b131d, #04070b);
-    box-shadow: 0 30px 100px rgba(0,0,0,.9), 0 0 50px rgba(0,150,255,.08);
+.modal-title {
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
 }
 
-.modal-header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:18px;
+.modal-close {
+    background: #0d1a26;
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
 }
 
-.modal-title{
-    font-size:19px;
-    font-weight:900;
+.modal-close:hover {
+    background: #e74c3c;
+    border-color: #e74c3c;
 }
 
-.close{
-    width:39px;
-    height:39px;
-    border:0;
-    border-radius:10px;
-    background:#101a24;
-    color:#c6d6e6;
-    font-size:21px;
-    cursor:pointer;
+.preview-box {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #04090f;
+    border: 1px solid var(--border-color);
+    padding: 14px;
+    border-radius: 16px;
+    margin-bottom: 20px;
 }
 
-.profile-preview{
-    display:flex;
-    align-items:center;
-    gap:16px;
-    padding:15px;
-    margin-bottom:19px;
-    border-radius:17px;
-    border:1px solid #1b3041;
-    background:#070d14;
+.preview-img {
+    width: 65px;
+    height: 65px;
+    border-radius: 14px;
+    object-fit: cover;
+    border: 2px solid var(--border-glow);
 }
 
-.preview-photo{
-    width:82px;
-    height:82px;
-    object-fit:cover;
-    border-radius:19px;
-    border:2px solid #245d7e;
-    background:#0b1621;
+.preview-info h4 {
+    font-size: 15px;
+    font-weight: 800;
 }
 
-.preview-name{
-    font-weight:900;
-    font-size:15px;
+.preview-info p {
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin-top: 4px;
 }
 
-.preview-label{
-    margin-top:5px;
-    color:#6d8095;
-    font-size:10px;
+.btn-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
 }
 
-.photo-actions{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    margin-top:9px;
+.mini-btn {
+    background: #091522;
+    border: 1px solid var(--border-glow);
+    color: var(--cyan);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
-.small-button{
-    padding:9px 11px;
-    border-radius:9px;
-    border:1px solid #24475f;
-    background:#0b1621;
-    color:#c8edff;
-    font-size:10px;
-    font-weight:800;
-    cursor:pointer;
+.mini-btn:hover {
+    background: var(--primary);
+    color: #fff;
 }
 
-.form{
-    display:grid;
-    gap:13px;
+.form-field {
+    margin-bottom: 14px;
 }
 
-.form-group label{
-    display:block;
-    color:#8194a9;
-    font-size:10px;
-    font-weight:900;
-    letter-spacing:.13em;
+.form-field label {
+    display: block;
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--text-muted);
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
 }
 
-input, textarea{
-    width:100%;
-    margin-top:7px;
-    padding:12px;
-    outline:none;
-    border-radius:11px;
-    border:1px solid #1d3243;
-    background:#04090e;
-    color:white;
-    font-family:inherit;
-    font-size:13px;
-    transition:.2s;
+.form-field input, 
+.form-field textarea {
+    width: 100%;
+    background: #04090f;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 11px 14px;
+    color: var(--text-main);
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+    transition: 0.2s;
 }
 
-input:focus, textarea:focus{
-    border-color:var(--blue);
-    box-shadow: 0 0 0 3px rgba(35,125,255,.08), 0 0 20px rgba(0,180,255,.08);
+.form-field input:focus, 
+.form-field textarea:focus {
+    border-color: var(--cyan);
+    box-shadow: 0 0 12px var(--cyan-glow);
 }
 
-textarea{
-    min-height:95px;
-    resize:vertical;
+.form-field textarea {
+    resize: vertical;
+    min-height: 80px;
 }
 
-.two-column{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
 }
 
-.status-control{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-top:7px;
-    padding:13px;
-    border-radius:11px;
-    border:1px solid #1d3243;
-    background:#04090e;
+.status-switch-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #04090f;
+    border: 1px solid var(--border-color);
+    padding: 10px 14px;
+    border-radius: 10px;
 }
 
-.status-control span{
-    color:#c7d6e4;
-    font-size:12px;
-    font-weight:800;
+.status-switch-box span {
+    font-size: 12px;
+    font-weight: 700;
 }
 
-.status-control input{
-    width:auto;
-    margin:0;
-    accent-color:var(--cyan);
+.status-switch-box input {
+    width: auto;
+    accent-color: var(--cyan);
+    cursor: pointer;
 }
 
-.save-button{
-    width:100%;
-    margin-top:18px;
-    padding:14px;
-    border:0;
-    border-radius:12px;
-    background:linear-gradient(135deg, #168cff, #25d8ff);
-    color:white;
-    font-weight:1000;
-    letter-spacing:.1em;
-    cursor:pointer;
-    box-shadow: 0 10px 30px rgba(0,150,255,.23);
-    transition:.2s;
+.save-action-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--primary), var(--cyan));
+    color: #fff;
+    border: none;
+    padding: 13px;
+    border-radius: 12px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-top: 10px;
+    box-shadow: 0 8px 25px rgba(22, 140, 255, 0.3);
+    transition: 0.2s;
 }
 
-.save-button:hover{
-    transform:translateY(-1px);
-    box-shadow: 0 12px 38px rgba(0,200,255,.32);
+.save-action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(53, 217, 255, 0.4);
 }
 
-.info{
-    margin-top:12px;
-    color:#61758a;
-    font-size:10px;
-    line-height:1.55;
-}
-
-::-webkit-scrollbar{
-    width:7px;
-}
-::-webkit-scrollbar-track{
-    background:#030507;
-}
-::-webkit-scrollbar-thumb{
-    background:#163c56;
-    border-radius:20px;
-}
-
-@media(max-width:600px){
-    .container{
-        padding:18px 13px 55px;
+/* RESPONSIVE */
+@media (max-width: 600px) {
+    .wrapper {
+        padding: 15px 12px 40px;
     }
-    .header{
-        align-items:flex-start;
+    .command-bar {
+        padding: 12px 16px;
     }
-    .brand-title{
-        font-size:16px;
-    }
-    .brand-subtitle{
-        font-size:8px;
-    }
-    .logo{
-        width:48px;
-        height:48px;
-    }
-    .header-button{
-        padding:9px 10px;
-        font-size:9px;
-    }
-    .hero{
-        padding:22px;
-    }
-    .hero h1{
-        font-size:34px;
-    }
-    .member-grid{
-        grid-template-columns:1fr;
-    }
-    .two-column{
-        grid-template-columns:1fr;
+    .grid-2 {
+        grid-template-columns: 1fr;
     }
 }
-
 </style>
 </head>
-
 <body>
 
-<div class="container">
-
-    <!-- HEADER -->
-    <header class="header">
-        <div class="brand">
-            <div class="logo">
-                <span>SNX</span>
-            </div>
-            <div>
-                <div class="brand-title">TEAM SNEXTY</div>
-                <div class="brand-subtitle">ROSTER & BIODATA PRO</div>
+<div class="wrapper">
+    <!-- COMMAND BAR -->
+    <header class="command-bar">
+        <div class="brand-group">
+            <div class="brand-icon">SNX</div>
+            <div class="brand-text">
+                <h2>TEAM SNEXTY</h2>
+                <p>Command Center</p>
             </div>
         </div>
-
-        <div class="header-actions">
-            <a href="home (1).html" class="header-button">⌂ HOME</a>
-            <button class="header-button" onclick="openEditor(0)">✦ EDIT ROSTER</button>
+        <div class="nav-actions">
+            <a href="home (1).html" class="cyber-btn">⌂ HOME</a>
+            <button class="cyber-btn" onclick="openEditor(0)">✦ CUSTOMIZE</button>
         </div>
     </header>
 
-    <!-- HERO -->
-    <section class="hero">
-        <div class="hero-label">ROSTER / SQUAD GACOR</div>
-        <h1>YOUR ID.<br>YOUR STYLE.</h1>
-        <p>
-            Pusat manajemen biodata dan profil roster Team Snexty. Klik salah satu kartu member di bawah untuk mengedit foto, nama, role, dan bio bebas sesuka hati lu!
-        </p>
-    </section>
+    <!-- SECTION TITLE -->
+    <div class="roster-header">
+        <span>ACTIVE SQUAD REGISTRY</span>
+        <h1>TACTICAL ROSTER</h1>
+        <p>Database profil elit Team Snexty. Ketuk kartu agen manapun di bawah untuk mengubah identitas, role, foto, dan status secara real-time.</p>
+    </div>
 
-    <!-- MEMBER LIST -->
-    <main class="member-grid" id="memberGrid"></main>
-
+    <!-- ROSTER GRID -->
+    <main class="roster-grid" id="rosterGrid"></main>
 </div>
 
-<!-- EDIT PROFILE MODAL -->
-<div class="modal" id="modal">
-    <div class="modal-box">
+<!-- EDITOR MODAL -->
+<div class="modal-overlay" id="editorModal">
+    <div class="modal-container">
         <div class="modal-header">
-            <div class="modal-title">EDIT PROFILE</div>
-            <button class="close" onclick="closeEditor()">×</button>
+            <div class="modal-title" id="modalHeading">EDIT AGENT PROFILE</div>
+            <button class="modal-close" onclick="closeEditor()">×</button>
         </div>
 
-        <!-- PHOTO PREVIEW -->
-        <div class="profile-preview">
-            <img id="previewPhoto" class="preview-photo" alt="Profile">
-            <div>
-                <div id="previewName" class="preview-name">Member</div>
-                <div class="preview-label">PROFILE PHOTO</div>
-                <div class="photo-actions">
-                    <button class="small-button" onclick="document.getElementById('photoInput').click()">UPLOAD FOTO</button>
-                    <button class="small-button" onclick="removePhoto()">HAPUS FOTO</button>
+        <div class="preview-box">
+            <img id="modalPreviewImg" class="preview-img" alt="Avatar Preview">
+            <div class="preview-info">
+                <h4 id="modalPreviewName">Agent Name</h4>
+                <p>AVATAR SOURCE</p>
+                <div class="btn-row">
+                    <button class="mini-btn" onclick="document.getElementById('fileUpload').click()">UPLOAD</button>
+                    <button class="mini-btn" onclick="clearAvatarPhoto()">RESET</button>
                 </div>
             </div>
         </div>
+        <input type="file" id="fileUpload" accept="image/*" hidden>
 
-        <input id="photoInput" type="file" accept="image/*" hidden>
+        <div class="form-field">
+            <label>AGENT NAME / NICKNAME</label>
+            <input type="text" id="inputName" maxlength="30" placeholder="Masukkan nama...">
+        </div>
 
-        <!-- FORM -->
-        <div class="form">
-            <div class="form-group">
-                <label>NAMA</label>
-                <input id="nameInput" type="text" maxlength="30" placeholder="Nama member">
+        <div class="grid-2">
+            <div class="form-field">
+                <label>AGENT ID</label>
+                <input type="text" id="inputID" maxlength="25" placeholder="SNX-XXXX">
             </div>
-
-            <div class="two-column">
-                <div class="form-group">
-                    <label>MEMBER ID</label>
-                    <input id="idInput" type="text" maxlength="25" placeholder="SNX-XXXX">
-                </div>
-                <div class="form-group">
-                    <label>ROLE / POSISI</label>
-                    <input id="roleInput" type="text" maxlength="25" placeholder="GOLDLANER / EXP / COACH">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>STATUS</label>
-                <div class="status-control">
-                    <span id="statusLabel">ONLINE</span>
-                    <input id="onlineInput" type="checkbox">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>BIO / QUOTES GACOR</label>
-                <textarea id="bioInput" maxlength="150" placeholder="Tulis bio atau kata-kata andalan kamu..."></textarea>
+            <div class="form-field">
+                <label>ROLE / POSITION</label>
+                <input type="text" id="inputRole" maxlength="25" placeholder="GOLDLANER / COACH">
             </div>
         </div>
 
-        <button class="save-button" onclick="saveProfile()">SAVE PROFILE</button>
-        <div class="info">Perubahan profil akan otomatis tersimpan di perangkat ini (Local Storage) dan langsung terlihat oleh squad Snexty!</div>
+        <div class="form-field">
+            <label>ONLINE STATUS</label>
+            <div class="status-switch-box">
+                <span id="statusTextDisplay">ONLINE</span>
+                <input type="checkbox" id="inputOnline">
+            </div>
+        </div>
+
+        <div class="form-field">
+            <label>BIO / QUOTE</label>
+            <textarea id="inputBio" maxlength="150" placeholder="Tulis bio atau catatan taktis..."></textarea>
+        </div>
+
+        <button class="save-action-btn" onclick="commitChanges()">SIMPAN PERUBAHAN</button>
     </div>
 </div>
 
 <script>
-const defaultMembers = [
+const defaultRoster = [
     { name:"NevTryz", id:"SNX-NEV", role:"GOLDLANER", online:true, bio:"Different role. One squad. One goal.", photo:"" },
     { name:"Santaeee", id:"SNX-SAN", role:"MIDLANER", online:true, bio:"Stay sharp. Stay SNEXTY.", photo:"" },
     { name:"PARADOX", id:"SNX-PDX", role:"JUNGLER", online:false, bio:"Play smart. Move different.", photo:"" },
@@ -689,183 +627,173 @@ const defaultMembers = [
     { name:"Monarch x TNX", id:"SNX-COACH", role:"HEAD COACH", online:true, bio:"Building the squad. Leading the vision.", photo:"" }
 ];
 
-let members = JSON.parse(localStorage.getItem("TEAM_SNEXTY_MEMBERS")) || defaultMembers;
-let editingIndex = 0;
+let rosterData = JSON.parse(localStorage.getItem("TEAM_SNEXTY_COMMAND_ROSTER")) || defaultRoster;
+let currentEditIndex = 0;
 
-const grid = document.getElementById("memberGrid");
-const modal = document.getElementById("modal");
-const nameInput = document.getElementById("nameInput");
-const idInput = document.getElementById("idInput");
-const roleInput = document.getElementById("roleInput");
-const bioInput = document.getElementById("bioInput");
-const onlineInput = document.getElementById("onlineInput");
-const photoInput = document.getElementById("photoInput");
-const previewPhoto = document.getElementById("previewPhoto");
-const previewName = document.getElementById("previewName");
-const statusLabel = document.getElementById("statusLabel");
+const rosterGrid = document.getElementById("rosterGrid");
+const editorModal = document.getElementById("editorModal");
+const modalHeading = document.getElementById("modalHeading");
+const modalPreviewImg = document.getElementById("modalPreviewImg");
+const modalPreviewName = document.getElementById("modalPreviewName");
+const fileUpload = document.getElementById("fileUpload");
+const inputName = document.getElementById("inputName");
+const inputID = document.getElementById("inputID");
+const inputRole = document.getElementById("inputRole");
+const inputOnline = document.getElementById("inputOnline");
+const inputBio = document.getElementById("inputBio");
+const statusTextDisplay = document.getElementById("statusTextDisplay");
 
-function escapeHTML(text){
-    return String(text ?? "").replace(/[&<>"']/g, function(char){
-        return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;" }[char];
+function sanitizeHTML(str){
+    return String(str ?? "").replace(/[&<>"']/g, function(m){
+        return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#039;' }[m];
     });
 }
 
-function getInitials(name){
-    const clean = name.replace(/[^a-zA-Z0-9]/g, "");
-    return (clean.substring(0,2).toUpperCase() || "SN");
+function generateSvgAvatar(name){
+    const clean = name.replace(/[^a-zA-Z0-9]/g, "").substring(0, 2).toUpperCase() || "SN";
+    return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect width="100%" height="100%" fill="#070d14"/><text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" fill="#35d9ff" font-size="64" font-family="sans-serif" font-weight="900">${clean}</text></svg>`)}`;
 }
 
-function defaultAvatar(name){
-    const initials = getInitials(name);
-    return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><rect width="100%" height="100%" fill="#0b1621"/><text x="50%" y="55%" text-anchor="middle" dominant-baseline="middle" fill="#35d9ff" font-size="80" font-family="Arial" font-weight="900">${initials}</text></svg>`)}`;
-}
+function renderRoster(){
+    rosterGrid.innerHTML = "";
+    rosterData.forEach((agent, idx) => {
+        const card = document.createElement("div");
+        card.className = "agent-card";
+        card.onclick = () => openEditor(idx);
 
-function renderMembers(){
-    grid.innerHTML = "";
-    members.forEach(function(member, index){
-        const card = document.createElement("article");
-        card.className = "member-card";
-        card.onclick = function(){ openEditor(index); };
-
-        const photo = member.photo || defaultAvatar(member.name);
+        const avatarSrc = agent.photo || generateSvgAvatar(agent.name);
 
         card.innerHTML = `
-            <div class="card-cover">
-                <div class="role-badge">${escapeHTML(member.role)}</div>
-                <img class="avatar" src="${photo}" alt="${escapeHTML(member.name)}">
+            <div class="card-banner">
+                <div class="agent-role">${sanitizeHTML(agent.role)}</div>
+                <div class="agent-avatar-wrap">
+                    <img src="${avatarSrc}" alt="${sanitizeHTML(agent.name)}">
+                </div>
             </div>
-            <div class="card-content">
-                <div class="member-name">${escapeHTML(member.name)}</div>
-                <div class="member-id">${escapeHTML(member.id)}</div>
-                <div class="member-bio">${escapeHTML(member.bio || "Belum ada bio.")}</div>
+            <div class="card-body">
+                <div class="agent-name">${sanitizeHTML(agent.name)}</div>
+                <div class="agent-id">${sanitizeHTML(agent.id)}</div>
+                <div class="agent-bio">${sanitizeHTML(agent.bio || "Tidak ada catatan bio.")}</div>
                 <div class="card-footer">
-                    <div class="status">
-                        <span class="status-dot ${member.online ? "" : "offline"}"></span>
-                        ${member.online ? "ONLINE" : "OFFLINE"}
+                    <div class="status-indicator">
+                        <span class="dot ${agent.online ? '' : 'offline'}"></span>
+                        ${agent.online ? 'ONLINE' : 'OFFLINE'}
                     </div>
-                    <div class="edit-label">EDIT PROFILE ↗</div>
+                    <div class="edit-hint">EDIT ↗</div>
                 </div>
             </div>
         `;
-        grid.appendChild(card);
+        rosterGrid.appendChild(card);
     });
 }
 
-function openEditor(index){
-    editingIndex = index;
-    const member = members[index];
+function openEditor(idx){
+    currentEditIndex = idx;
+    const agent = rosterData[idx];
 
-    document.querySelector(".modal-title").textContent = "EDIT • " + member.name;
-    nameInput.value = member.name;
-    idInput.value = member.id;
-    roleInput.value = member.role;
-    bioInput.value = member.bio;
-    onlineInput.checked = member.online;
+    modalHeading.textContent = "EDIT • " + agent.name;
+    inputName.value = agent.name;
+    inputID.value = agent.id;
+    inputRole.value = agent.role;
+    inputOnline.checked = agent.online;
+    inputBio.value = agent.bio;
 
-    updateStatusText();
-    previewName.textContent = member.name;
-    previewPhoto.src = member.photo || defaultAvatar(member.name);
-    photoInput.value = "";
-    modal.classList.add("active");
+    updateStatusLabel();
+    modalPreviewName.textContent = agent.name;
+    modalPreviewImg.src = agent.photo || generateSvgAvatar(agent.name);
+    fileUpload.value = "";
+    editorModal.classList.add("active");
 }
 
 function closeEditor(){
-    modal.classList.remove("active");
+    editorModal.classList.remove("active");
 }
 
-function updateStatusText(){
-    statusLabel.textContent = onlineInput.checked ? "ONLINE" : "OFFLINE";
+function updateStatusLabel(){
+    statusTextDisplay.textContent = inputOnline.checked ? "ONLINE" : "OFFLINE";
 }
 
-onlineInput.addEventListener("change", updateStatusText);
+inputOnline.addEventListener("change", updateStatusLabel);
 
-nameInput.addEventListener("input", function(){
-    previewName.textContent = nameInput.value || "Member";
+inputName.addEventListener("input", () => {
+    modalPreviewName.textContent = inputName.value || "Agent";
 });
 
-photoInput.addEventListener("change", function(event){
-    const file = event.target.files[0];
+fileUpload.addEventListener("change", (e) => {
+    const file = e.target.files[0];
     if(!file) return;
     if(!file.type.startsWith("image/")){
-        alert("File harus berupa gambar.");
-        photoInput.value = "";
+        alert("File harus berupa format gambar.");
+        fileUpload.value = "";
         return;
     }
     if(file.size > 4 * 1024 * 1024){
-        alert("Ukuran foto maksimal 4MB.");
-        photoInput.value = "";
+        alert("Ukuran maksimum file adalah 4MB.");
+        fileUpload.value = "";
         return;
     }
     const reader = new FileReader();
-    reader.onload = function(){
-        previewPhoto.src = reader.result;
+    reader.onload = function(evt){
+        modalPreviewImg.src = evt.target.result;
     };
     reader.readAsDataURL(file);
 });
 
-function removePhoto(){
-    members[editingIndex].photo = "";
-    previewPhoto.src = defaultAvatar(nameInput.value);
-    photoInput.value = "";
+function clearAvatarPhoto(){
+    rosterData[currentEditIndex].photo = "";
+    modalPreviewImg.src = generateSvgAvatar(inputName.value);
+    fileUpload.value = "";
 }
 
-function saveProfile(){
-    const member = members[editingIndex];
-    const newName = nameInput.value.trim();
-    const newID = idInput.value.trim();
-    const newRole = roleInput.value.trim();
+function commitChanges(){
+    const agent = rosterData[currentEditIndex];
+    const newName = inputName.value.trim();
+    const newID = inputID.value.trim();
 
     if(!newName){
-        alert("Nama tidak boleh kosong.");
+        alert("Nama agen tidak boleh kosong.");
         return;
     }
     if(!newID){
-        alert("Member ID tidak boleh kosong.");
+        alert("ID agen tidak boleh kosong.");
         return;
     }
 
-    member.name = newName;
-    member.id = newID;
-    member.role = newRole || "MEMBER";
-    member.bio = bioInput.value.trim();
-    member.online = onlineInput.checked;
+    agent.name = newName;
+    agent.id = newID;
+    agent.role = inputRole.value.trim() || "AGENT";
+    agent.bio = inputBio.value.trim();
+    agent.online = inputOnline.checked;
 
-    const file = photoInput.files[0];
+    const file = fileUpload.files[0];
     if(file){
         const reader = new FileReader();
-        reader.onload = function(){
-            member.photo = reader.result;
-            finishSave();
+        reader.onload = function(evt){
+            agent.photo = evt.target.result;
+            persistAndClose();
         };
         reader.readAsDataURL(file);
     } else {
-        finishSave();
+        persistAndClose();
     }
 }
 
-function finishSave(){
-    localStorage.setItem("TEAM_SNEXTY_MEMBERS", JSON.stringify(members));
-    renderMembers();
+function persistAndClose(){
+    localStorage.setItem("TEAM_SNEXTY_COMMAND_ROSTER", JSON.stringify(rosterData));
+    renderRoster();
     closeEditor();
 }
 
-modal.addEventListener("click", function(event){
-    if(event.target === modal){
-        closeEditor();
-    }
+editorModal.addEventListener("click", (e) => {
+    if(e.target === editorModal) closeEditor();
 });
 
-document.addEventListener("keydown", function(event){
-    if(event.key === "Escape"){
-        closeEditor();
-    }
+document.addEventListener("keydown", (e) => {
+    if(e.key === "Escape") closeEditor();
 });
 
-renderMembers();
+renderRoster();
 </script>
 
 </body>
 </html>
-```[cite: 5]
-
-Ada lagi bagian atau halaman lain dari aplikasi Snexty yang mau dirapihin atau ditambahin fitur gacor lainnya, bray?
