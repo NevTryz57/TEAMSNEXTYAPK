@@ -62,7 +62,6 @@
             height: calc(100vh - 65px);
         }
 
-        /* Perbaikan Map Publik agar proporsional dan muat gambar ML */
         .map-section {
             flex: 1;
             background: rgba(15, 23, 42, 0.6);
@@ -142,7 +141,6 @@
             overflow-y: auto;
         }
 
-        /* Kontrol Publik (Play, Pause, Mundur, Maju) */
         .playback-controls {
             display: flex;
             flex-direction: column;
@@ -212,18 +210,17 @@
         }
         .admin-sidebar {
             width: 360px; background: rgba(11, 25, 44, 0.95); border: 1px solid #0284c7;
-            border-radius: 12px; padding: 15px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto;
+            border-radius: 12px; padding: 15px; display: flex; flex-direction: column; gap: 10px; overflow-y: auto;
         }
         .admin-sidebar textarea {
             width: 100%; background: #030712; border: 1px solid #1e293b; color: white;
-            padding: 10px; border-radius: 6px; font-size: 12px; resize: vertical; height: 90px;
+            padding: 10px; border-radius: 6px; font-size: 12px; resize: vertical; height: 75px;
         }
         .admin-map-wrapper {
             flex: 1; background: rgba(15, 23, 42, 0.6); border: 1px solid #0284c7;
             border-radius: 12px; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden;
         }
 
-        /* Bidak & Jalur SVG */
         .tactical-piece {
             position: absolute; width: 34px; height: 34px; background: #ef4444;
             border: 2px solid #fff; border-radius: 50%; display: flex; align-items: center;
@@ -243,6 +240,7 @@
         }
         .admin-action-btn.danger { background: #ef4444; }
         .admin-action-btn.success { background: #16a34a; }
+        .admin-action-btn.warning { background: #d97706; }
     </style>
 </head>
 <body>
@@ -309,19 +307,18 @@
 
         <div class="admin-body">
             <div class="admin-sidebar">
-                <div class="section-title">1. Pilih Fase & Catat Makro MLBB</div>
-                <div class="phase-display-tabs" style="margin-bottom: 8px;">
+                <div class="section-title">1. Catat Makro MLBB</div>
+                <div class="phase-display-tabs" style="margin-bottom: 5px;">
                     <div class="p-tab active" onclick="setAdminPhase('early', this)">Early</div>
                     <div class="p-tab" onclick="setAdminPhase('mid', this)">Mid</div>
                     <div class="p-tab" onclick="setAdminPhase('late', this)">Late</div>
                 </div>
                 <textarea id="adminNotesInput" placeholder="Tulis instruksi makro..."></textarea>
-                <button class="admin-action-btn" onclick="saveAdminNotes()">Simpan Catatan Fase Ini</button>
+                <button class="admin-action-btn" onclick="saveAdminNotes()">Simpan Catatan</button>
 
-                <hr style="border-color: #1e293b; margin: 5px 0;">
+                <hr style="border-color: #1e293b; margin: 2px 0;">
 
-                <div class="section-title">2. Tambah Bidak Role & Hero</div>
-                <p style="font-size: 11px; color: #94a3b8;">Klik bidak untuk memunculkan (tarik bebas ke mana saja):</p>
+                <div class="section-title">2. Tambah Bidak Role</div>
                 <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                     <div class="tactical-piece" style="position:relative; transform:none;" onclick="spawnPiece('🛡️')">🛡️</div>
                     <div class="tactical-piece" style="position:relative; transform:none; background:#0284c7;" onclick="spawnPiece('⚔️')">⚔️</div>
@@ -330,16 +327,19 @@
                     <div class="tactical-piece" style="position:relative; transform:none; background:#10b981;" onclick="spawnPiece('⚡')">⚡</div>
                 </div>
 
-                <hr style="border-color: #1e293b; margin: 5px 0;">
+                <hr style="border-color: #1e293b; margin: 2px 0;">
 
-                <div class="section-title">3. Gambar Jalur Taktik</div>
-                <p style="font-size: 11px; color: #94a3b8;">Klik titik di map admin untuk membuat jalur:</p>
-                <button class="admin-action-btn" id="btnDraw" onclick="toggleDraw()">Mode Gambar Jalur: OFF</button>
-                <button class="admin-action-btn danger" onclick="resetAdmin()">Reset Map Admin</button>
+                <div class="section-title">3. Buat Jalur (1 Tarikan = 1 Step)</div>
+                <p style="font-size: 10px; color: #94a3b8;">Klik & Tahan (Drag) di map untuk membuat garis jalur bebas:</p>
+                <div class="btn-group">
+                    <button class="admin-action-btn warning" onclick="undoLastStep()">↩ Hapus Step Terakhir</button>
+                    <button class="admin-action-btn success" onclick="testAdminSimulation()">▶ Tes Play Admin</button>
+                </div>
+                <button class="admin-action-btn danger" onclick="resetAdmin()">Reset Semua Map Admin</button>
             </div>
 
             <div class="admin-map-wrapper">
-                <div class="map-canvas" id="adminMapCanvas" onclick="handleAdminMapClick(event)">
+                <div class="map-canvas" id="adminMapCanvas">
                     <svg class="path-line-svg" id="adminSvgPath"></svg>
                     <div id="adminPiecesContainer"></div>
                 </div>
@@ -351,15 +351,15 @@
         let currentPhase = 'early';
         let dbData = {
             early: {
-                notes: "• EARLY GAME (0:00 - 5:00):\n- Jungler clear buff merah/biru lalu ambil Lithowanderer (0:45).\n- Roam langsung bantu Mid/Gold lane.\n- Freeze Lane: Tahan last hit minion dekat turret sendiri.\n- Persiapan Turtle pertama menit 2:00.",
+                notes: "• EARLY GAME (0:00 - 5:00):\n- Jungler clear buff merah/biru lalu ambil Lithowanderer (0:45).\n- Roam langsung bantu Mid/Gold lane.\n- Persiapan Turtle pertama menit 2:00.",
                 pieces: [], paths: []
             },
             mid: {
-                notes: "• MID GAME (5:00 - 12:00):\n- Lord level 1 muncul menit 8:00.\n- Rotasi cepat ke turret luar musuh kosong (Split Push).\n- Invasi jungle musuh saat buff respawn.\n- Zoning musuh sebelum membuka Lord.",
+                notes: "• MID GAME (5:00 - 12:00):\n- Lord level 1 muncul menit 8:00.\n- Rotasi cepat ke turret luar musuh kosong (Split Push).\n- Invasi jungle musuh saat buff respawn.",
                 pieces: [], paths: []
             },
             late: {
-                notes: "• LATE GAME (12:00+):\n- Lord Evolved aktif.\n- Wajib berdua/berlima pegang vision, jangan jalan sendiri.\n- Fokus teamfight tumpas Marksman/Mage musuh.\n- Rebut Lord penentu kemenangan.",
+                notes: "• LATE GAME (12:00+):\n- Lord Evolved aktif.\n- Wajib berdua/berlima pegang vision, jangan jalan sendiri.\n- Rebut Lord penentu kemenangan.",
                 pieces: [], paths: []
             }
         };
@@ -405,7 +405,6 @@
             syncToPublic();
         }
 
-        // Spawn Bidak Bebas ke Segala Arah (Admin)
         function spawnPiece(icon) {
             const pieceObj = { icon: icon, x: 50, y: 50 };
             dbData[activeAdminPhase].pieces.push(pieceObj);
@@ -452,25 +451,69 @@
             function onMouseUp() { isDragging = false; document.onmouseup = null; document.onmousemove = null; }
         }
 
-        let isDrawing = false;
-        let currentPts = [];
-        function toggleDraw() {
-            isDrawing = !isDrawing;
-            const btn = document.getElementById('btnDraw');
-            btn.innerText = isDrawing ? "Mode Gambar Jalur: ON (Klik di map)" : "Mode Gambar Jalur: OFF";
-            btn.style.background = isDrawing ? "#16a34a" : "#0284c7";
-            if(isDrawing) currentPts = [];
-        }
+        // --- SISTEM 1 TARIKAN = 1 STEP (DRAG TO DRAW PATH) ---
+        let isPathDrawing = false;
+        let currentDrawPoints = [];
 
-        function handleAdminMapClick(e) {
-            if(!isDrawing) return;
+        const adminMapCanvas = document.getElementById('adminMapCanvas');
+        
+        adminMapCanvas.onmousedown = function(e) {
             if(e.target.classList.contains('tactical-piece')) return;
-            const rect = document.getElementById('adminMapCanvas').getBoundingClientRect();
+            isPathDrawing = true;
+            currentDrawPoints = [];
+            const rect = adminMapCanvas.getBoundingClientRect();
             let x = ((e.clientX - rect.left) / rect.width) * 100;
             let y = ((e.clientY - rect.top) / rect.height) * 100;
-            currentPts.push({x, y});
-            if(currentPts.length >= 2) { dbData[activeAdminPhase].paths.push([...currentPts]); }
+            currentDrawPoints.push({x, y});
+        };
+
+        adminMapCanvas.onmousemove = function(e) {
+            if(!isPathDrawing) return;
+            const rect = adminMapCanvas.getBoundingClientRect();
+            let x = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
+            let y = Math.max(0, Math.min(100, ((e.clientY - rect.top) / rect.height) * 100));
+            
+            // Tambahkan titik jika jaraknya agak jauh agar mulus
+            const lastPt = currentDrawPoints[currentDrawPoints.length - 1];
+            if(Math.hypot(x - lastPt.x, y - lastPt.y) > 1.5) {
+                currentDrawPoints.push({x, y});
+                redrawAdminCanvasWithActive();
+            }
+        };
+
+        adminMapCanvas.onmouseup = function() {
+            if(!isPathDrawing) return;
+            isPathDrawing = false;
+            if(currentDrawPoints.length > 2) {
+                dbData[activeAdminPhase].paths.push([...currentDrawPoints]);
+            }
+            currentDrawPoints = [];
             redrawAdminCanvas();
+        };
+
+        function undoLastStep() {
+            if(dbData[activeAdminPhase].paths.length > 0) {
+                dbData[activeAdminPhase].paths.pop();
+                redrawAdminCanvas();
+                alert('Step tarikan terakhir berhasil dihapus!');
+            } else {
+                alert('Belum ada step jalur yang dibuat.');
+            }
+        }
+
+        function redrawAdminCanvasWithActive() {
+            redrawAdminCanvas();
+            if(currentDrawPoints.length < 2) return;
+            const svg = document.getElementById('adminSvgPath');
+            let d = `M ${currentDrawPoints[0].x}% ${currentDrawPoints[0].y}%`;
+            for(let i=1; i<currentDrawPoints.length; i++) { d += ` L ${currentDrawPoints[i].x}% ${currentDrawPoints[i].y}%`; }
+            const pathEl = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            pathEl.setAttribute("d", d);
+            pathEl.setAttribute("stroke", "#f59e0b");
+            pathEl.setAttribute("stroke-width", "3");
+            pathEl.setAttribute("fill", "none");
+            pathEl.setAttribute("stroke-dasharray", "4,4");
+            svg.appendChild(pathEl);
         }
 
         function redrawAdminCanvas() {
@@ -485,23 +528,61 @@
                 pathEl.setAttribute("stroke", "#38bdf8");
                 pathEl.setAttribute("stroke-width", "3");
                 pathEl.setAttribute("fill", "none");
-                pathEl.setAttribute("stroke-dasharray", "4,4");
                 svg.appendChild(pathEl);
             });
+        }
+
+        function testAdminSimulation() {
+            const phaseData = dbData[activeAdminPhase];
+            if(phaseData.pieces.length === 0 || phaseData.paths.length === 0) {
+                alert('Buat bidak dan minimal 1 step tarikan jalur dulu!');
+                return;
+            }
+            // Gabungkan semua paths menjadi satu rute berurutan
+            let combinedPath = [];
+            phaseData.paths.forEach(path => {
+                combinedPath.push(...path);
+            });
+
+            const pieceObj = phaseData.pieces[0];
+            const targetEl = document.querySelectorAll('#adminPiecesContainer .tactical-piece')[0];
+            let step = 0;
+            const totalSteps = combinedPath.length * 2;
+
+            function runTest() {
+                if(step <= totalSteps) {
+                    let progress = step / totalSteps;
+                    let targetIndex = progress * (combinedPath.length - 1);
+                    let baseIdx = Math.floor(targetIndex);
+                    let frac = targetIndex - baseIdx;
+
+                    let p1 = combinedPath[baseIdx] || combinedPath[0];
+                    let p2 = combinedPath[baseIdx+1] || p1;
+
+                    pieceObj.x = p1.x + (p2.x - p1.x) * frac;
+                    pieceObj.y = p1.y + (p2.y - p1.y) * frac;
+                    targetEl.style.left = pieceObj.x + '%';
+                    targetEl.style.top = pieceObj.y + '%';
+
+                    step++;
+                    requestAnimationFrame(runTest);
+                }
+            }
+            runTest();
         }
 
         function resetAdmin() {
             dbData[activeAdminPhase].pieces = [];
             dbData[activeAdminPhase].paths = [];
-            currentPts = [];
+            currentDrawPoints = [];
             renderAdminPiecesAndPaths();
         }
 
-        // --- SISTEM PLAYBACK & KONTROL PUBLIK ---
+        // --- SISTEM PLAYBACK PUBLIK ---
         let pubAnimFrame = null;
         let isPlaying = false;
         let animStepIndex = 0;
-        const totalAnimSteps = 60;
+        const totalAnimSteps = 80;
 
         function syncToPublic() {
             document.getElementById('publicNotesDisplay').innerText = dbData[currentPhase].notes;
@@ -511,16 +592,13 @@
         function resetPublicAnimation() {
             stopSimulation();
             animStepIndex = 0;
-            document.getElementById('playbackStatus').innerText = "Status: Posisi awal";
+            document.getElementById('playbackStatus').innerText = "Status: Siap diputar";
             renderPublicPiecesAtProgress(0);
         }
 
         function togglePlaySimulation() {
-            if (isPlaying) {
-                stopSimulation();
-            } else {
-                startPublicSimulation();
-            }
+            if (isPlaying) { stopSimulation(); } 
+            else { startPublicSimulation(); }
         }
 
         function startPublicSimulation() {
@@ -566,27 +644,25 @@
             container.innerHTML = '';
             const phaseData = dbData[currentPhase];
             
+            // Gabungkan semua paths untuk publik
+            let combinedPath = [];
+            phaseData.paths.forEach(p => combinedPath.push(...p));
+
             phaseData.pieces.forEach((p, idx) => {
                 let posX = p.x;
                 let posY = p.y;
 
-                // Jika ada jalur, bidak pertama akan mengikuti jalur
-                if(idx === 0 && phaseData.paths.length > 0) {
-                    const path = phaseData.paths[phaseData.paths.length - 1];
+                if(idx === 0 && combinedPath.length > 0) {
                     let progress = step / totalAnimSteps;
-                    let targetIndex = progress * (path.length - 1);
+                    let targetIndex = progress * (combinedPath.length - 1);
                     let baseIdx = Math.floor(targetIndex);
                     let frac = targetIndex - baseIdx;
 
-                    if(baseIdx >= path.length - 1) {
-                        posX = path[path.length-1].x;
-                        posY = path[path.length-1].y;
-                    } else {
-                        let p1 = path[baseIdx];
-                        let p2 = path[baseIdx+1];
-                        posX = p1.x + (p2.x - p1.x) * frac;
-                        posY = p1.y + (p2.y - p1.y) * frac;
-                    }
+                    let p1 = combinedPath[baseIdx] || combinedPath[0];
+                    let p2 = combinedPath[baseIdx+1] || p1;
+
+                    posX = p1.x + (p2.x - p1.x) * frac;
+                    posY = p1.y + (p2.y - p1.y) * frac;
                 }
 
                 const el = document.createElement('div');
