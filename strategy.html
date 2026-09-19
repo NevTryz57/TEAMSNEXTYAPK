@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TNEX - Snexty Pro Strategy & Tactics</title>
+    <title>TNEX - Pro MLBB Strategy & Macro Room</title>
     <style>
         * {
             box-sizing: border-box;
@@ -20,7 +20,6 @@
             flex-direction: column;
         }
 
-        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
@@ -43,7 +42,6 @@
             font-weight: 600;
         }
 
-        /* Tombol Akses Admin (Tombol Putih di pojok sesuai request) */
         .admin-trigger-btn {
             background: #ffffff;
             color: #030712;
@@ -56,7 +54,6 @@
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
-        /* Layout Utama */
         .main-layout {
             display: flex;
             flex: 1;
@@ -65,7 +62,6 @@
             height: calc(100vh - 65px);
         }
 
-        /* Area Peta Utama (Public & Admin View) */
         .map-section {
             flex: 1;
             background: rgba(15, 23, 42, 0.6);
@@ -89,9 +85,8 @@
             background-position: center;
         }
 
-        /* Panel Samping Catatan Strategi (Publik) */
         .info-sidebar {
-            width: 320px;
+            width: 350px;
             background: rgba(11, 25, 44, 0.95);
             border: 1px solid #0284c7;
             border-radius: 12px;
@@ -100,6 +95,7 @@
             flex-direction: column;
             gap: 15px;
             box-shadow: 0 0 20px rgba(2, 132, 199, 0.2);
+            overflow-y: auto;
         }
 
         .section-title {
@@ -108,7 +104,30 @@
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
+        }
+
+        .phase-display-tabs {
+            display: flex;
+            gap: 5px;
+        }
+
+        .p-tab {
+            flex: 1;
+            background: #030712;
+            border: 1px solid #1e293b;
+            color: #94a3b8;
+            padding: 6px;
+            font-size: 11px;
+            text-align: center;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .p-tab.active {
+            background: #0284c7;
+            color: #fff;
+            border-color: #38bdf8;
         }
 
         .strategy-notes-display {
@@ -116,261 +135,166 @@
             border: 1px solid #1e293b;
             padding: 12px;
             border-radius: 8px;
-            font-size: 13px;
+            font-size: 12px;
             color: #cbd5e1;
             line-height: 1.5;
-            min-height: 150px;
-            max-height: 300px;
+            min-height: 180px;
+            max-height: 250px;
             overflow-y: auto;
         }
 
-        /* Modal Password & Admin Panel */
+        /* Modal Password */
         .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(3, 7, 18, 0.85);
-            display: none;
-            justify-content: center;
-            align-items: center;
+            display: none; justify-content: center; align-items: center;
             z-index: 1000;
         }
-
         .modal-box {
-            background: #0b192c;
-            border: 1px solid #0284c7;
-            padding: 25px;
-            border-radius: 12px;
-            width: 320px;
-            text-align: center;
-            box-shadow: 0 0 25px rgba(2, 132, 199, 0.4);
+            background: #0b192c; border: 1px solid #0284c7;
+            padding: 25px; border-radius: 12px; width: 320px; text-align: center;
         }
-
         .modal-box input {
-            width: 100%;
-            background: #030712;
-            border: 1px solid #1e293b;
-            color: white;
-            padding: 10px;
-            border-radius: 6px;
-            margin: 15px 0;
-            text-align: center;
-            font-size: 16px;
-            letter-spacing: 2px;
+            width: 100%; background: #030712; border: 1px solid #1e293b;
+            color: white; padding: 10px; border-radius: 6px; margin: 15px 0;
+            text-align: center; font-size: 16px; letter-spacing: 2px;
         }
-
         .modal-box button {
-            background: #0284c7;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            width: 100%;
+            background: #0284c7; color: white; border: none; padding: 10px;
+            border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%;
         }
 
-        /* Admin Dashboard Container (Hidden secara default) */
+        /* Admin Panel Fullscreen */
         .admin-panel-container {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #030712;
-            z-index: 500;
-            flex-direction: column;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #030712; z-index: 500; flex-direction: column;
         }
-
         .admin-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 25px;
-            background: rgba(11, 25, 44, 0.9);
-            border-bottom: 1px solid #0284c7;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 25px; background: rgba(11, 25, 44, 0.9); border-bottom: 1px solid #0284c7;
         }
-
         .admin-body {
-            display: flex;
-            flex: 1;
-            padding: 20px;
-            gap: 20px;
-            height: calc(100vh - 65px);
+            display: flex; flex: 1; padding: 20px; gap: 20px; height: calc(100vh - 65px);
         }
-
         .admin-sidebar {
-            width: 350px;
-            background: rgba(11, 25, 44, 0.95);
-            border: 1px solid #0284c7;
-            border-radius: 12px;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            overflow-y: auto;
+            width: 360px; background: rgba(11, 25, 44, 0.95); border: 1px solid #0284c7;
+            border-radius: 12px; padding: 15px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto;
         }
-
         .admin-sidebar textarea {
-            width: 100%;
-            background: #030712;
-            border: 1px solid #1e293b;
-            color: white;
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            resize: vertical;
-            height: 80px;
+            width: 100%; background: #030712; border: 1px solid #1e293b; color: white;
+            padding: 10px; border-radius: 6px; font-size: 12px; resize: vertical; height: 100px;
         }
-
         .admin-map-wrapper {
-            flex: 1;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid #0284c7;
-            border-radius: 12px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
+            flex: 1; background: rgba(15, 23, 42, 0.6); border: 1px solid #0284c7;
+            border-radius: 12px; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden;
         }
 
-        /* Bidak & Jalur di Admin / Public */
+        /* Bidak & Jalur */
         .tactical-piece {
-            position: absolute;
-            width: 34px;
-            height: 34px;
-            background: #ef4444;
-            border: 2px solid #fff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 10px rgba(0,0,0,0.6);
-            z-index: 10;
+            position: absolute; width: 34px; height: 34px; background: #ef4444;
+            border: 2px solid #fff; border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; font-size: 12px; font-weight: bold; cursor: grab;
+            transform: translate(-50%, -50%); box-shadow: 0 0 10px rgba(0,0,0,0.6); z-index: 10;
+            user-select: none;
         }
+        .tactical-piece:active { cursor: grabbing; }
 
         .path-line-svg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 5;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5;
         }
 
         .admin-action-btn {
-            background: #0284c7;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 12px;
-            width: 100%;
-            margin-top: 5px;
+            background: #0284c7; color: white; border: none; padding: 8px 12px;
+            border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px; width: 100%;
         }
-        
-        .admin-action-btn.danger {
-            background: #ef4444;
-        }
+        .admin-action-btn.danger { background: #ef4444; }
+        .admin-action-btn.success { background: #16a34a; }
     </style>
 </head>
 <body>
 
-    <!-- Halaman Utama (Public View - Gabungan Semua Rotasi) -->
+    <!-- Halaman Utama (Public View) -->
     <div class="header">
         <div style="display: flex; align-items: center; gap: 15px;">
             <button class="back-btn" onclick="window.location.href='index.html'">←</button>
-            <div class="room-title">Snexty Pro War Room - Live Strategy</div>
+            <div class="room-title">Snexty Pro War Room - Live Strategy & Macro</div>
         </div>
-        <!-- Tombol putih khusus untuk masuk panel admin -->
         <button class="admin-trigger-btn" onclick="openPasswordModal()">Admin Login</button>
     </div>
 
     <div class="main-layout">
-        <!-- Peta Publik (Menampilkan hasil settingan admin secara utuh) -->
         <div class="map-section">
             <div class="map-canvas" id="publicMapCanvas">
-                <!-- SVG untuk merender jalur kustom -->
                 <svg class="path-line-svg" id="publicSvgPath"></svg>
-                <!-- Bidak Publik hasil sinkronisasi -->
                 <div id="publicPiecesContainer"></div>
             </div>
         </div>
 
-        <!-- Sidebar Penjelasan Strategi dari Admin -->
         <div class="info-sidebar">
-            <div class="section-title">📋 Catatan Strategi Tim</div>
-            <div class="strategy-notes-display" id="publicNotesDisplay">
-                Belum ada instruksi strategi dari kapten/admin. Silakan masuk ke mode admin untuk membuat jalur dan menulis instruksi.
+            <div class="section-title">⏱️ Fase Game & Makro</div>
+            <div class="phase-display-tabs">
+                <div class="p-tab active" onclick="switchPublicPhase('early', this)">Early</div>
+                <div class="p-tab" onclick="switchPublicPhase('mid', this)">Mid</div>
+                <div class="p-tab" onclick="switchPublicPhase('late', this)">Late</div>
             </div>
-            <div style="font-size: 11px; color: #64748b; margin-top: auto;">
-                Tip: Semua pergerakan rotasi role (Jungler, Roam, Mid, Gold, Exp) disatukan di peta ini untuk koordinasi tim.
+            <div class="section-title" style="margin-top: 10px;">📋 Panduan & Instruksi Kapten</div>
+            <div class="strategy-notes-display" id="publicNotesDisplay">
+                Memuat data strategi dari admin...
             </div>
         </div>
     </div>
 
-    <!-- Modal Password Admin -->
+    <!-- Modal Password -->
     <div class="modal-overlay" id="passwordModal">
         <div class="modal-box">
             <h3 style="color: #38bdf8; margin-bottom: 5px;">🔐 Akses Panel Admin</h3>
-            <p style="font-size: 12px; color: #94a3b8;">Masukkan password khusus untuk mengatur taktik:</p>
-            <input type="password" id="adminPasswordInput" placeholder="Masukkan Password">
-            <button onclick="verifyAdminPassword()">Masuk Admin</button>
+            <p style="font-size: 12px; color: #94a3b8;">Masukkan password:</p>
+            <input type="password" id="adminPasswordInput" placeholder="••••••">
+            <button onclick="verifyAdminPassword()">Masuk</button>
             <button onclick="closePasswordModal()" style="background: transparent; border: 1px solid #1e293b; margin-top: 8px; color: #94a3b8;">Batal</button>
         </div>
     </div>
 
-    <!-- Halaman Panel Admin (Tersembunyi Sebelum Login Password) -->
+    <!-- Panel Admin -->
     <div class="admin-panel-container" id="adminPanelContainer">
         <div class="admin-header">
-            <div style="font-weight: bold; color: #38bdf8;">⚙️ Snexty Admin Tactical Control</div>
-            <button class="admin-trigger-btn" style="background: #ef4444; color: white;" onclick="closeAdminPanel()">Keluar Admin</button>
+            <div style="font-weight: bold; color: #38bdf8;">⚙️ Snexty Admin Tactical & Macro Control</div>
+            <button class="admin-trigger-btn" style="background: #ef4444; color: white;" onclick="closeAdminPanel()">Simpan & Keluar</button>
         </div>
 
         <div class="admin-body">
-            <!-- Sidebar Kontrol Admin -->
             <div class="admin-sidebar">
-                <div class="section-title">1. Tulis Penjelasan Strategi</div>
-                <textarea id="adminNotesInput" placeholder="Tulis instruksi rotasi, teamfight, atau objektif turtle/lord di sini..."></textarea>
-                <button class="admin-action-btn" onclick="saveNotes()">Simpan & Publikasikan Catatan</button>
+                <div class="section-title">1. Pilih Fase & Catat Makro MLBB</div>
+                <div class="phase-display-tabs" style="margin-bottom: 8px;">
+                    <div class="p-tab active" onclick="setAdminPhase('early', this)">Early</div>
+                    <div class="p-tab" onclick="setAdminPhase('mid', this)">Mid</div>
+                    <div class="p-tab" onclick="setAdminPhase('late', this)">Late</div>
+                </div>
+                <textarea id="adminNotesInput" placeholder="Tulis instruksi makro (Freeze lane, Zoning, Invasi buff, Turtle/Lord timing)..."></textarea>
+                <button class="admin-action-btn" onclick="saveAdminNotes()">Simpan Catatan Fase Ini</button>
 
                 <hr style="border-color: #1e293b; margin: 5px 0;">
 
-                <div class="section-title">2. Pilih & Tarik Bidak Role</div>
-                <p style="font-size: 11px; color: #94a3b8;">Klik role lalu letakkan/geser di map admin:</p>
+                <div class="section-title">2. Tambah Bidak Role & Hero</div>
+                <p style="font-size: 11px; color: #94a3b8;">Klik untuk memunculkan bidak (bisa digeser bebas ke mana saja di map):</p>
                 <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                    <div class="tactical-piece" style="position:relative; transform:none;" onclick="spawnAdminPiece('🛡️', 'Roam')">🛡️</div>
-                    <div class="tactical-piece" style="position:relative; transform:none; background:#0284c7;" onclick="spawnAdminPiece('⚔️', 'Jungler')">⚔️</div>
-                    <div class="tactical-piece" style="position:relative; transform:none; background:#eab308;" onclick="spawnAdminPiece('🔮', 'Mage')">🔮</div>
-                    <div class="tactical-piece" style="position:relative; transform:none; background:#ec4899;" onclick="spawnAdminPiece('🎯', 'Gold')">🎯</div>
-                    <div class="tactical-piece" style="position:relative; transform:none; background:#10b981;" onclick="spawnAdminPiece('⚡', 'Exp')">⚡</div>
+                    <div class="tactical-piece" style="position:relative; transform:none;" onclick="spawnPiece('🛡️')">🛡️</div>
+                    <div class="tactical-piece" style="position:relative; transform:none; background:#0284c7;" onclick="spawnPiece('⚔️')">⚔️</div>
+                    <div class="tactical-piece" style="position:relative; transform:none; background:#eab308;" onclick="spawnPiece('🔮')">🔮</div>
+                    <div class="tactical-piece" style="position:relative; transform:none; background:#ec4899;" onclick="spawnPiece('🎯')">🎯</div>
+                    <div class="tactical-piece" style="position:relative; transform:none; background:#10b981;" onclick="spawnPiece('⚡')">⚡</div>
                 </div>
 
                 <hr style="border-color: #1e293b; margin: 5px 0;">
 
-                <div class="section-title">3. Buat Jalur Kustom & Simulasi</div>
-                <p style="font-size: 11px; color: #94a3b8;">Klik titik-titik di map admin untuk membentuk garis jalur lengkung bebas:</p>
-                <button class="admin-action-btn" id="btnToggleDraw" onclick="toggleDrawMode()">Mulai Buat Jalur: OFF</button>
-                <button class="admin-action-btn" style="background: #10b981;" onclick="startSimulation()">▶ Jalankan Simulasi Bidak</button>
-                <button class="admin-action-btn danger" onclick="resetAdminMap()">Reset Semua Map Admin</button>
-
-                <div style="margin-top: auto; font-size: 11px; color: #94a3b8;">
-                    Catatan: Setelah disimpan, data otomatis tersinkronisasi ke tampilan utama tim.
-                </div>
+                <div class="section-title">3. Gambar Jalur & Simulasi Mulus</div>
+                <p style="font-size: 11px; color: #94a3b8;">Klik titik-titik di map admin untuk membuat jalur bebas:</p>
+                <button class="admin-action-btn" id="btnDraw" onclick="toggleDraw()">Mode Gambar Jalur: OFF</button>
+                <button class="admin-action-btn success" onclick="startSmoothSimulation()">▶ Jalankan Simulasi Mulus</button>
+                <button class="admin-action-btn danger" onclick="resetAdmin()">Reset Map Admin</button>
             </div>
 
-            <!-- Peta Khusus Admin untuk Mengatur Taktik -->
             <div class="admin-map-wrapper">
                 <div class="map-canvas" id="adminMapCanvas" onclick="handleAdminMapClick(event)">
                     <svg class="path-line-svg" id="adminSvgPath"></svg>
@@ -381,190 +305,210 @@
     </div>
 
     <script>
-        // Data Global Taktik
-        let strategyData = {
-            notes: "Fokus early game: Jungler ambil buff merah ke biru, Roam langsung buka vision di area kelomang/lithowanderer, Gold lane bermain aman.",
-            pieces: [], // Menyimpan posisi bidak
-            paths: []   // Menyimpan titik koordinat jalur kustom
+        let currentPhase = 'early';
+        let dbData = {
+            early: {
+                notes: "• EARLY GAME (0:00 - 5:00):\n- Jungler fokus clear buff merah/biru lalu ambil Lithowanderer (0:45).\n- Roam langsung bantu Mid/Gold lane.\n- Freeze Lane: Tahan last hit minion di dekat turret sendiri jika hero kalian kalah power level.\n- Persiapan Turtle pertama di menit 2:00.",
+                pieces: [], paths: []
+            },
+            mid: {
+                notes: "• MID GAME (5:00 - 12:00):\n- Lord level 1 muncul di menit 8:00.\n- Rotasi cepat ke turret luar musuh yang kosong (Split Push).\n- Invasi jungle musuh saat buff mereka respawn.\n- Zoning musuh sebelum membuka Lord.",
+                pieces: [], paths: []
+            },
+            late: {
+                notes: "• LATE GAME (12:00+):\n- Lord Evolved aktif.\n- Jangan jalan sendirian (Wajib berlima atau minimal berdua pegang vision).\n- Fokus teamfight tumpas Marksman/Mage musuh duluan.\n- Rebut Lord penentu kemenangan.",
+                pieces: [], paths: []
+            }
         };
 
-        // --- PASSWORD & MODAL ADMIN LOGIC ---
-        function openPasswordModal() {
-            document.getElementById('passwordModal').style.display = 'flex';
-        }
+        let activeAdminPhase = 'early';
 
-        function closePasswordModal() {
-            document.getElementById('passwordModal').style.display = 'none';
-            document.getElementById('adminPasswordInput').value = '';
-        }
-
+        function openPasswordModal() { document.getElementById('passwordModal').style.display = 'flex'; }
+        function closePasswordModal() { document.getElementById('passwordModal').style.display = 'none'; document.getElementById('adminPasswordInput').value = ''; }
         function verifyAdminPassword() {
-            const pwd = document.getElementById('adminPasswordInput').value;
-            if (pwd === '012570') {
+            if(document.getElementById('adminPasswordInput').value === '012570') {
                 closePasswordModal();
                 document.getElementById('adminPanelContainer').style.display = 'flex';
-                loadAdminDataToUI();
-            } else {
-                alert('Password Admin Salah!');
-            }
+                loadAdminPhaseData(activeAdminPhase);
+            } else { alert('Password Salah!'); }
         }
-
         function closeAdminPanel() {
             document.getElementById('adminPanelContainer').style.display = 'none';
-            syncToPublicView();
+            syncToPublic();
         }
 
-        // --- ADMIN CUSTOMIZATION LOGIC ---
-        function saveNotes() {
-            const text = document.getElementById('adminNotesInput').value;
-            if(text) strategyData.notes = text;
-            alert('Catatan strategi berhasil diperbarui!');
-            syncToPublicView();
+        function setAdminPhase(phase, el) {
+            document.querySelectorAll('.admin-sidebar .p-tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            activeAdminPhase = phase;
+            loadAdminPhaseData(phase);
         }
 
-        let activePieceType = null;
-        function spawnAdminPiece(icon, roleName) {
+        function loadAdminPhaseData(phase) {
+            document.getElementById('adminNotesInput').value = dbData[phase].notes;
+            redrawAdminCanvas();
+        }
+
+        function saveAdminNotes() {
+            dbData[activeAdminPhase].notes = document.getElementById('adminNotesInput').value;
+            alert('Catatan makro fase ' + activeAdminPhase + ' berhasil disimpan!');
+        }
+
+        function switchPublicPhase(phase, el) {
+            document.querySelectorAll('.info-sidebar .p-tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            currentPhase = phase;
+            syncToPublic();
+        }
+
+        // Spawn Bidak Bebas di Mana Saja
+        function spawnPiece(icon) {
             const container = document.getElementById('adminPiecesContainer');
             const piece = document.createElement('div');
             piece.className = 'tactical-piece';
             piece.innerHTML = icon;
             piece.style.left = '50%';
             piece.style.top = '50%';
-            piece.setAttribute('data-role', roleName);
             
-            // Fitur geser/drag sederhana di admin map
             makeDraggable(piece);
             container.appendChild(piece);
             
-            // Simpan ke array data
-            strategyData.pieces.push({icon: icon, x: 50, y: 50, role: roleName});
+            dbData[activeAdminPhase].pieces.push({icon: icon, x: 50, y: 50, elRef: piece});
         }
 
-        // --- CUSTOM PATH DRAWING (Garis Jalur Kustom Melengkung/Bebas) ---
-        let isDrawing = false;
-        let currentPathPoints = [];
-
-        function toggleDrawMode() {
-            isDrawing = !isDrawing;
-            const btn = document.getElementById('btnToggleDraw');
-            btn.innerText = isDrawing ? "Mulai Buat Jalur: ON (Klik di map)" : "Mulai Buat Jalur: OFF";
-            btn.style.background = isDrawing ? "#16a34a" : "#0284c7";
-            if(isDrawing) currentPathPoints = [];
-        }
-
-        function handleAdminMapClick(event) {
-            if (!isDrawing) return;
-            const rect = document.getElementById('adminMapCanvas').getBoundingClientRect();
-            const x = ((event.clientX - rect.left) / rect.width) * 100;
-            const y = ((event.clientY - rect.top) / rect.height) * 100;
-
-            currentPathPoints.push({x, y});
-            redrawAdminPaths();
-
-            // Jika titik sudah lebih dari 1, simpan sebagai jalur operasional
-            if(currentPathPoints.length >= 2) {
-                strategyData.paths.push([...currentPathPoints]);
-            }
-        }
-
-        function redrawAdminPaths() {
-            const svg = document.getElementById('adminSvgPath');
-            svg.innerHTML = '';
-            if (currentPathPoints.length < 2) return;
-
-            let d = `M ${currentPathPoints[0].x}% ${currentPathPoints[0].y}%`;
-            for (let i = 1; i < currentPathPoints.length; i++) {
-                d += ` L ${currentPathPoints[i].x}% ${currentPathPoints[i].y}%`;
-            }
-
-            const pathEl = document.createElementNS("http://www.w3.org/2000/svg", "path");
-            pathEl.setAttribute("d", d);
-            pathEl.setAttribute("stroke", "#38bdf8");
-            pathEl.setAttribute("stroke-width", "3");
-            pathEl.setAttribute("fill", "none");
-            pathEl.setAttribute("stroke-dasharray", "5,5"); // Efek garis putus-putus taktis
-            svg.appendChild(pathEl);
-        }
-
-        // --- SIMULASI BIDAK BERGERAK PELAN MENGIKUTI JALUR ---
-        function startSimulation() {
-            const pieces = document.querySelectorAll('#adminPiecesContainer .tactical-piece');
-            if (pieces.length === 0 || strategyData.paths.length === 0) {
-                alert('Pastikan ada bidak dan jalur kustom yang sudah dibuat di map admin!');
-                return;
-            }
-
-            // Ambil jalur terakhir yang dibuat admin
-            const pathPoints = strategyData.paths[strategyData.paths.length - 1];
-            const piece = pieces[0]; // Ambil bidak pertama untuk simulasi
-
-            let index = 0;
-            const speedInterval = setInterval(() => {
-                if (index < pathPoints.length) {
-                    piece.style.left = pathPoints[index].x + '%';
-                    piece.style.top = pathPoints[index].y + '%';
-                    index++;
-                } else {
-                    clearInterval(speedInterval);
-                }
-            }, 600); // Kecepatan lambat & smooth (600ms per titik)
-        }
-
+        // Dragging Bebas Tanpa Batas Tengah
         function makeDraggable(elm) {
             let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
             elm.onmousedown = dragMouseDown;
 
             function dragMouseDown(e) {
                 e.preventDefault();
-                pos3 = e.clientX;
-                pos4 = e.clientY;
+                pos3 = e.clientX; pos4 = e.clientY;
                 document.onmouseup = closeDragElement;
                 document.onmousemove = elementDrag;
             }
 
             function elementDrag(e) {
                 e.preventDefault();
-                pos1 = pos3 - e.clientX;
-                pos2 = pos4 - e.clientY;
-                pos3 = e.clientX;
-                pos4 = e.clientY;
+                pos1 = pos3 - e.clientX; pos2 = pos4 - e.clientY;
+                pos3 = e.clientX; pos4 = e.clientY;
                 
                 const parentRect = elm.parentElement.getBoundingClientRect();
                 let newX = elm.offsetLeft - pos1;
                 let newY = elm.offsetTop - pos2;
 
-                elm.style.top = (newY / parentRect.height) * 100 + "%";
-                elm.style.left = (newX / parentRect.width) * 100 + "%";
-            }
+                let percentX = (newX / parentRect.width) * 100;
+                let percentY = (newY / parentRect.height) * 100;
 
-            function closeDragElement() {
-                document.onmouseup = null;
-                document.onmousemove = null;
+                elm.style.left = percentX + "%";
+                elm.style.top = percentY + "%";
+
+                // Update posisi di database objek
+                dbData[activeAdminPhase].pieces.forEach(p => {
+                    if(p.elRef === elm) { p.x = percentX; p.y = percentY; }
+                });
             }
+            function closeDragElement() { document.onmouseup = null; document.onmousemove = null; }
         }
 
-        function resetAdminMap() {
-            document.getElementById('adminPiecesContainer').innerHTML = '';
-            document.getElementById('adminSvgPath').innerHTML = '';
-            strategyData.pieces = [];
-            strategyData.paths = [];
-            currentPathPoints = [];
+        // Drawing Jalur Kurva/Bebas
+        let isDrawing = false;
+        let currentPts = [];
+        function toggleDraw() {
+            isDrawing = !isDrawing;
+            const btn = document.getElementById('btnDraw');
+            btn.innerText = isDrawing ? "Mode Gambar Jalur: ON (Klik di map)" : "Mode Gambar Jalur: OFF";
+            btn.style.background = isDrawing ? "#16a34a" : "#0284c7";
+            if(isDrawing) currentPts = [];
         }
 
-        // --- SINKRONISASI KE HALAMAN UTAMA (PUBLIC) ---
-        function syncToPublicView() {
-            // Update teks catatan
-            document.getElementById('publicNotesDisplay').innerText = strategyData.notes;
+        function handleAdminMapClick(e) {
+            if(!isDrawing) return;
+            const rect = document.getElementById('adminMapCanvas').getBoundingClientRect();
+            let x = ((e.clientX - rect.left) / rect.width) * 100;
+            let y = ((e.clientY - rect.top) / rect.height) * 100;
+            currentPts.push({x, y});
+            
+            if(currentPts.length >= 2) {
+                dbData[activeAdminPhase].paths.push([...currentPts]);
+            }
+            redrawAdminCanvas();
+        }
 
-            // Render ulang jalur dan bidak di halaman utama secara bersih
-            const pubSvg = document.getElementById('publicSvgPath');
-            pubSvg.innerHTML = '';
-            strategyData.paths.forEach(pts => {
+        function redrawAdminCanvas() {
+            const svg = document.getElementById('adminSvgPath');
+            svg.innerHTML = '';
+            const paths = dbData[activeAdminPhase].paths;
+            paths.forEach(pts => {
                 if(pts.length < 2) return;
                 let d = `M ${pts[0].x}% ${pts[0].y}%`;
-                for (let i = 1; i < pts.length; i++) {
-                    d += ` L ${pts[i].x}% ${pts[i].y}%`;
+                for(let i=1; i<pts.length; i++) { d += ` L ${pts[i].x}% ${pts[i].y}%`; }
+                const pathEl = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                pathEl.setAttribute("d", d);
+                pathEl.setAttribute("stroke", "#38bdf8");
+                pathEl.setAttribute("stroke-width", "3");
+                pathEl.setAttribute("fill", "none");
+                svg.appendChild(pathEl);
+            });
+        }
+
+        // Simulasi Bidak Berjalan Sangat Mulus (Smooth Animation)
+        function startSmoothSimulation() {
+            const phaseData = dbData[activeAdminPhase];
+            if(phaseData.pieces.length === 0 || phaseData.paths.length === 0) {
+                alert('Harap buat bidak dan jalur garis terlebih dahulu di map admin!');
+                return;
+            }
+            const path = phaseData.paths[phaseData.paths.length - 1]; // Ambil jalur terakhir
+            const pieceObj = phaseData.pieces[0]; // Ambil bidak pertama
+            
+            let step = 0;
+            const totalSteps = 60; // Semakin besar semakin smooth/halus
+            
+            function animateStep() {
+                if(step <= totalSteps) {
+                    let progress = step / totalSteps;
+                    let targetIndex = progress * (path.length - 1);
+                    let baseIdx = Math.floor(targetIndex);
+                    let frac = targetIndex - baseIdx;
+                    
+                    if(baseIdx >= path.length - 1) {
+                        pieceObj.x = path[path.length-1].x;
+                        pieceObj.y = path[path.length-1].y;
+                    } else {
+                        let p1 = path[baseIdx];
+                        let p2 = path[baseIdx+1];
+                        pieceObj.x = p1.x + (p2.x - p1.x) * frac;
+                        pieceObj.y = p1.y + (p2.y - p1.y) * frac;
+                    }
+                    pieceObj.elRef.style.left = pieceObj.x + '%';
+                    pieceObj.elRef.style.top = pieceObj.y + '%';
+                    
+                    step++;
+                    requestAnimationFrame(animateStep);
                 }
+            }
+            animateStep();
+        }
+
+        function resetAdmin() {
+            document.getElementById('adminPiecesContainer').innerHTML = '';
+            document.getElementById('adminSvgPath').innerHTML = '';
+            dbData[activeAdminPhase].pieces = [];
+            dbData[activeAdminPhase].paths = [];
+            currentPts = [];
+        }
+
+        // Sinkronisasi ke Tampilan Publik
+        function syncToPublic() {
+            document.getElementById('publicNotesDisplay').innerText = dbData[currentPhase].notes;
+            
+            const pubSvg = document.getElementById('publicSvgPath');
+            pubSvg.innerHTML = '';
+            dbData[currentPhase].paths.forEach(pts => {
+                if(pts.length < 2) return;
+                let d = `M ${pts[0].x}% ${pts[0].y}%`;
+                for(let i=1; i<pts.length; i++) { d += ` L ${pts[i].x}% ${pts[i].y}%`; }
                 const pathEl = document.createElementNS("http://www.w3.org/2000/svg", "path");
                 pathEl.setAttribute("d", d);
                 pathEl.setAttribute("stroke", "#38bdf8");
@@ -575,7 +519,7 @@
 
             const pubContainer = document.getElementById('publicPiecesContainer');
             pubContainer.innerHTML = '';
-            strategyData.pieces.forEach(p => {
+            dbData[currentPhase].pieces.forEach(p => {
                 const el = document.createElement('div');
                 el.className = 'tactical-piece';
                 el.innerHTML = p.icon;
@@ -585,14 +529,7 @@
             });
         }
 
-        function loadAdminDataToUI() {
-            document.getElementById('adminNotesInput').value = strategyData.notes;
-        }
-
-        // Inisialisasi awal saat halaman dimuat
-        window.onload = function() {
-            syncToPublicView();
-        }
+        window.onload = function() { syncToPublic(); };
     </script>
 </body>
 </html>
