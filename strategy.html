@@ -301,11 +301,19 @@
         let activeAdminPhase = 'early';
         let selectedPieceId = null;
 
-        let dbData = {
+        // Load data dari LocalStorage jika sudah pernah disimpan, kalau belum pakai default
+        let defaultDbData = {
             early: { notes: "• EARLY GAME:\n- Rotasi awal buff & Freeze Lane di Gold Lane.", pieces: [] },
             mid: { notes: "• MID GAME:\n- Kontes Turtle, Zoning musuh, & Invade Jungle.", pieces: [] },
             late: { notes: "• LATE GAME:\n- Lord Evolved, Clear Minion cepat, & Teamfight penentuan.", pieces: [] }
         };
+
+        let savedData = localStorage.getItem('tnex_macro_data_v2');
+        let dbData = savedData ? JSON.parse(savedData) : defaultDbData;
+
+        function saveToStorage() {
+            localStorage.setItem('tnex_macro_data_v2', JSON.stringify(dbData));
+        }
 
         function openPasswordModal() { document.getElementById('passwordModal').style.display = 'flex'; }
         function closePasswordModal() { document.getElementById('passwordModal').style.display = 'none'; document.getElementById('adminPasswordInput').value = ''; }
@@ -317,6 +325,7 @@
             } else { alert('Password Salah!'); }
         }
         function saveAndCloseAdmin() {
+            saveToStorage(); // Simpan permanen ke browser
             document.getElementById('adminPanelContainer').style.display = 'none';
             syncToPublic();
         }
@@ -337,7 +346,8 @@
 
         function saveAdminNotes() {
             dbData[activeAdminPhase].notes = document.getElementById('adminNotesInput').value;
-            alert('Catatan makro tersimpan!');
+            saveToStorage(); // Simpan permanen
+            alert('Catatan makro tersimpan permanen!');
         }
 
         function switchPublicPhase(phase, el) {
@@ -361,6 +371,7 @@
             dbData[activeAdminPhase].pieces.push(newPiece);
             selectPiece(newPiece.id);
             renderAdminPiecesAndPaths();
+            saveToStorage(); // Simpan permanen
         }
 
         function selectPiece(id) {
@@ -396,7 +407,7 @@
 
                 // Tombol Hapus per Step / titik
                 pathObj.points.forEach((pt, ptIdx) => {
-                    if(ptIdx % 3 === 0 || ptIdx === pathObj.points.length - 1) { // Menampilkan sampel titik agar tidak terlalu panjang
+                    if(ptIdx % 3 === 0 || ptIdx === pathObj.points.length - 1) { 
                         const ptItem = document.createElement('div');
                         ptItem.className = 'role-path-item';
                         ptItem.style.paddingLeft = '10px';
@@ -413,6 +424,7 @@
                 p.paths.splice(pathIdx, 1);
                 renderAdminPiecesAndPaths();
                 updateAdminPathListUI();
+                saveToStorage(); // Simpan permanen
             }
         }
 
@@ -425,6 +437,7 @@
                 }
                 renderAdminPiecesAndPaths();
                 updateAdminPathListUI();
+                saveToStorage(); // Simpan permanen
             }
         }
 
@@ -510,6 +523,7 @@
                 }
                 renderAdminPiecesAndPaths();
                 updateAdminPathListUI();
+                saveToStorage(); // Simpan permanen setelah selesai geser/tarik jalur
             }
 
             const onMouseMove = (e) => onMove(e.clientX, e.clientY);
@@ -537,10 +551,13 @@
         }
 
         function resetAdminPhaseMap() {
-            dbData[activeAdminPhase].pieces = [];
-            selectedPieceId = null;
-            renderAdminPiecesAndPaths();
-            updateAdminPathListUI();
+            if(confirm('Yakin ingin mereset seluruh bidak & jalur di fase ini?')) {
+                dbData[activeAdminPhase].pieces = [];
+                selectedPieceId = null;
+                renderAdminPiecesAndPaths();
+                updateAdminPathListUI();
+                saveToStorage(); // Simpan permanen
+            }
         }
 
         let pubAnimFrame = null;
