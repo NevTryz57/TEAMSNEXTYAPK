@@ -209,26 +209,31 @@
             display: flex; flex: 1; padding: 20px; gap: 20px; height: calc(100vh - 65px);
         }
         .admin-sidebar {
-            width: 360px; background: rgba(11, 25, 44, 0.95); border: 1px solid #0284c7;
+            width: 380px; background: rgba(11, 25, 44, 0.95); border: 1px solid #0284c7;
             border-radius: 12px; padding: 15px; display: flex; flex-direction: column; gap: 10px; overflow-y: auto;
         }
         .admin-sidebar textarea {
             width: 100%; background: #030712; border: 1px solid #1e293b; color: white;
-            padding: 10px; border-radius: 6px; font-size: 12px; resize: vertical; height: 75px;
+            padding: 10px; border-radius: 6px; font-size: 12px; resize: vertical; height: 65px;
         }
         .admin-map-wrapper {
             flex: 1; background: #0b1329; border: 1px solid #0284c7;
             border-radius: 12px; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden;
         }
 
+        /* Bidak Kecil dengan Gradasi MLBB */
         .tactical-piece {
-            position: absolute; width: 34px; height: 34px; background: #ef4444;
+            position: absolute; width: 26px; height: 26px; 
             border: 2px solid #fff; border-radius: 50%; display: flex; align-items: center;
-            justify-content: center; font-size: 12px; font-weight: bold; cursor: grab;
-            box-shadow: 0 0 10px rgba(0,0,0,0.6); z-index: 10; user-select: none; touch-action: none;
+            justify-content: center; font-size: 10px; font-weight: bold; cursor: grab;
+            box-shadow: 0 0 8px rgba(0,0,0,0.7); z-index: 10; user-select: none; touch-action: none;
             transform: translate(-50%, -50%);
         }
         .tactical-piece:active { cursor: grabbing; }
+
+        /* Gradasi Tim (Biru) & Musuh (Merah) */
+        .piece-team { background: radial-gradient(circle, #38bdf8 0%, #0369a1 100%); }
+        .piece-enemy { background: radial-gradient(circle, #f87171 0%, #b91c1c 100%); }
 
         .path-line-svg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5;
@@ -241,6 +246,13 @@
         .admin-action-btn.danger { background: #ef4444; }
         .admin-action-btn.success { background: #16a34a; }
         .admin-action-btn.warning { background: #d97706; }
+
+        .spawn-palette {
+            display: flex; gap: 5px; flex-wrap: wrap; align-items: center;
+        }
+        .spawn-item {
+            display: flex; align-items: center; gap: 3px; background: #030712; padding: 4px 8px; border-radius: 6px; border: 1px solid #1e293b; font-size: 11px; cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -318,19 +330,29 @@
 
                 <hr style="border-color: #1e293b; margin: 2px 0;">
 
-                <div class="section-title">2. Tambah Bidak Role</div>
-                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                    <div class="tactical-piece" style="position:relative; transform:none;" onclick="spawnPiece('🛡️')">🛡️</div>
-                    <div class="tactical-piece" style="position:relative; transform:none; background:#0284c7;" onclick="spawnPiece('⚔️')">⚔️</div>
-                    <div class="tactical-piece" style="position:relative; transform:none; background:#eab308;" onclick="spawnPiece('🔮')">🔮</div>
-                    <div class="tactical-piece" style="position:relative; transform:none; background:#ec4899;" onclick="spawnPiece('🎯')">🎯</div>
-                    <div class="tactical-piece" style="position:relative; transform:none; background:#10b981;" onclick="spawnPiece('⚡')">⚡</div>
+                <div class="section-title">2. Tambah Bidak (Tim & Musuh)</div>
+                <div style="font-size: 11px; color: #38bdf8; margin-bottom: 3px;">Bidak Tim (Gradasi Biru):</div>
+                <div class="spawn-palette">
+                    <div class="spawn-item" onclick="spawnPiece('⚡', 'team')">⚡ Jungler</div>
+                    <div class="spawn-item" onclick="spawnPiece('🛡️', 'team')">🛡️ Exp</div>
+                    <div class="spawn-item" onclick="spawnPiece('🔮', 'team')">🔮 Mid</div>
+                    <div class="spawn-item" onclick="spawnPiece('🎯', 'team')">🎯 Gold</div>
+                    <div class="spawn-item" onclick="spawnPiece('👀', 'team')">👀 Roam</div>
+                </div>
+
+                <div style="font-size: 11px; color: #f87171; margin-top: 5px; margin-bottom: 3px;">Bidak Musuh (Gradasi Merah):</div>
+                <div class="spawn-palette">
+                    <div class="spawn-item" onclick="spawnPiece('⚡', 'enemy')">⚡ Jungler</div>
+                    <div class="spawn-item" onclick="spawnPiece('🛡️', 'enemy')">🛡️ Exp</div>
+                    <div class="spawn-item" onclick="spawnPiece('🔮', 'enemy')">🔮 Mid</div>
+                    <div class="spawn-item" onclick="spawnPiece('🎯', 'enemy')">🎯 Gold</div>
+                    <div class="spawn-item" onclick="spawnPiece('👀', 'enemy')">👀 Roam</div>
                 </div>
 
                 <hr style="border-color: #1e293b; margin: 2px 0;">
 
-                <div class="section-title">3. Buat Jalur (1 Tarikan = 1 Step)</div>
-                <p style="font-size: 10px; color: #94a3b8;">Langsung klik & tahan (drag) di map untuk menggambar jalur:</p>
+                <div class="section-title">3. Buat Jalur / Step Bergerak</div>
+                <p style="font-size: 10px; color: #94a3b8;">Klik & Tahan (Drag) di map untuk menggambar jalur:</p>
                 <div class="btn-group">
                     <button class="admin-action-btn warning" onclick="undoLastStep()">↩ Hapus Step</button>
                     <button class="admin-action-btn success" onclick="testAdminSimulation()">▶ Tes Play</button>
@@ -351,15 +373,15 @@
         let currentPhase = 'early';
         let dbData = {
             early: {
-                notes: "• EARLY GAME (0:00 - 5:00):\n- Jungler clear buff merah/biru lalu ambil Lithowanderer (0:45).\n- Roam langsung bantu Mid/Gold lane.\n- Persiapan Turtle pertama menit 2:00.",
+                notes: "• EARLY GAME (0:00 - 5:00):\n- Jungler clear buff merah/biru lalu ambil Lithowanderer (0:45).\n- Roam langsung bantu Mid/Gold lane.",
                 pieces: [], paths: []
             },
             mid: {
-                notes: "• MID GAME (5:00 - 12:00):\n- Lord level 1 muncul menit 8:00.\n- Rotasi cepat ke turret luar musuh kosong (Split Push).\n- Invasi jungle musuh saat buff respawn.",
+                notes: "• MID GAME (5:00 - 12:00):\n- Lord level 1 muncul menit 8:00.\n- Rotasi cepat ke turret luar musuh kosong (Split Push).",
                 pieces: [], paths: []
             },
             late: {
-                notes: "• LATE GAME (12:00+):\n- Lord Evolved aktif.\n- Wajib berdua/berlima pegang vision, jangan jalan sendiri.\n- Rebut Lord penentu kemenangan.",
+                notes: "• LATE GAME (12:00+):\n- Lord Evolved aktif.\n- Wajib berdua/berlima pegang vision, jangan jalan sendiri.",
                 pieces: [], paths: []
             }
         };
@@ -405,8 +427,8 @@
             syncToPublic();
         }
 
-        function spawnPiece(icon) {
-            const pieceObj = { icon: icon, x: 50, y: 50 };
+        function spawnPiece(icon, type) {
+            const pieceObj = { icon: icon, type: type, x: 50, y: 50 };
             dbData[activeAdminPhase].pieces.push(pieceObj);
             renderAdminPiecesAndPaths();
         }
@@ -416,7 +438,7 @@
             container.innerHTML = '';
             dbData[activeAdminPhase].pieces.forEach((pObj) => {
                 const piece = document.createElement('div');
-                piece.className = 'tactical-piece';
+                piece.className = `tactical-piece ${pObj.type === 'enemy' ? 'piece-enemy' : 'piece-team'}`;
                 piece.innerHTML = pObj.icon;
                 piece.style.left = pObj.x + '%';
                 piece.style.top = pObj.y + '%';
@@ -451,14 +473,13 @@
             function onMouseUp() { isDragging = false; document.onmouseup = null; document.onmousemove = null; }
         }
 
-        // --- SISTEM 1 TARIKAN = 1 STEP (DRAG TO DRAW PATH) ---
+        // --- SISTEM DRAG TO DRAW PATH ---
         let isPathDrawing = false;
         let currentDrawPoints = [];
-
         const adminMapCanvas = document.getElementById('adminMapCanvas');
         
         adminMapCanvas.onmousedown = function(e) {
-            if(e.target.classList.contains('tactical-piece')) return;
+            if(e.target.classList.contains('tactical-piece') || e.target.closest('.tactical-piece')) return;
             isPathDrawing = true;
             currentDrawPoints = [];
             const rect = adminMapCanvas.getBoundingClientRect();
@@ -494,7 +515,7 @@
             if(dbData[activeAdminPhase].paths.length > 0) {
                 dbData[activeAdminPhase].paths.pop();
                 redrawAdminCanvas();
-                alert('Step tarikan terakhir berhasil dihapus!');
+                alert('Step jalur terakhir berhasil dihapus!');
             } else {
                 alert('Belum ada step jalur yang dibuat.');
             }
@@ -538,9 +559,7 @@
                 return;
             }
             let combinedPath = [];
-            phaseData.paths.forEach(path => {
-                combinedPath.push(...path);
-            });
+            phaseData.paths.forEach(path => { combinedPath.push(...path); });
 
             const pieceObj = phaseData.pieces[0];
             const targetEl = document.querySelectorAll('#adminPiecesContainer .tactical-piece')[0];
@@ -663,7 +682,7 @@
                 }
 
                 const el = document.createElement('div');
-                el.className = 'tactical-piece';
+                el.className = `tactical-piece ${p.type === 'enemy' ? 'piece-enemy' : 'piece-team'}`;
                 el.innerHTML = p.icon;
                 el.style.left = posX + '%';
                 el.style.top = posY + '%';
