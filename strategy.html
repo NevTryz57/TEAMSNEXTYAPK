@@ -85,6 +85,26 @@
             background-position: center;
         }
 
+        /* Penanda Obyektif MLBB (Lord, Turtle, Buff, Creep) */
+        .ml-objective {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+            pointer-events: none;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+        .obj-lord { background: rgba(220, 38, 38, 0.85); color: #fff; border: 1px solid #f87171; }
+        .obj-turtle { background: rgba(234, 179, 8, 0.85); color: #030712; border: 1px solid #facc15; }
+        .obj-buff { background: rgba(147, 51, 234, 0.85); color: #fff; border: 1px solid #c084fc; font-size: 9px; }
+        .obj-creep { background: rgba(30, 41, 59, 0.85); color: #94a3b8; border: 1px solid #475569; font-size: 9px; }
+
         .info-sidebar {
             width: 360px;
             background: rgba(11, 25, 44, 0.95);
@@ -257,6 +277,13 @@
     <div class="main-layout">
         <div class="map-section">
             <div class="map-canvas" id="publicMapCanvas">
+                <!-- Penanda Objektif MLBB di Map Publik -->
+                <div class="ml-objective obj-lord" style="top: 25%; left: 50%;">👑 Lord Pit</div>
+                <div class="ml-objective obj-turtle" style="top: 75%; left: 50%;">🐢 Turtle</div>
+                <div class="ml-objective obj-buff" style="top: 35%; left: 32%;">🛡️ Blue Buff</div>
+                <div class="ml-objective obj-buff" style="top: 65%; left: 68%;">⚔️ Red Buff</div>
+                <div class="ml-objective obj-creep" style="top: 50%; left: 43%;">⚡ Litho</div>
+                
                 <div id="publicPiecesContainer"></div>
             </div>
         </div>
@@ -332,14 +359,21 @@
                 <div class="section-title">3. Buat Jalur (1 Tarikan = 1 Step)</div>
                 <p style="font-size: 10px; color: #94a3b8;">Klik & Tahan (Drag) di map untuk membuat garis jalur bebas:</p>
                 <div class="btn-group">
-                    <button class="admin-action-btn warning" onclick="undoLastStep()">↩ Hapus Step Terakhir</button>
-                    <button class="admin-action-btn success" onclick="testAdminSimulation()">▶ Tes Play Admin</button>
+                    <button class="admin-action-btn warning" onclick="undoLastStep()">↩ Hapus Step</button>
+                    <button class="admin-action-btn success" onclick="testAdminSimulation()">▶ Tes Play</button>
                 </div>
-                <button class="admin-action-btn danger" onclick="resetAdmin()">Reset Semua Map Admin</button>
+                <button class="admin-action-btn danger" onclick="resetAdmin()">Reset Map Admin</button>
             </div>
 
             <div class="admin-map-wrapper">
                 <div class="map-canvas" id="adminMapCanvas">
+                    <!-- Penanda Objektif MLBB di Map Admin -->
+                    <div class="ml-objective obj-lord" style="top: 25%; left: 50%;">👑 Lord Pit</div>
+                    <div class="ml-objective obj-turtle" style="top: 75%; left: 50%;">🐢 Turtle</div>
+                    <div class="ml-objective obj-buff" style="top: 35%; left: 32%;">🛡️ Blue Buff</div>
+                    <div class="ml-objective obj-buff" style="top: 65%; left: 68%;">⚔️ Red Buff</div>
+                    <div class="ml-objective obj-creep" style="top: 50%; left: 43%;">⚡ Litho</div>
+
                     <svg class="path-line-svg" id="adminSvgPath"></svg>
                     <div id="adminPiecesContainer"></div>
                 </div>
@@ -458,7 +492,7 @@
         const adminMapCanvas = document.getElementById('adminMapCanvas');
         
         adminMapCanvas.onmousedown = function(e) {
-            if(e.target.classList.contains('tactical-piece')) return;
+            if(e.target.classList.contains('tactical-piece') || e.target.classList.contains('ml-objective')) return;
             isPathDrawing = true;
             currentDrawPoints = [];
             const rect = adminMapCanvas.getBoundingClientRect();
@@ -473,7 +507,6 @@
             let x = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
             let y = Math.max(0, Math.min(100, ((e.clientY - rect.top) / rect.height) * 100));
             
-            // Tambahkan titik jika jaraknya agak jauh agar mulus
             const lastPt = currentDrawPoints[currentDrawPoints.length - 1];
             if(Math.hypot(x - lastPt.x, y - lastPt.y) > 1.5) {
                 currentDrawPoints.push({x, y});
@@ -538,7 +571,6 @@
                 alert('Buat bidak dan minimal 1 step tarikan jalur dulu!');
                 return;
             }
-            // Gabungkan semua paths menjadi satu rute berurutan
             let combinedPath = [];
             phaseData.paths.forEach(path => {
                 combinedPath.push(...path);
@@ -644,7 +676,6 @@
             container.innerHTML = '';
             const phaseData = dbData[currentPhase];
             
-            // Gabungkan semua paths untuk publik
             let combinedPath = [];
             phaseData.paths.forEach(p => combinedPath.push(...p));
 
