@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TNEX - MLBB Macro Room & Elite Custom Studio</title>
+    <title>TNEX - MLBB Macro Room & Custom Card Studio</title>
     <style>
         * {
             box-sizing: border-box;
@@ -241,13 +241,13 @@
             width: 220px; height: 320px; border-radius: 16px; padding: 15px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.8); transition: all 0.3s ease; border: 2px solid rgba(255,255,255,0.2);
         }
         .avatar-frame-wrapper {
-            width: 105px; height: 105px; position: relative; display: flex; align-items: center; justify-content: center; margin-top: 10px;
+            width: 100px; height: 100px; position: relative; display: flex; align-items: center; justify-content: center; margin-top: 10px;
         }
         .user-avatar-img {
-            width: 68px; height: 68px; border-radius: 50%; object-fit: cover; z-index: 1; background: #1e293b;
+            width: 72px; height: 72px; border-radius: 50%; object-fit: cover; z-index: 1; background: #1e293b;
         }
         .ml-border-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 3; background-size: contain; background-repeat: no-repeat; background-position: center; filter: drop-shadow(0 0 6px rgba(0,0,0,0.8));
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 3; background-size: contain; background-repeat: no-repeat; background-position: center;
         }
         .card-user-name {
             font-size: 14px; font-weight: bold; letter-spacing: 1px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); text-align: center; margin-top: 5px;
@@ -273,9 +273,9 @@
             display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px;
         }
         .border-thumb {
-            aspect-ratio: 1; background: #030712; border: 1px solid #1e293b; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 9px; cursor: pointer; text-align: center; color: #94a3b8; font-weight: bold; transition: all 0.2s; padding: 4px;
+            aspect-ratio: 1; background: #030712; border: 1px solid #1e293b; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 10px; cursor: pointer; text-align: center; color: #94a3b8; font-weight: bold; transition: all 0.2s;
         }
-        .border-thumb.active { border-color: #38bdf8; color: #38bdf8; background: rgba(56, 189, 248, 0.15); box-shadow: 0 0 10px rgba(56,189,248,0.3); }
+        .border-thumb.active { border-color: #38bdf8; color: #38bdf8; background: rgba(56, 189, 248, 0.1); }
 
         /* Panel Admin */
         .admin-panel-container {
@@ -412,18 +412,18 @@
     <div class="studio-overlay" id="customStudioModal">
         <div class="studio-container">
             <div class="studio-header">
-                <div style="font-weight: bold; color: #38bdf8; font-size: 14px;">🎨 Custom Elite Card & Avatar Studio</div>
+                <div style="font-weight: bold; color: #38bdf8; font-size: 14px;">🎨 Custom Card & Avatar Border Studio</div>
                 <button class="admin-trigger-btn" onclick="closeCustomStudio()" style="background:#ef4444; color:#fff;">Tutup</button>
             </div>
             <div class="studio-body">
                 <!-- Preview Pane -->
                 <div class="studio-preview-pane">
-                    <div style="font-size: 11px; color: #94a3b8;">Preview Kotak & Border Mewah</div>
+                    <div style="font-size: 11px; color: #94a3b8;">Preview Kotak & Border Real-Time</div>
                     
                     <!-- Kotak Besar Dinamis -->
-                    <div class="dynamic-big-card" id="previewBigCard" style="background: linear-gradient(145deg, #0284c7, #030712); box-shadow: 0 10px 30px rgba(2,132,199,0.5); border-color: #0284c7;">
+                    <div class="dynamic-big-card" id="previewBigCard" style="background: linear-gradient(145deg, #0b2239, #030712); box-shadow: 0 0 25px rgba(2,132,199,0.5);">
                         <div class="avatar-frame-wrapper">
-                            <img id="previewAvatarImg" class="user-avatar-img" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='68' height='68'><rect width='68' height='68' fill='%231e293b'/><text x='34' y='38' font-size='10' fill='%2394a3b8' text-anchor='middle'>FOTO</text></svg>">
+                            <img id="previewAvatarImg" class="user-avatar-img" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='72' height='72'><rect width='72' height='72' fill='%231e293b'/><text x='36' y='41' font-size='11' fill='%2394a3b8' text-anchor='middle'>FOTO</text></svg>">
                             <div id="previewAvatarBorder" class="ml-border-overlay"></div>
                         </div>
                         <div id="previewUserName" class="card-user-name">TNEX PLAYER</div>
@@ -451,9 +451,9 @@
                     </div>
 
                     <div class="control-group">
-                        <label>3. Pilih 10 Desain Border Berseni & Mewah Ala MLBB</label>
+                        <label>3. Pilih Desain Border Avatar (10 Pilihan MLBB)</label>
                         <div class="border-select-grid" id="borderThumbGrid">
-                            <!-- Diisi via JS 10 Border Berseni -->
+                            <!-- Diisi via JS 10 Border -->
                         </div>
                     </div>
 
@@ -560,48 +560,18 @@
     </div>
 
     <script>
-        // --- 10 Desain Border Avatar Berseni, Mewah, & Sangar (SVG Vector Detil) ---
+        // --- 10 Desain Border Generator (SVG Vector Dinamis Ala MLBB) ---
         const mlBorders = [
-            { 
-                id: 1, name: "Mythic Glory", 
-                svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="45" fill="none" stroke="url(#mg1)" stroke-width="5"/><polygon points="50,2 55,14 67,8 60,20 72,24 62,31 69,42 57,40 60,52 48,47 50,60" fill="#fbbf24"/><circle cx="50" cy="50" r="41" fill="none" stroke="#fef08a" stroke-width="1.5" stroke-dasharray="3,3"/><defs><linearGradient id="mg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fef08a"/><stop offset="50%" stop-color="#d97706"/><stop offset="100%" stop-color="#78350f"/></linearGradient></defs></svg>` 
-            },
-            { 
-                id: 2, name: "Immortal Wings", 
-                svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 5 Q70 20 85 50 Q70 80 50 95 Q30 80 15 50 Q30 20 50 5 Z" fill="none" stroke="url(#iw)" stroke-width="5"/><path d="M15 35 Q5 50 20 70" fill="none" stroke="#38bdf8" stroke-width="3"/><path d="M85 35 Q95 50 80 70" fill="none" stroke="#38bdf8" stroke-width="3"/><defs><linearGradient id="iw" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#38bdf8"/><stop offset="100%" stop-color="#1e3a8a"/></linearGradient></defs></svg>` 
-            },
-            { 
-                id: 3, name: "Collector Crown", 
-                svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="44" fill="none" stroke="url(#cc)" stroke-width="6"/><polygon points="50,4 57,18 72,12 65,27 82,30 68,40 76,55 60,50 62,67 48,58" fill="#f43f5e"/><circle cx="50" cy="50" r="38" fill="none" stroke="#fda4af" stroke-width="1.5"/><defs><linearGradient id="cc" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fb7185"/><stop offset="100%" stop-color="#881337"/></linearGradient></defs></svg>` 
-            },
-            { 
-                id: 4, name: "Starlight Crystal", 
-                svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="45" fill="none" stroke="url(#sc)" stroke-width="5"/><polygon points="50,10 60,30 80,30 65,45 70,65 50,55 30,65 35,45 20,30 40,30" fill="url(#sc)" opacity="0.8"/><defs><linearGradient id="sc" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f472b6"/><stop offset="100%" stop-color="#500724"/></linearGradient></defs></svg>` 
-            },
-            { 
-                id: 5, name: "Abyssal Lord", 
-                svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,2 90,20 98,60 70,95 30,95 2,60 10,20" fill="none" stroke="url(#al)" stroke-width="6"/><circle cx="50" cy="50" r="40" fill="none" stroke="#c084fc" stroke-width="2" stroke-dasharray="6,3"/><defs><linearGradient id="al" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c084fc"/><stop offset="100%" stop-color="#3b0764"/></linearGradient></defs></svg>` 
-            },
-            { 
-                id: 6, name: "Cyberpunk Neon", 
-                svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="88" height="88" rx="20" fill="none" stroke="url(#cn)" stroke-width="5"/><polyline points="20,6 6,20" stroke="#34d399" stroke-width="5"/><polyline points="80,94 94,80" stroke="#34d399" stroke-width="5"/><circle cx="50" cy="50" r="42" fill="none" stroke="#34d399" stroke-width="1.5"/><defs><linearGradient id="cn" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#34d399"/><stop offset="100%" stop-color="#064e3b"/></linearGradient></defs></svg>` 
-            },
-            { 
-                id: 7, name: "Royal Diamond", 
-                svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="45" fill="none" stroke="url(#rd)" stroke-width="6"/><path d="M50 5 L95 50 L50 95 L5 50 Z" fill="none" stroke="#38bdf8" stroke-width="1.5"/><circle cx="50" cy="50" r="37" fill="none" stroke="#ffffff" stroke-width="1" stroke-dasharray="4,4"/><defs><linearGradient id="rd" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffffff"/><stop offset="50%" stop-color="#38bdf8"/><stop offset="100%" stop-color="#0f172a"/></linearGradient></defs></svg>` 
-            },
-            { 
-                id: 8, name: "Sangar Blood", 
-                svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="45" fill="none" stroke="url(#sb)" stroke-width="7"/><path d="M20 20 L80 80 M80 20 L20 80" stroke="#ef4444" stroke-width="1.5" opacity="0.6"/><circle cx="50" cy="50" r="40" fill="none" stroke="#fca5a5" stroke-width="2"/><defs><linearGradient id="sb" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ef4444"/><stop offset="100%" stop-color="#450a0a"/></linearGradient></defs></svg>` 
-            },
-            { 
-                id: 9, name: "Solar Flare", 
-                svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="45" fill="none" stroke="url(#sf)" stroke-width="6"/><circle cx="50" cy="50" r="41" fill="none" stroke="#fed7aa" stroke-width="2" stroke-dasharray="10,4"/><polygon points="50,1 53,12 63,5 57,15 69,14 60,21 72,25 61,30" fill="#f97316"/><defs><linearGradient id="sf" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fb923c"/><stop offset="100%" stop-color="#7c2d12"/></linearGradient></defs></svg>` 
-            },
-            { 
-                id: 10, name: "Celestial Star", 
-                svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="45" fill="none" stroke="url(#cs)" stroke-width="6"/><polygon points="50,8 55,22 70,22 58,32 62,47 50,38 38,47 42,32 30,22 45,22" fill="#fde047"/><circle cx="50" cy="50" r="39" fill="none" stroke="#fef08a" stroke-width="1.5" stroke-dasharray="2,5"/><defs><linearGradient id="cs" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fde047"/><stop offset="100%" stop-color="#713f12"/></linearGradient></defs></svg>` 
-            }
+            { id: 1, name: "Mythic Gold", svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="46" fill="none" stroke="url(#mg)" stroke-width="6"/><defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#b45309"/></linearGradient></defs></svg>` },
+            { id: 2, name: "Epic Crystal", svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="46" fill="none" stroke="url(#ec)" stroke-width="6"/><defs><linearGradient id="ec" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#38bdf8"/><stop offset="100%" stop-color="#1d4ed8"/></linearGradient></defs></svg>` },
+            { id: 3, name: "Collector Fire", svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="46" fill="none" stroke="url(#cf)" stroke-width="6"/><defs><linearGradient id="cf" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f87171"/><stop offset="100%" stop-color="#7f1d1d"/></linearGradient></defs></svg>` },
+            { id: 4, name: "Starlight Rose", svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="46" fill="none" stroke="url(#sr)" stroke-width="6"/><defs><linearGradient id="sr" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ec4899"/><stop offset="100%" stop-color="#831843"/></linearGradient></defs></svg>` },
+            { id: 5, name: "Legend Mystic", svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="46" fill="none" stroke="url(#lm)" stroke-width="6"/><defs><linearGradient id="lm" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c084fc"/><stop offset="100%" stop-color="#581c87"/></linearGradient></defs></svg>` },
+            { id: 6, name: "Emerald Cyber", svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="46" fill="none" stroke="url(#em)" stroke-width="6"/><defs><linearGradient id="em" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#34d399"/><stop offset="100%" stop-color="#064e3b"/></linearGradient></defs></svg>` },
+            { id: 7, name: "Royal Diamond", svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="46" fill="none" stroke="url(#rd)" stroke-width="7" stroke-dasharray="4,4"/><defs><linearGradient id="rd" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffffff"/><stop offset="100%" stop-color="#0284c7"/></linearGradient></defs></svg>` },
+            { id: 8, name: "Dark Assassin", svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="46" fill="none" stroke="url(#da)" stroke-width="7"/><defs><linearGradient id="da" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#64748b"/><stop offset="100%" stop-color="#020617"/></linearGradient></defs></svg>` },
+            { id: 9, name: "Solar Flare", svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="46" fill="none" stroke="url(#sf)" stroke-width="6"/><defs><linearGradient id="sf" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fb923c"/><stop offset="100%" stop-color="#c2410c"/></linearGradient></defs></svg>` },
+            { id: 10, name: "Celestial Star", svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="46" fill="none" stroke="url(#cs)" stroke-width="7" stroke-dasharray="8,2"/><defs><linearGradient id="cs" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fde047"/><stop offset="100%" stop-color="#ca8a04"/></linearGradient></defs></svg>` }
         ];
 
         let selectedBorderId = 1;
@@ -612,7 +582,7 @@
             mlBorders.forEach(b => {
                 const item = document.createElement('div');
                 item.className = `border-thumb ${b.id === selectedBorderId ? 'active' : ''}`;
-                item.innerHTML = `<div style="display:flex; flex-direction:column; align-items:center; gap:2px;"><div style="width:28px; height:28px;">${b.svg}</div><span style="font-size:7px; transform:scale(0.9);">${b.name.split(' ')[0]}</span></div>`;
+                item.innerHTML = `<div style="width:30px; height:30px;">${b.svg}</div>`;
                 item.onclick = () => {
                     selectedBorderId = b.id;
                     document.querySelectorAll('.border-thumb').forEach(el => el.classList.remove('active'));
@@ -676,11 +646,11 @@
             late: { notes: "• LATE GAME:\n- Lord Evolved, Clear Minion cepat, & Teamfight penentuan.", pieces: [] }
         };
 
-        let savedData = localStorage.getItem('tnex_macro_data_v5');
+        let savedData = localStorage.getItem('tnex_macro_data_v4');
         let dbData = savedData ? JSON.parse(savedData) : defaultDbData;
 
         function saveToStorage() {
-            localStorage.setItem('tnex_macro_data_v5', JSON.stringify(dbData));
+            localStorage.setItem('tnex_macro_data_v4', JSON.stringify(dbData));
         }
 
         function openRoomApp() {
