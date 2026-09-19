@@ -303,7 +303,7 @@ body::before{
 
 .actions{
     display:grid;
-    grid-template-columns:repeat(3, 1fr);
+    grid-template-columns:repeat(4, 1fr);
     gap:16px;
 }
 
@@ -602,7 +602,7 @@ body::before{
             <button onclick="window.location.href='tournament.html'">
                 <span class="icon">🏆</span> MDC Tournament
             </button>
-            <button onclick="openFeature('Member')">
+            <button onclick="window.location.href='member.html'">
                 <span class="icon">🛡️</span> Member Roster
             </button>
             <button onclick="openFeature('Notifikasi')">
@@ -668,6 +668,11 @@ body::before{
                     <div class="action-icon">🏆</div>
                     <h3>MDC Tournament</h3>
                     <p>Mobile Legends Dormitory Champions bracket.</p>
+                </div>
+                <div class="action" onclick="window.location.href='member.html'">
+                    <div class="action-icon">🛡️</div>
+                    <h3>Member Roster</h3>
+                    <p>Daftar pemain dan susunan rosternya.</p>
                 </div>
             </div>
         </section>
@@ -753,10 +758,6 @@ function openFeature(name) {
         window.location.href = "voice.html";
         return;
     }
-    if (name === "Member") {
-        window.location.href = "member.html";
-        return;
-    }
     alert("Fitur [" + name + "] sedang disiapkan dan akan segera dirilis pada pembaruan berikutnya, bray!");
 }
 
@@ -769,4 +770,4 @@ function logout() {
 
 </body>
 </html>
-```[cite: 4]
+```[cite: 3]
