@@ -1,2812 +1,672 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width,initial-scale=1.0">
-
-<title>TNEX Voice Chat</title>
-
-<script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.min.js"></script>
-
-<style>
-
-/* =====================================================
-   RESET
-===================================================== */
-
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
-html,
-body{
-    width:100%;
-    height:100%;
-    overflow:hidden;
-}
-
-body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:#02080f;
-    color:#fff;
-}
-
-
-/* =====================================================
-   COLORS
-===================================================== */
-
-:root{
-    --bg:#02080f;
-    --bg2:#041321;
-    --panel:#061522;
-    --panel2:#081b2b;
-
-    --blue:#008cff;
-    --blue2:#0067ad;
-    --cyan:#16baff;
-
-    --border:#07588c;
-
-    --text:#f2f6fa;
-    --muted:#7f9aae;
-
-    --red:#ed1238;
-}
-
-
-/* =====================================================
-   MAIN PAGE
-===================================================== */
-
-.page{
-    position:relative;
-    width:100vw;
-    height:100vh;
-
-    background:
-        radial-gradient(
-            circle at 50% 40%,
-            rgba(0,113,190,.18),
-            transparent 42%
-        ),
-        linear-gradient(
-            145deg,
-            #01060b 0%,
-            #031522 55%,
-            #062c47 100%
-        );
-}
-
-
-/* subtle grid */
-
-.page::before{
-    content:"";
-    position:absolute;
-    inset:0;
-
-    background-image:
-        linear-gradient(
-            rgba(0,145,220,.035) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(0,145,220,.035) 1px,
-            transparent 1px
-        );
-
-    background-size:48px 48px;
-
-    pointer-events:none;
-}
-
-
-/* =====================================================
-   LOGIN PAGE
-===================================================== */
-
-#loginPage{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-.login-box{
-    width:min(420px,90%);
-    text-align:center;
-
-    position:relative;
-    z-index:5;
-}
-
-
-/* logo */
-
-.logo-big{
-    width:105px;
-    height:105px;
-
-    margin:0 auto 25px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    border:1px solid #dce7ee;
-    border-radius:27px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #09253a,
-            #020a11
-        );
-
-    font-size:27px;
-    font-weight:900;
-    letter-spacing:2px;
-
-    box-shadow:
-        0 12px 40px rgba(0,0,0,.55);
-}
-
-
-/* avatar chooser */
-
-.avatar-picker{
-    position:relative;
-
-    width:92px;
-    height:92px;
-
-    margin:0 auto 18px;
-
-    cursor:pointer;
-}
-
-.avatar-preview{
-    width:92px;
-    height:92px;
-
-    border-radius:50%;
-
-    object-fit:cover;
-
-    background:
-        linear-gradient(
-            145deg,
-            #0b5b8d,
-            #031a2c
-        );
-
-    border:2px solid #098dd0;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    box-shadow:
-        0 0 25px rgba(0,140,255,.2);
-}
-
-.avatar-picker-button{
-    position:absolute;
-
-    right:-3px;
-    bottom:-3px;
-
-    width:31px;
-    height:31px;
-
-    border-radius:50%;
-
-    border:2px solid #03111c;
-
-    background:#078ee0;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:15px;
-}
-
-.avatar-hint{
-    color:#7893a7;
-    font-size:11px;
-    margin-bottom:18px;
-}
-
-
-.login-box h1{
-    font-size:36px;
-    font-weight:900;
-    letter-spacing:2px;
-}
-
-.login-box h1 span{
-    color:#35aee9;
-}
-
-.subtitle{
-    color:#809aac;
-    margin:10px 0 25px;
-    font-size:14px;
-}
-
-
-.name-input{
-    width:100%;
-    height:55px;
-
-    padding:0 16px;
-
-    border:1px solid #17435e;
-    border-radius:10px;
-
-    outline:none;
-
-    background:#030c14;
-    color:white;
-
-    font-size:15px;
-}
-
-.name-input:focus{
-    border-color:#098bc9;
-}
-
-
-.join-btn{
-    width:100%;
-    height:55px;
-
-    margin-top:12px;
-
-    border:1px solid #0788c9;
-    border-radius:10px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #064c7c,
-            #087ebc
-        );
-
-    color:white;
-
-    font-size:15px;
-    font-weight:bold;
-
-    cursor:pointer;
-}
-
-.join-btn:active{
-    transform:scale(.98);
-}
-
-
-.login-status{
-    min-height:18px;
-
-    margin-top:12px;
-
-    color:#7893a7;
-
-    font-size:12px;
-}
-
-
-/* hidden file input */
-
-#avatarInput{
-    display:none;
-}
-
-
-/* =====================================================
-   CALL PAGE
-===================================================== */
-
-#callPage{
-    display:none;
-    flex-direction:column;
-}
-
-
-/* =====================================================
-   HEADER
-===================================================== */
-
-.call-header{
-    height:67px;
-
-    flex-shrink:0;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    padding:0 20px;
-
-    background:#020b13;
-
-    border-bottom:1px solid #10334a;
-
-    position:relative;
-    z-index:20;
-}
-
-
-.brand{
-    display:flex;
-    align-items:center;
-    gap:11px;
-}
-
-
-.logo-small{
-    width:41px;
-    height:41px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    border:1px solid #dce7ee;
-    border-radius:10px;
-
-    font-size:10px;
-    font-weight:bold;
-}
-
-
-.brand-title{
-    font-size:15px;
-    font-weight:bold;
-}
-
-
-.status{
-    margin-top:4px;
-
-    font-size:11px;
-
-    color:#51d995;
-}
-
-
-.settings-top{
-    width:42px;
-    height:42px;
-
-    border:1px solid #16425c;
-    border-radius:10px;
-
-    background:#071722;
-
-    color:#dce9f1;
-
-    font-size:19px;
-
-    cursor:pointer;
-}
-
-
-/* =====================================================
-   CONTENT
-===================================================== */
-
-.call-content{
-    flex:1;
-
-    min-height:0;
-
-    padding:16px;
-
-    overflow:auto;
-
-    position:relative;
-    z-index:2;
-}
-
-
-.video-grid{
-    width:100%;
-    min-height:100%;
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(auto-fit,minmax(245px,1fr));
-
-    gap:13px;
-
-    align-content:center;
-}
-
-
-/* =====================================================
-   PARTICIPANT CARD
-===================================================== */
-
-.participant{
-    position:relative;
-
-    min-height:205px;
-
-    overflow:hidden;
-
-    border:1px solid #075f98;
-
-    border-radius:13px;
-
-    background:
-        radial-gradient(
-            circle at 50% 45%,
-            #07385c,
-            #03111d 72%
-        );
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    box-shadow:
-        inset 0 0 30px rgba(0,110,190,.08);
-}
-
-
-.participant video{
-    position:absolute;
-
-    inset:0;
-
-    width:100%;
-    height:100%;
-
-    object-fit:cover;
-
-    z-index:1;
-}
-
-
-/* avatar */
-
-.participant-avatar{
-    width:88px;
-    height:88px;
-
-    border-radius:50%;
-
-    object-fit:cover;
-
-    border:2px solid #078bd1;
-
-    box-shadow:
-        0 0 25px rgba(0,143,225,.25);
-
-    z-index:2;
-}
-
-
-.participant-name{
-    position:absolute;
-
-    left:10px;
-    bottom:10px;
-
-    padding:7px 10px;
-
-    border-radius:8px;
-
-    background:
-        rgba(0,8,14,.88);
-
-    border:1px solid #17394e;
-
-    font-size:12px;
-
-    z-index:8;
-}
-
-
-.mic-icon{
-    margin-right:4px;
-}
-
-
-.video-badge{
-    position:absolute;
-
-    top:10px;
-    right:10px;
-
-    padding:5px 7px;
-
-    border-radius:6px;
-
-    background:rgba(0,7,12,.8);
-
-    font-size:10px;
-
-    z-index:8;
-}
-
-
-/* =====================================================
-   INVITE CARD
-===================================================== */
-
-.invite-card{
-    min-height:205px;
-
-    border:1px dashed #075f98;
-
-    border-radius:13px;
-
-    background:
-        rgba(3,18,30,.6);
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-    justify-content:center;
-
-    cursor:pointer;
-}
-
-
-.invite-plus{
-    color:#079fe8;
-
-    font-size:42px;
-
-    line-height:1;
-}
-
-
-.invite-text{
-    margin-top:12px;
-
-    color:#7fa5bc;
-
-    font-size:13px;
-}
-
-
-/* =====================================================
-   BOTTOM CONTROLS
-===================================================== */
-
-.bottom-bar{
-    height:92px;
-
-    flex-shrink:0;
-
-    display:flex;
-
-    justify-content:center;
-    align-items:center;
-
-    background:#02090f;
-
-    border-top:1px solid #10334a;
-
-    position:relative;
-    z-index:20;
-}
-
-
-.control-box{
-    height:70px;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    gap:23px;
-
-    padding:6px 17px;
-
-    min-width:390px;
-
-    border:1px solid #155274;
-
-    border-radius:25px;
-
-    background:#11171c;
-
-    box-shadow:
-        0 10px 30px rgba(0,0,0,.45);
-}
-
-
-.control{
-    width:52px;
-    height:52px;
-
-    border:0;
-
-    border-radius:50%;
-
-    background:#222b31;
-
-    color:#edf3f7;
-
-    font-size:21px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    cursor:pointer;
-}
-
-
-.control:hover{
-    background:#2d3942;
-}
-
-
-.control.off{
-    background:#292d31;
-    color:#aab4bb;
-}
-
-
-.hangup{
-    width:58px;
-    height:58px;
-
-    border:0;
-
-    border-radius:16px;
-
-    background:#ed1238;
-
-    color:white;
-
-    font-size:25px;
-
-    cursor:pointer;
-
-    box-shadow:
-        0 6px 18px rgba(237,18,56,.22);
-}
-
-
-.hangup:hover{
-    background:#fa2549;
-}
-
-
-/* =====================================================
-   SETTINGS PANEL
-===================================================== */
-
-.settings-panel{
-    position:absolute;
-
-    right:18px;
-    top:78px;
-
-    width:340px;
-    max-width:calc(100% - 36px);
-
-    padding:17px;
-
-    border:1px solid #0874b4;
-    border-radius:13px;
-
-    background:
-        rgba(3,15,25,.98);
-
-    box-shadow:
-        0 18px 50px rgba(0,0,0,.6);
-
-    z-index:100;
-
-    display:none;
-}
-
-
-.settings-panel.show{
-    display:block;
-}
-
-
-.settings-header{
-    display:flex;
-
-    align-items:center;
-    justify-content:space-between;
-
-    padding-bottom:14px;
-
-    border-bottom:1px solid #15364b;
-}
-
-
-.settings-header h3{
-    font-size:16px;
-}
-
-
-.close-settings{
-    border:0;
-    background:none;
-
-    color:#91a9b9;
-
-    font-size:24px;
-
-    cursor:pointer;
-}
-
-
-/* tabs */
-
-.tabs{
-    display:flex;
-
-    margin:12px 0;
-
-    border-bottom:1px solid #12374e;
-}
-
-
-.tab{
-    flex:1;
-
-    text-align:center;
-
-    padding:10px 5px;
-
-    color:#7591a4;
-
-    font-size:13px;
-
-    cursor:pointer;
-}
-
-
-.tab.active{
-    color:white;
-
-    background:#075d95;
-
-    border-radius:8px 8px 0 0;
-}
-
-
-/* settings */
-
-.setting{
-    margin-bottom:14px;
-}
-
-
-.setting label{
-    display:block;
-
-    margin-bottom:6px;
-
-    color:#91aabd;
-
-    font-size:11px;
-}
-
-
-.setting select{
-    width:100%;
-    height:41px;
-
-    padding:0 9px;
-
-    border:1px solid #17445e;
-    border-radius:8px;
-
-    background:#061521;
-
-    color:white;
-
-    outline:none;
-}
-
-
-.setting-row{
-    display:flex;
-
-    align-items:center;
-    justify-content:space-between;
-
-    padding:11px 0;
-
-    border-top:1px solid #102d3f;
-
-    color:#aec1ce;
-
-    font-size:12px;
-}
-
-
-.switch{
-    width:40px;
-    height:21px;
-
-    border-radius:20px;
-
-    background:#29363f;
-
-    position:relative;
-
-    cursor:pointer;
-}
-
-
-.switch::after{
-    content:"";
-
-    position:absolute;
-
-    width:15px;
-    height:15px;
-
-    top:3px;
-    left:3px;
-
-    border-radius:50%;
-
-    background:#dbe4e9;
-
-    transition:.2s;
-}
-
-
-.switch.on{
-    background:#078bd0;
-}
-
-
-.switch.on::after{
-    left:22px;
-}
-
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
-@media(max-width:650px){
-
-    .login-box h1{
-        font-size:29px;
-    }
-
-    .logo-big{
-        width:88px;
-        height:88px;
-        font-size:23px;
-    }
-
-    .call-header{
-        height:62px;
-        padding:0 12px;
-    }
-
-    .brand-title{
-        font-size:13px;
-    }
-
-    .call-content{
-        padding:9px;
-    }
-
-    .video-grid{
-        grid-template-columns:1fr;
-        gap:9px;
-    }
-
-    .participant{
-        min-height:175px;
-    }
-
-    .bottom-bar{
-        height:84px;
-    }
-
-    .control-box{
-        min-width:0;
-        width:calc(100% - 18px);
-        height:67px;
-        gap:10px;
-        padding:6px 10px;
-    }
-
-    .control{
-        width:46px;
-        height:46px;
-        font-size:19px;
-    }
-
-    .hangup{
-        width:51px;
-        height:51px;
-    }
-
-    .settings-panel{
-        top:70px;
-        right:9px;
-        width:calc(100% - 18px);
-    }
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TNEX - Mobile Friendly MLBB Macro Room</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            background-color: #030712;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: rgba(3, 7, 18, 0.95);
+            border-bottom: 1px solid #1e293b;
+            z-index: 10;
+        }
+
+        .back-btn { background: none; border: none; color: #fff; font-size: 16px; cursor: pointer; }
+        .room-title { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px;}
+        .admin-trigger-btn {
+            background: #ffffff; color: #030712; border: none;
+            padding: 5px 10px; border-radius: 20px; font-weight: bold; font-size: 10px; cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .main-layout {
+            display: flex; flex-direction: column; flex: 1; padding: 8px; gap: 8px; height: calc(100vh - 48px);
+        }
+
+        @media (min-width: 768px) {
+            .main-layout { flex-direction: row; padding: 20px; gap: 20px; height: calc(100vh - 65px); }
+            .room-title { max-width: none; }
+        }
+
+        .map-section, .admin-map-wrapper {
+            flex: 1; background: #0b1329; border: 1px solid #0284c7; border-radius: 12px;
+            position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8); min-height: 250px;
+        }
+
+        .map-canvas {
+            width: 100%; height: 100%; position: relative;
+            background-image: url('11315.jpg');
+            background-size: contain; background-repeat: no-repeat; background-position: center;
+        }
+
+        .info-sidebar, .admin-sidebar {
+            background: rgba(11, 25, 44, 0.95); border: 1px solid #0284c7;
+            border-radius: 12px; padding: 10px; display: flex; flex-direction: column; gap: 6px; overflow-y: auto;
+        }
+
+        .info-sidebar { max-height: 190px; }
+        @media (min-width: 768px) {
+            .info-sidebar { width: 380px; max-height: none; }
+            .admin-sidebar { width: 380px; }
+        }
+
+        .section-title { font-size: 11px; color: #38bdf8; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+        .phase-display-tabs { display: flex; gap: 4px; }
+        .p-tab {
+            flex: 1; background: #030712; border: 1px solid #1e293b; color: #94a3b8;
+            padding: 5px; font-size: 10px; text-align: center; border-radius: 6px; cursor: pointer;
+        }
+        .p-tab.active { background: #0284c7; color: #fff; border-color: #38bdf8; }
+
+        .strategy-notes-display {
+            background: #030712; border: 1px solid #1e293b; padding: 6px; border-radius: 6px;
+            font-size: 10px; color: #cbd5e1; line-height: 1.3; height: 50px; overflow-y: auto;
+        }
+        @media (min-width: 768px) { .strategy-notes-display { height: 80px; } }
+
+        .playback-controls {
+            display: flex; flex-direction: column; gap: 5px; background: #030712; border: 1px solid #1e293b; padding: 8px; border-radius: 6px;
+        }
+        .btn-group { display: flex; gap: 4px; }
+        .ctrl-btn {
+            flex: 1; background: #0284c7; color: white; border: none; padding: 6px;
+            border-radius: 6px; font-weight: bold; font-size: 10px; cursor: pointer;
+        }
+        .ctrl-btn.secondary { background: #1e293b; color: #38bdf8; border: 1px solid #0284c7; }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(3, 7, 18, 0.85); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px;
+        }
+        .modal-box {
+            background: #0b192c; border: 1px solid #0284c7; padding: 20px; border-radius: 12px; width: 100%; max-width: 280px; text-align: center;
+        }
+        .modal-box input {
+            width: 100%; background: #030712; border: 1px solid #1e293b; color: white;
+            padding: 8px; border-radius: 6px; margin: 10px 0; text-align: center; font-size: 14px; letter-spacing: 2px;
+        }
+        .modal-box button {
+            background: #0284c7; color: white; border: none; padding: 8px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; font-size: 11px;
+        }
+
+        /* Panel Admin */
+        .admin-panel-container {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #030712; z-index: 500; flex-direction: column;
+        }
+        .admin-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 15px; background: rgba(11, 25, 44, 0.9); border-bottom: 1px solid #0284c7;
+        }
+        .admin-body { display: flex; flex-direction: column; flex: 1; padding: 8px; gap: 8px; height: calc(100vh - 48px); overflow: hidden; }
+        @media (min-width: 768px) {
+            .admin-body { flex-direction: row; padding: 20px; gap: 20px; height: calc(100vh - 65px); }
+        }
+        .admin-sidebar textarea {
+            width: 100%; background: #030712; border: 1px solid #1e293b; color: white;
+            padding: 5px; border-radius: 6px; font-size: 10px; resize: vertical; height: 30px;
+        }
+
+        /* Ukuran Bidak Diperkecil & Rapi */
+        .tactical-piece {
+            position: absolute; width: 24px; height: 24px; border: 1.5px solid #fff; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            box-shadow: 0 0 5px rgba(0,0,0,0.8); z-index: 10; user-select: none; touch-action: none;
+            transform: translate(-50%, -50%); font-weight: bold; font-size: 8px; letter-spacing: 0.2px;
+        }
+        .tactical-piece.active-selected { border-color: #f59e0b; box-shadow: 0 0 10px #f59e0b; transform: translate(-50%, -50%) scale(1.2); }
+
+        .piece-team { background: radial-gradient(circle, #38bdf8 0%, #0369a1 100%); color: #ffffff; }
+        .piece-enemy { background: radial-gradient(circle, #f87171 0%, #b91c1c 100%); color: #ffffff; }
+
+        .path-line-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
+
+        .admin-action-btn {
+            background: #0284c7; color: white; border: none; padding: 6px 8px;
+            border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 10px; width: 100%; text-align: center;
+        }
+        .admin-action-btn.danger { background: #ef4444; }
+        .admin-action-btn.success { background: #16a34a; }
+
+        .spawn-palette { display: flex; gap: 3px; flex-wrap: wrap; align-items: center; }
+        .spawn-item {
+            display: flex; align-items: center; gap: 2px; background: #030712; padding: 3px 5px;
+            border-radius: 5px; border: 1px solid #1e293b; font-size: 9px; cursor: pointer; color: #cbd5e1;
+        }
+        .spawn-item:hover { border-color: #38bdf8; background: #0b192c; }
+        .spawn-item.macro { border-color: #f59e0b; color: #f59e0b; background: rgba(245, 158, 11, 0.05); }
+
+        .role-path-list {
+            background: #030712; border: 1px solid #1e293b; padding: 4px; border-radius: 6px; font-size: 10px; max-height: 55px; overflow-y: auto;
+        }
+        .role-path-item {
+            display: flex; justify-content: space-between; align-items: center; padding: 2px 4px; border-bottom: 1px solid #0f172a;
+        }
+        .role-path-item button { background: #ef4444; border: none; color: white; padding: 1px 4px; border-radius: 3px; font-size: 8px; cursor: pointer; }
+    </style>
 </head>
-
-
 <body>
 
-
-<!-- =====================================================
-     LOGIN PAGE
-===================================================== -->
-
-<div id="loginPage" class="page">
-
-    <div class="login-box">
-
-
-        <!-- AVATAR -->
-
-        <div
-            class="avatar-picker"
-            onclick="document.getElementById('avatarInput').click()"
-        >
-
-            <img
-                id="avatarPreview"
-                class="avatar-preview"
-                src=""
-                alt="Avatar"
-            >
-
-            <div class="avatar-picker-button">
-                📷
-            </div>
-
+    <!-- Public View -->
+    <div class="header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <button class="back-btn" onclick="window.location.href='index.html'">←</button>
+            <div class="room-title">TNEX Mobile Macro Room</div>
         </div>
-
-
-        <input
-            id="avatarInput"
-            type="file"
-            accept="image/*"
-            onchange="chooseAvatar(event)"
-        >
-
-
-        <div class="avatar-hint">
-            Tekan foto untuk mengganti avatar
-        </div>
-
-        <h1>
-            TNEX <span>VOICE</span>
-        </h1>
-
-
-        <div class="subtitle">
-            Voice & Video Chat
-        </div>
-
-
-        <input
-            id="nameInput"
-            class="name-input"
-            type="text"
-            maxlength="30"
-            placeholder="Masukkan nama kamu"
-        >
-
-
-        <button
-            class="join-btn"
-            onclick="joinRoom()"
-        >
-            🎙️ &nbsp; MASUK VOICE CHAT
-        </button>
-
-
-        <div
-            id="loginStatus"
-            class="login-status"
-        >
-            Masuk untuk terhubung dengan anggota TNEX.
-        </div>
-
+        <button class="admin-trigger-btn" onclick="openPasswordModal()">Admin Login</button>
     </div>
 
-</div>
+    <div class="main-layout">
+        <div class="map-section">
+            <div class="map-canvas" id="publicMapCanvas">
+                <div id="publicPiecesContainer"></div>
+            </div>
+        </div>
 
-
-
-<!-- =====================================================
-     CALL PAGE
-===================================================== -->
-
-<div id="callPage" class="page">
-
-
-    <!-- HEADER -->
-
-    <header class="call-header">
-
-        <div class="brand">
-
-            <div class="logo-small">
-                TNEX
+        <div class="info-sidebar">
+            <div class="section-title">⏱️ Fase Game</div>
+            <div class="phase-display-tabs">
+                <div class="p-tab active" onclick="switchPublicPhase('early', this)">Early</div>
+                <div class="p-tab" onclick="switchPublicPhase('mid', this)">Mid</div>
+                <div class="p-tab" onclick="switchPublicPhase('late', this)">Late</div>
             </div>
 
-            <div>
+            <div class="section-title">🎮 Simulasi Publik</div>
+            <div class="playback-controls">
+                <div style="font-size: 9px; color: #94a3b8; text-align: center;" id="playbackStatus">Status: Siap (Smooth)</div>
+                <div class="btn-group">
+                    <button class="ctrl-btn secondary" onclick="stepPlayback(-1)">◀ Mundur</button>
+                    <button class="ctrl-btn" onclick="togglePlaySimulation()" id="playPauseBtn">▶ Play</button>
+                    <button class="ctrl-btn secondary" onclick="stepPlayback(1)">Maju ▶</button>
+                </div>
+                <button class="ctrl-btn secondary" style="background:#0f172a; width:100%; padding:4px;" onclick="resetPublicAnimation()">Reset Posisi</button>
+            </div>
 
-                <div class="brand-title">
-                    TNEX Voice Chat
+            <div class="section-title">📋 Catatan Makro</div>
+            <div class="strategy-notes-display" id="publicNotesDisplay">Memuat...</div>
+        </div>
+    </div>
+
+    <!-- Modal Admin -->
+    <div class="modal-overlay" id="passwordModal">
+        <div class="modal-box">
+            <h3 style="color: #38bdf8; margin-bottom: 5px; font-size: 13px;">🔐 Login Admin</h3>
+            <input type="password" id="adminPasswordInput" placeholder="••••••">
+            <button onclick="verifyAdminPassword()">Masuk</button>
+            <button onclick="closePasswordModal()" style="background: transparent; border: 1px solid #1e293b; margin-top: 6px; color: #94a3b8;">Batal</button>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel-container" id="adminPanelContainer">
+        <div class="admin-header">
+            <div style="font-weight: bold; color: #38bdf8; font-size: 12px;">⚙️ Admin Macro Room</div>
+            <button class="admin-trigger-btn" style="background: #16a34a; color: white;" onclick="saveAndCloseAdmin()">Selesai</button>
+        </div>
+
+        <div class="admin-body">
+            <div class="admin-sidebar">
+                <div class="section-title">1. Fase & Catatan</div>
+                <div class="phase-display-tabs" style="margin-bottom: 2px;">
+                    <div class="p-tab active" onclick="setAdminPhase('early', this)">Early</div>
+                    <div class="p-tab" onclick="setAdminPhase('mid', this)">Mid</div>
+                    <div class="p-tab" onclick="setAdminPhase('late', this)">Late</div>
+                </div>
+                <textarea id="adminNotesInput" placeholder="Tulis instruksi..."></textarea>
+                <button class="admin-action-btn" onclick="saveAdminNotes()">Simpan Catatan</button>
+
+                <hr style="border-color: #1e293b; margin: 2px 0;">
+
+                <div class="section-title">2. Spawn Bidak & Makro</div>
+                <div style="font-size: 9px; color: #38bdf8; font-weight: bold;">Tim Biru:</div>
+                <div class="spawn-palette">
+                    <div class="spawn-item" onclick="spawnPiece('J', 'team', 'Jungler')">⚡ Jgl</div>
+                    <div class="spawn-item" onclick="spawnPiece('EXP', 'team', 'Exp Laner')">⚔️ Exp</div>
+                    <div class="spawn-item" onclick="spawnPiece('MID', 'team', 'Mid Laner')">🔮 Mid</div>
+                    <div class="spawn-item" onclick="spawnPiece('GOLD', 'team', 'Gold Laner')">🏹 Gold</div>
+                    <div class="spawn-item" onclick="spawnPiece('ROAM', 'team', 'Roamer')">🛡️ Roam</div>
+                    <div class="spawn-item" onclick="spawnPiece('LORD', 'team', 'Lord')">👑 Lord</div>
+                    <div class="spawn-item" onclick="spawnPiece('TUR', 'team', 'Turtle')">🐢 Turtle</div>
+                </div>
+                
+                <div style="font-size: 9px; color: #f87171; font-weight: bold; margin-top: 2px;">Musuh Merah:</div>
+                <div class="spawn-palette">
+                    <div class="spawn-item" onclick="spawnPiece('EJ', 'enemy', 'Enemy Jungler')">⚡ EJgl</div>
+                    <div class="spawn-item" onclick="spawnPiece('EEXP', 'enemy', 'Enemy Exp')">⚔️ EExp</div>
+                    <div class="spawn-item" onclick="spawnPiece('EMID', 'enemy', 'Enemy Mid')">🔮 EMid</div>
+                    <div class="spawn-item" onclick="spawnPiece('EGOLD', 'enemy', 'Enemy Gold')">🏹 EGold</div>
+                    <div class="spawn-item" onclick="spawnPiece('EROAM', 'enemy', 'Enemy Roam')">🛡️ ERoam</div>
                 </div>
 
-                <div class="status">
-                    ● Terhubung
-                    <span id="participantCount">
-                        • 1 peserta
-                    </span>
+                <div style="font-size: 9px; color: #f59e0b; font-weight: bold; margin-top: 2px;">Makro Gameplay:</div>
+                <div class="spawn-palette">
+                    <div class="spawn-item macro" onclick="spawnPiece('FRZ', 'macro', 'Freeze Lane')">❄️ Freeze</div>
+                    <div class="spawn-item macro" onclick="spawnPiece('ZON', 'macro', 'Zoning Area')">🚧 Zone</div>
+                    <div class="spawn-item macro" onclick="spawnPiece('INV', 'macro', 'Invade Buff')">🔥 Invade</div>
+                    <div class="spawn-item macro" onclick="spawnPiece('CLR', 'macro', 'Clear Minion')">🧹 Clear</div>
+                    <div class="spawn-item macro" onclick="spawnPiece('WRD', 'macro', 'Vision/Ward')">👁️ Ward</div>
                 </div>
 
+                <hr style="border-color: #1e293b; margin: 2px 0;">
+
+                <div class="section-title">3. Atur Jalur (Tarik Bidak)</div>
+                <div style="font-size: 10px; color: #f59e0b;" id="selectedPieceIndicator">Status: Tap bidak, lalu geser</div>
+                
+                <div style="font-size: 9px; color: #94a3b8;">Daftar Jalur (Hapus per Step):</div>
+                <div class="role-path-list" id="adminPathListContainer">
+                    <div style="color: #64748b; text-align: center;">Belum ada jalur</div>
+                </div>
+
+                <div class="btn-group" style="margin-top: 3px;">
+                    <button class="admin-action-btn success" onclick="testAdminSimulation()">▶ Test Play</button>
+                    <button class="admin-action-btn danger" onclick="resetAdminPhaseMap()">Reset Fase</button>
+                </div>
             </div>
 
+            <div class="admin-map-wrapper" id="adminMapWrapper">
+                <div class="map-canvas" id="adminMapCanvas">
+                    <svg class="path-line-svg" id="adminSvgPath"></svg>
+                    <div id="adminPiecesContainer"></div>
+                </div>
+            </div>
         </div>
-
-
-        <button
-            class="settings-top"
-            onclick="toggleSettings()"
-        >
-            ⚙
-        </button>
-
-    </header>
-
-
-
-    <!-- PARTICIPANTS -->
-
-    <main class="call-content">
-
-        <div
-            id="videoGrid"
-            class="video-grid"
-        ></div>
-
-    </main>
-
-
-
-    <!-- CONTROLS -->
-
-    <div class="bottom-bar">
-
-        <div class="control-box">
-
-
-            <!-- CAMERA -->
-
-            <button
-                id="cameraBtn"
-                class="control off"
-                onclick="toggleCamera()"
-                title="Kamera"
-            >
-                📹
-            </button>
-
-
-            <!-- MIC -->
-
-            <button
-                id="micBtn"
-                class="control"
-                onclick="toggleMic()"
-                title="Microphone"
-            >
-                🎙️
-            </button>
-
-
-            <!-- SCREEN -->
-
-            <button
-                id="screenBtn"
-                class="control"
-                onclick="toggleScreen()"
-                title="Bagikan layar"
-            >
-                📱
-            </button>
-
-
-            <!-- SOUND -->
-
-            <button
-                id="soundBtn"
-                class="control"
-                onclick="toggleSound()"
-                title="Suara"
-            >
-                🔊
-            </button>
-
-
-            <!-- LEAVE -->
-
-            <button
-                class="hangup"
-                onclick="leaveRoom()"
-                title="Keluar"
-            >
-                ☎
-            </button>
-
-        </div>
-
     </div>
 
-
-
-    <!-- =================================================
-         SETTINGS
-    ================================================== -->
-
-    <div
-        id="settingsPanel"
-        class="settings-panel"
-    >
-
-        <div class="settings-header">
-
-            <h3>
-                ⚙ Pengaturan
-            </h3>
-
-            <button
-                class="close-settings"
-                onclick="toggleSettings()"
-            >
-                ×
-            </button>
-
-        </div>
-
-
-        <!-- TABS -->
-
-        <div class="tabs">
-
-            <div
-                class="tab active"
-                onclick="openTab(this,'audioTab')"
-            >
-                Audio
-            </div>
-
-            <div
-                class="tab"
-                onclick="openTab(this,'videoTab')"
-            >
-                Video
-            </div>
-
-            <div
-                class="tab"
-                onclick="openTab(this,'generalTab')"
-            >
-                Umum
-            </div>
-
-        </div>
-
-
-
-        <!-- AUDIO TAB -->
-
-        <div id="audioTab">
-
-            <div class="setting">
-
-                <label>
-                    🎙️ Mikrofon
-                </label>
-
-                <select id="micSelect">
-                    <option>
-                        Default Microphone
-                    </option>
-                </select>
-
-            </div>
-
-
-            <div class="setting">
-
-                <label>
-                    🔊 Speaker
-                </label>
-
-                <select id="speakerSelect">
-                    <option>
-                        Default Speaker
-                    </option>
-                </select>
-
-            </div>
-
-
-            <div class="setting-row">
-
-                <span>
-                    Noise suppression
-                </span>
-
-                <div
-                    class="switch on"
-                    onclick="this.classList.toggle('on')"
-                ></div>
-
-            </div>
-
-
-            <div class="setting-row">
-
-                <span>
-                    Mode hemat data
-                </span>
-
-                <div
-                    class="switch"
-                    onclick="this.classList.toggle('on')"
-                ></div>
-
-            </div>
-
-        </div>
-
-
-
-        <!-- VIDEO TAB -->
-
-        <div
-            id="videoTab"
-            style="display:none"
-        >
-
-            <div class="setting">
-
-                <label>
-                    📹 Kamera
-                </label>
-
-                <select id="cameraSelect">
-                    <option>
-                        Default Camera
-                    </option>
-                </select>
-
-            </div>
-
-
-            <div class="setting-row">
-
-                <span>
-                    Preview kamera
-                </span>
-
-                <div
-                    class="switch on"
-                    onclick="this.classList.toggle('on')"
-                ></div>
-
-            </div>
-
-        </div>
-
-
-
-        <!-- GENERAL TAB -->
-
-        <div
-            id="generalTab"
-            style="display:none"
-        >
-
-            <div class="setting-row">
-
-                <span>
-                    Tampilkan peserta
-                </span>
-
-                <div
-                    class="switch on"
-                    onclick="this.classList.toggle('on')"
-                ></div>
-
-            </div>
-
-
-            <div class="setting-row">
-
-                <span>
-                    Animasi
-                </span>
-
-                <div
-                    class="switch on"
-                    onclick="this.classList.toggle('on')"
-                ></div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-
-<script>
-
-/* =====================================================
-   LIVEKIT
-===================================================== */
-
-const TOKEN_SERVER_ID =
-    "tnexvoicechat-1mbm19";
-
-
-const tokenSource =
-    LivekitClient.TokenSource
-        .developmentTokenServer(
-            TOKEN_SERVER_ID
-        );
-
-
-const {
-    Room,
-    RoomEvent,
-    Track
-} = LivekitClient;
-
-
-
-/* =====================================================
-   ROOM
-===================================================== */
-
-const ROOM_NAME =
-    "tnex-main";
-
-
-let room = null;
-
-let myName = "";
-
-let myAvatar = "";
-
-
-
-/* =====================================================
-   DEFAULT AVATAR
-===================================================== */
-
-function defaultAvatar(){
-
-    return `
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="256"
-            height="256"
-            viewBox="0 0 256 256"
-        >
-
-            <rect
-                width="256"
-                height="256"
-                rx="128"
-                fill="#062b45"
-            />
-
-            <circle
-                cx="128"
-                cy="94"
-                r="45"
-                fill="#1499df"
-            />
-
-            <path
-                d="
-                M48 225
-                C53 170
-                91 145
-                128 145
-                C165 145
-                203 170
-                208 225
-                Z"
-                fill="#1499df"
-            />
-
-        </svg>
-    `;
-
-}
-
-
-/* show default */
-
-const defaultAvatarURL =
-    "data:image/svg+xml;charset=UTF-8," +
-    encodeURIComponent(
-        defaultAvatar()
-    );
-
-
-document
-    .getElementById("avatarPreview")
-    .src =
-    defaultAvatarURL;
-
-
-
-/* =====================================================
-   CHOOSE AVATAR
-===================================================== */
-
-function chooseAvatar(event){
-
-    const file =
-        event.target.files[0];
-
-    if(!file) return;
-
-
-    if(!file.type.startsWith("image/")){
-
-        alert("Pilih file gambar.");
-
-        return;
-
-    }
-
-
-    const reader =
-        new FileReader();
-
-
-    reader.onload =
-        function(e){
-
-            myAvatar =
-                e.target.result;
-
-            document
-                .getElementById(
-                    "avatarPreview"
-                )
-                .src =
-                myAvatar;
-
+    <script>
+        let currentPhase = 'early';
+        let activeAdminPhase = 'early';
+        let selectedPieceId = null;
+
+        // Load data dari LocalStorage jika sudah pernah disimpan, kalau belum pakai default
+        let defaultDbData = {
+            early: { notes: "• EARLY GAME:\n- Rotasi awal buff & Freeze Lane di Gold Lane.", pieces: [] },
+            mid: { notes: "• MID GAME:\n- Kontes Turtle, Zoning musuh, & Invade Jungle.", pieces: [] },
+            late: { notes: "• LATE GAME:\n- Lord Evolved, Clear Minion cepat, & Teamfight penentuan.", pieces: [] }
         };
 
+        let savedData = localStorage.getItem('tnex_macro_data_v2');
+        let dbData = savedData ? JSON.parse(savedData) : defaultDbData;
 
-    reader.readAsDataURL(file);
+        function saveToStorage() {
+            localStorage.setItem('tnex_macro_data_v2', JSON.stringify(dbData));
+        }
 
-}
+        function openPasswordModal() { document.getElementById('passwordModal').style.display = 'flex'; }
+        function closePasswordModal() { document.getElementById('passwordModal').style.display = 'none'; document.getElementById('adminPasswordInput').value = ''; }
+        function verifyAdminPassword() {
+            if(document.getElementById('adminPasswordInput').value === '012570') {
+                closePasswordModal();
+                document.getElementById('adminPanelContainer').style.display = 'flex';
+                loadAdminPhaseData(activeAdminPhase);
+            } else { alert('Password Salah!'); }
+        }
+        function saveAndCloseAdmin() {
+            saveToStorage(); // Simpan permanen ke browser
+            document.getElementById('adminPanelContainer').style.display = 'none';
+            syncToPublic();
+        }
 
+        function setAdminPhase(phase, el) {
+            document.querySelectorAll('.admin-sidebar .p-tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            activeAdminPhase = phase;
+            selectedPieceId = null;
+            loadAdminPhaseData(phase);
+        }
 
+        function loadAdminPhaseData(phase) {
+            document.getElementById('adminNotesInput').value = dbData[phase].notes;
+            renderAdminPiecesAndPaths();
+            updateAdminPathListUI();
+        }
 
-/* =====================================================
-   COMPRESS AVATAR
-===================================================== */
+        function saveAdminNotes() {
+            dbData[activeAdminPhase].notes = document.getElementById('adminNotesInput').value;
+            saveToStorage(); // Simpan permanen
+            alert('Catatan makro tersimpan permanen!');
+        }
 
-function compressAvatar(
-    dataURL
-){
+        function switchPublicPhase(phase, el) {
+            document.querySelectorAll('.info-sidebar .p-tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            currentPhase = phase;
+            stopSimulation();
+            syncToPublic();
+        }
 
-    return new Promise(
-        resolve => {
+        function spawnPiece(label, type, fullName) {
+            const newPiece = {
+                id: 'p_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+                label: label,
+                type: type,
+                name: fullName,
+                x: 50,
+                y: 50,
+                paths: []
+            };
+            dbData[activeAdminPhase].pieces.push(newPiece);
+            selectPiece(newPiece.id);
+            renderAdminPiecesAndPaths();
+            saveToStorage(); // Simpan permanen
+        }
 
-            const img =
-                new Image();
+        function selectPiece(id) {
+            selectedPieceId = id;
+            renderAdminPiecesAndPaths();
+            updateAdminPathListUI();
+            
+            const p = dbData[activeAdminPhase].pieces.find(x => x.id === id);
+            const indicator = document.getElementById('selectedPieceIndicator');
+            if(p) {
+                indicator.innerText = `Terpilih: ${p.name}`;
+                indicator.style.color = '#38bdf8';
+            }
+        }
 
+        function updateAdminPathListUI() {
+            const container = document.getElementById('adminPathListContainer');
+            container.innerHTML = '';
+            const phaseData = dbData[activeAdminPhase];
+            const p = phaseData.pieces.find(x => x.id === selectedPieceId);
 
-            img.onload =
-                function(){
+            if(!p || p.paths.length === 0) {
+                container.innerHTML = '<div style="color: #64748b; text-align: center;">Belum ada jalur</div>';
+                return;
+            }
 
-                    const canvas =
-                        document.createElement(
-                            "canvas"
-                        );
+            p.paths.forEach((pathObj, pathIdx) => {
+                const headerItem = document.createElement('div');
+                headerItem.className = 'role-path-item';
+                headerItem.style.background = '#0f172a';
+                headerItem.innerHTML = `<span><strong>Garis ${pathIdx + 1}</strong></span> <button onclick="deleteSpecificPath('${p.id}', ${pathIdx})" style="background:#ef4444;">Hapus Semua</button>`;
+                container.appendChild(headerItem);
 
+                // Tombol Hapus per Step / titik
+                pathObj.points.forEach((pt, ptIdx) => {
+                    if(ptIdx % 3 === 0 || ptIdx === pathObj.points.length - 1) { 
+                        const ptItem = document.createElement('div');
+                        ptItem.className = 'role-path-item';
+                        ptItem.style.paddingLeft = '10px';
+                        ptItem.innerHTML = `<span style="font-size:9px; color:#94a3b8;">• Titik ${ptIdx+1} (${Math.round(pt.x)}%, ${Math.round(pt.y)}%)</span> <button onclick="deleteSpecificPoint('${p.id}', ${pathIdx}, ${ptIdx})">Hapus Step</button>`;
+                        container.appendChild(ptItem);
+                    }
+                });
+            });
+        }
 
-                    const size =
-                        256;
+        function deleteSpecificPath(pieceId, pathIdx) {
+            const p = dbData[activeAdminPhase].pieces.find(x => x.id === pieceId);
+            if(p) {
+                p.paths.splice(pathIdx, 1);
+                renderAdminPiecesAndPaths();
+                updateAdminPathListUI();
+                saveToStorage(); // Simpan permanen
+            }
+        }
 
+        function deleteSpecificPoint(pieceId, pathIdx, ptIdx) {
+            const p = dbData[activeAdminPhase].pieces.find(x => x.id === pieceId);
+            if(p && p.paths[pathIdx]) {
+                p.paths[pathIdx].points.splice(ptIdx, 1);
+                if(p.paths[pathIdx].points.length < 2) {
+                    p.paths.splice(pathIdx, 1);
+                }
+                renderAdminPiecesAndPaths();
+                updateAdminPathListUI();
+                saveToStorage(); // Simpan permanen
+            }
+        }
 
-                    canvas.width =
-                        size;
+        function renderAdminPiecesAndPaths() {
+            const container = document.getElementById('adminPiecesContainer');
+            container.innerHTML = '';
+            const svg = document.getElementById('adminSvgPath');
+            svg.innerHTML = '';
 
-                    canvas.height =
-                        size;
+            dbData[activeAdminPhase].pieces.forEach((pObj) => {
+                const piece = document.createElement('div');
+                let cssClass = 'piece-team';
+                if(pObj.type === 'enemy' || pObj.type === 'macro') cssClass = 'piece-enemy';
 
-
-                    const ctx =
-                        canvas.getContext(
-                            "2d"
-                        );
-
-
-                    ctx.drawImage(
-                        img,
-                        0,
-                        0,
-                        size,
-                        size
-                    );
-
-
-                    resolve(
-                        canvas.toDataURL(
-                            "image/jpeg",
-                            .72
-                        )
-                    );
-
+                piece.className = `tactical-piece ${cssClass} ${pObj.id === selectedPieceId ? 'active-selected' : ''}`;
+                piece.innerText = pObj.label;
+                piece.style.left = pObj.x + '%';
+                piece.style.top = pObj.y + '%';
+                
+                const handleStart = (clientX, clientY) => {
+                    selectPiece(pObj.id);
+                    initDragAndDraw(pObj, clientX, clientY, piece);
                 };
 
+                piece.onmousedown = (e) => { handleStart(e.clientX, e.clientY); e.stopPropagation(); };
+                piece.ontouchstart = (e) => {
+                    if(e.touches.length > 0) {
+                        handleStart(e.touches[0].clientX, e.touches[0].clientY);
+                        e.stopPropagation();
+                    }
+                };
 
-            img.src =
-                dataURL;
+                container.appendChild(piece);
 
-        }
-    );
-
-}
-
-
-
-/* =====================================================
-   JOIN ROOM
-===================================================== */
-
-async function joinRoom(){
-
-    const input =
-        document.getElementById(
-            "nameInput"
-        );
-
-
-    myName =
-        input.value.trim();
-
-
-    if(!myName){
-
-        document
-            .getElementById(
-                "loginStatus"
-            )
-            .innerText =
-            "Masukkan nama kamu dulu.";
-
-        return;
-
-    }
-
-
-    document
-        .getElementById(
-            "loginStatus"
-        )
-        .innerText =
-        "Menghubungkan...";
-
-
-    try{
-
-
-        /* avatar */
-
-        if(!myAvatar){
-
-            myAvatar =
-                defaultAvatarURL;
-
-        }
-
-
-        myAvatar =
-            await compressAvatar(
-                myAvatar
-            );
-
-
-
-        /* token */
-
-        const credentials =
-            await tokenSource.fetch({
-
-                roomName:
-                    ROOM_NAME,
-
-                participantName:
-                    myName
-
+                pObj.paths.forEach((pathObj) => {
+                    if(pathObj.points.length < 2) return;
+                    let d = `M ${pathObj.points[0].x}% ${pathObj.points[0].y}%`;
+                    for(let i=1; i<pathObj.points.length; i++) {
+                        d += ` L ${pathObj.points[i].x}% ${pathObj.points[i].y}%`;
+                    }
+                    const pathEl = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                    pathEl.setAttribute("d", d);
+                    pathEl.setAttribute("stroke", pObj.type === 'enemy' ? '#f87171' : (pObj.type === 'macro' ? '#f59e0b' : '#38bdf8'));
+                    pathEl.setAttribute("stroke-width", "2.5");
+                    pathEl.setAttribute("fill", "none");
+                    pathEl.setAttribute("stroke-dasharray", pObj.id === selectedPieceId ? "none" : "2,2");
+                    svg.appendChild(pathEl);
+                });
             });
-
-
-
-        /* room */
-
-        room =
-            new Room({
-
-                adaptiveStream:true,
-
-                dynacast:true
-
-            });
-
-
-
-        setupEvents();
-
-
-
-        await room.connect(
-
-            credentials.serverUrl,
-
-            credentials.participantToken
-
-        );
-
-
-
-        /* metadata avatar */
-
-        try{
-
-            await room
-                .localParticipant
-                .setMetadata(
-                    JSON.stringify({
-                        avatar:myAvatar
-                    })
-                );
-
-        }
-        catch(e){
-
-            console.log(
-                "Metadata avatar gagal:",
-                e
-            );
-
         }
 
+        function initDragAndDraw(pObj, startClientX, startClientY, pieceEl) {
+            const canvas = document.getElementById('adminMapCanvas');
+            const rect = canvas.getBoundingClientRect();
+            
+            let currentPoints = [{x: pObj.x, y: pObj.y}];
 
+            function onMove(clientX, clientY) {
+                let x = Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100));
+                let y = Math.max(0, Math.min(100, ((clientY - rect.top) / rect.height) * 100));
+                
+                pObj.x = x;
+                pObj.y = y;
+                pieceEl.style.left = x + '%';
+                pieceEl.style.top = y + '%';
 
-        /* mic ON */
-
-        await room
-            .localParticipant
-            .setMicrophoneEnabled(
-                true
-            );
-
-
-
-        /* camera OFF */
-
-        await room
-            .localParticipant
-            .setCameraEnabled(
-                false
-            );
-
-
-
-        /* switch page */
-
-        document
-            .getElementById(
-                "loginPage"
-            )
-            .style.display =
-            "none";
-
-
-        document
-            .getElementById(
-                "callPage"
-            )
-            .style.display =
-            "flex";
-
-
-
-        /* local participant */
-
-        addParticipant(
-            room.localParticipant
-        );
-
-
-
-        /* existing participants */
-
-        room.remoteParticipants
-            .forEach(
-                participant => {
-
-                    addParticipant(
-                        participant
-                    );
-
+                const lastPt = currentPoints[currentPoints.length - 1];
+                if(Math.hypot(x - lastPt.x, y - lastPt.y) > 1.2) {
+                    currentPoints.push({x, y});
+                    renderAdminPiecesAndPaths();
+                    drawTempLivePath(currentPoints, pObj.type);
                 }
-            );
-
-
-
-        updateCount();
-
-        updateButtons();
-
-        loadDevices();
-
-    }
-    catch(error){
-
-        console.error(error);
-
-        document
-            .getElementById(
-                "loginStatus"
-            )
-            .innerText =
-            "Gagal terhubung: " +
-            error.message;
-
-    }
-
-}
-
-
-
-/* =====================================================
-   EVENTS
-===================================================== */
-
-function setupEvents(){
-
-
-    room.on(
-
-        RoomEvent.TrackSubscribed,
-
-        (
-            track,
-            publication,
-            participant
-        ) => {
-
-            addTrack(
-                track,
-                participant
-            );
-
-        }
-
-    );
-
-
-
-    room.on(
-
-        RoomEvent.TrackUnsubscribed,
-
-        track => {
-
-            track
-                .detach()
-                .forEach(
-                    element =>
-                        element.remove()
-                );
-
-        }
-
-    );
-
-
-
-    room.on(
-
-        RoomEvent.ParticipantConnected,
-
-        participant => {
-
-            addParticipant(
-                participant
-            );
-
-            updateCount();
-
-        }
-
-    );
-
-
-
-    room.on(
-
-        RoomEvent.ParticipantDisconnected,
-
-        participant => {
-
-            removeParticipant(
-                participant.identity
-            );
-
-            updateCount();
-
-        }
-
-    );
-
-
-
-    room.on(
-
-        RoomEvent.LocalTrackPublished,
-
-        publication => {
-
-            if(publication.track){
-
-                addTrack(
-
-                    publication.track,
-
-                    room.localParticipant
-
-                );
-
             }
 
-        }
+            function onEnd() {
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+                document.removeEventListener('touchmove', onTouchMove);
+                document.removeEventListener('touchend', onTouchEnd);
 
-    );
-
-
-
-    room.on(
-
-        RoomEvent.LocalTrackUnpublished,
-
-        publication => {
-
-            if(publication.track){
-
-                publication.track
-                    .detach()
-                    .forEach(
-                        element =>
-                            element.remove()
-                    );
-
+                if(currentPoints.length > 2) {
+                    pObj.paths.push({ points: [...currentPoints] });
+                }
+                renderAdminPiecesAndPaths();
+                updateAdminPathListUI();
+                saveToStorage(); // Simpan permanen setelah selesai geser/tarik jalur
             }
 
+            const onMouseMove = (e) => onMove(e.clientX, e.clientY);
+            const onMouseUp = () => onEnd();
+            const onTouchMove = (e) => { if(e.touches.length > 0) onMove(e.touches[0].clientX, e.touches[0].clientY); };
+            const onTouchEnd = () => onEnd();
+
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+            document.addEventListener('touchmove', onTouchMove);
+            document.addEventListener('touchend', onTouchEnd);
         }
 
-    );
-
-
-
-    /* avatar update */
-
-    room.on(
-
-        RoomEvent.ParticipantMetadataChanged,
-
-        (
-            metadata,
-            participant
-        ) => {
-
-            updateParticipantAvatar(
-                participant
-            );
-
+        function drawTempLivePath(pts, type) {
+            if(pts.length < 2) return;
+            const svg = document.getElementById('adminSvgPath');
+            let d = `M ${pts[0].x}% ${pts[0].y}%`;
+            for(let i=1; i<pts.length; i++) { d += ` L ${pts[i].x}% ${pts[i].y}%`; }
+            const pathEl = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            pathEl.setAttribute("d", d);
+            pathEl.setAttribute("stroke", type === 'macro' ? '#f59e0b' : '#38bdf8');
+            pathEl.setAttribute("stroke-width", "2.5");
+            pathEl.setAttribute("fill", "none");
+            svg.appendChild(pathEl);
         }
 
-    );
+        function resetAdminPhaseMap() {
+            if(confirm('Yakin ingin mereset seluruh bidak & jalur di fase ini?')) {
+                dbData[activeAdminPhase].pieces = [];
+                selectedPieceId = null;
+                renderAdminPiecesAndPaths();
+                updateAdminPathListUI();
+                saveToStorage(); // Simpan permanen
+            }
+        }
 
-}
+        let pubAnimFrame = null;
+        let isPlaying = false;
+        let animProgress = 0;
+        const maxDurationFrames = 150;
 
+        function syncToPublic() {
+            document.getElementById('publicNotesDisplay').innerText = dbData[currentPhase].notes;
+            resetPublicAnimation();
+        }
 
+        function resetPublicAnimation() {
+            stopSimulation();
+            animProgress = 0;
+            document.getElementById('playbackStatus').innerText = "Status: Siap (Smooth)";
+            renderPublicPiecesAtProgress(0);
+        }
 
-/* =====================================================
-   ADD PARTICIPANT
-===================================================== */
+        function togglePlaySimulation() {
+            if(isPlaying) { stopSimulation(); }
+            else { startPublicSimulation(); }
+        }
 
-function addParticipant(
-    participant
-){
+        function startPublicSimulation() {
+            const pieces = dbData[currentPhase].pieces;
+            const hasPaths = pieces.some(p => p.paths.length > 0);
+            if(!hasPaths) {
+                alert('Belum ada jalur gerakan yang dibuat di fase ini.');
+                return;
+            }
+            isPlaying = true;
+            document.getElementById('playPauseBtn').innerText = "⏸ Pause";
+            document.getElementById('playbackStatus').innerText = "Status: Memutar...";
 
-    let existing =
-        document.getElementById(
-            "user-" +
-            participant.identity
-        );
+            function loop() {
+                if(animProgress <= maxDurationFrames) {
+                    renderPublicPiecesAtProgress(animProgress / maxDurationFrames);
+                    animProgress++;
+                    pubAnimFrame = setTimeout(() => requestAnimationFrame(loop), 30);
+                } else {
+                    stopSimulation();
+                }
+            }
+            loop();
+        }
 
+        function stopSimulation() {
+            isPlaying = false;
+            clearTimeout(pubAnimFrame);
+            document.getElementById('playPauseBtn').innerText = "▶ Play";
+            document.getElementById('playbackStatus').innerText = "Status: Selesai / Dijeda";
+        }
 
-    if(existing){
+        function stepPlayback(direction) {
+            stopSimulation();
+            animProgress += direction * 15;
+            if(animProgress < 0) animProgress = 0;
+            if(animProgress > maxDurationFrames) animProgress = maxDurationFrames;
+            renderPublicPiecesAtProgress(animProgress / maxDurationFrames);
+            document.getElementById('playbackStatus').innerText = `Progress ${Math.round((animProgress/maxDurationFrames)*100)}%`;
+        }
 
-        updateParticipantAvatar(
-            participant
-        );
+        function testAdminSimulation() {
+            syncToPublic();
+            startPublicSimulation();
+        }
 
-        return;
+        function renderPublicPiecesAtProgress(progress) {
+            const container = document.getElementById('publicPiecesContainer');
+            container.innerHTML = '';
+            const pieces = dbData[currentPhase].pieces;
 
-    }
+            pieces.forEach(p => {
+                let posX = p.x;
+                let posY = p.y;
 
+                if(p.paths.length > 0) {
+                    let fullPoints = [{x: p.x, y: p.y}];
+                    p.paths.forEach(pathObj => {
+                        fullPoints.push(...pathObj.points);
+                    });
 
+                    if(fullPoints.length > 1) {
+                        let targetIdx = progress * (fullPoints.length - 1);
+                        let baseIdx = Math.floor(targetIdx);
+                        let frac = targetIdx - baseIdx;
 
-    const tile =
-        document.createElement(
-            "div"
-        );
+                        let pt1 = fullPoints[baseIdx] || fullPoints[0];
+                        let pt2 = fullPoints[baseIdx + 1] || pt1;
 
-
-    tile.className =
-        "participant";
-
-
-    tile.id =
-        "user-" +
-        participant.identity;
-
-
-
-    /* avatar */
-
-    const avatar =
-        document.createElement(
-            "img"
-        );
-
-
-    avatar.className =
-        "participant-avatar";
-
-
-    avatar.src =
-        getParticipantAvatar(
-            participant
-        );
-
-
-
-    /* name */
-
-    const name =
-        document.createElement(
-            "div"
-        );
-
-
-    name.className =
-        "participant-name";
-
-
-    name.innerHTML =
-        `<span class="mic-icon">🎙️</span>` +
-        escapeHTML(
-            participant.name ||
-            participant.identity
-        );
-
-
-
-    /* video badge */
-
-    const badge =
-        document.createElement(
-            "div"
-        );
-
-
-    badge.className =
-        "video-badge";
-
-
-    badge.innerText =
-        "VOICE";
-
-
-
-    tile.appendChild(
-        avatar
-    );
-
-
-    tile.appendChild(
-        name
-    );
-
-
-    tile.appendChild(
-        badge
-    );
-
-
-    document
-        .getElementById(
-            "videoGrid"
-        )
-        .appendChild(
-            tile
-        );
-
-
-
-    /* existing tracks */
-
-    participant.trackPublications
-        .forEach(
-            publication => {
-
-                if(publication.track){
-
-                    addTrack(
-
-                        publication.track,
-
-                        participant
-
-                    );
-
+                        posX = pt1.x + (pt2.x - pt1.x) * frac;
+                        posY = pt1.y + (pt2.y - pt1.y) * frac;
+                    }
                 }
 
-            }
-        );
+                const el = document.createElement('div');
+                let cssClass = 'piece-team';
+                if(p.type === 'enemy' || p.type === 'macro') cssClass = 'piece-enemy';
 
-}
-
-
-
-/* =====================================================
-   GET AVATAR
-===================================================== */
-
-function getParticipantAvatar(
-    participant
-){
-
-    try{
-
-        if(participant.metadata){
-
-            const data =
-                JSON.parse(
-                    participant.metadata
-                );
-
-
-            if(data.avatar){
-
-                return data.avatar;
-
-            }
-
+                el.className = `tactical-piece ${cssClass}`;
+                el.innerText = p.label;
+                el.style.left = posX + '%';
+                el.style.top = posY + '%';
+                container.appendChild(el);
+            });
         }
 
-    }
-    catch(e){
-
-        console.log(e);
-
-    }
-
-
-    return defaultAvatarURL;
-
-}
-
-
-
-/* =====================================================
-   UPDATE AVATAR
-===================================================== */
-
-function updateParticipantAvatar(
-    participant
-){
-
-    const tile =
-        document.getElementById(
-            "user-" +
-            participant.identity
-        );
-
-
-    if(!tile) return;
-
-
-    const avatar =
-        tile.querySelector(
-            ".participant-avatar"
-        );
-
-
-    if(avatar){
-
-        avatar.src =
-            getParticipantAvatar(
-                participant
-            );
-
-    }
-
-}
-
-
-
-/* =====================================================
-   TRACK
-===================================================== */
-
-function addTrack(
-    track,
-    participant
-){
-
-    const tile =
-        document.getElementById(
-            "user-" +
-            participant.identity
-        );
-
-
-    if(!tile) return;
-
-
-
-    /* VIDEO */
-
-    if(
-        track.kind ===
-        Track.Kind.Video
-    ){
-
-        const old =
-            tile.querySelector(
-                "video"
-            );
-
-
-        if(old){
-
-            old.remove();
-
-        }
-
-
-        const video =
-            track.attach();
-
-
-        video.autoplay =
-            true;
-
-
-        video.playsInline =
-            true;
-
-
-        tile.insertBefore(
-            video,
-            tile.firstChild
-        );
-
-
-        const avatar =
-            tile.querySelector(
-                ".participant-avatar"
-            );
-
-
-        if(avatar){
-
-            avatar.style.display =
-                "none";
-
-        }
-
-
-        const badge =
-            tile.querySelector(
-                ".video-badge"
-            );
-
-
-        if(badge){
-
-            badge.innerText =
-                "VIDEO";
-
-        }
-
-    }
-
-
-
-    /* AUDIO */
-
-    if(
-        track.kind ===
-        Track.Kind.Audio
-    ){
-
-        const audio =
-            track.attach();
-
-
-        audio.autoplay =
-            true;
-
-
-        tile.appendChild(
-            audio
-        );
-
-    }
-
-}
-
-
-
-/* =====================================================
-   MICROPHONE
-===================================================== */
-
-async function toggleMic(){
-
-    if(!room) return;
-
-
-    const enabled =
-        room.localParticipant
-            .isMicrophoneEnabled;
-
-
-    await room
-        .localParticipant
-        .setMicrophoneEnabled(
-            !enabled
-        );
-
-
-    updateButtons();
-
-}
-
-
-
-/* =====================================================
-   CAMERA
-===================================================== */
-
-async function toggleCamera(){
-
-    if(!room) return;
-
-
-    const enabled =
-        room.localParticipant
-            .isCameraEnabled;
-
-
-    try{
-
-        await room
-            .localParticipant
-            .setCameraEnabled(
-                !enabled
-            );
-
-    }
-    catch(error){
-
-        alert(
-            "Izin kamera diperlukan."
-        );
-
-    }
-
-
-    updateButtons();
-
-}
-
-
-
-/* =====================================================
-   SCREEN SHARE
-===================================================== */
-
-async function toggleScreen(){
-
-    if(!room) return;
-
-
-    const enabled =
-        room.localParticipant
-            .isScreenShareEnabled;
-
-
-    try{
-
-        await room
-            .localParticipant
-            .setScreenShareEnabled(
-                !enabled
-            );
-
-    }
-    catch(error){
-
-        alert(
-            "Share screen tidak tersedia di browser ini."
-        );
-
-    }
-
-
-    updateButtons();
-
-}
-
-
-
-/* =====================================================
-   SOUND
-===================================================== */
-
-function toggleSound(){
-
-    const button =
-        document.getElementById(
-            "soundBtn"
-        );
-
-
-    button.classList.toggle(
-        "off"
-    );
-
-}
-
-
-
-/* =====================================================
-   BUTTON STATES
-===================================================== */
-
-function updateButtons(){
-
-    if(!room) return;
-
-
-    const mic =
-        document.getElementById(
-            "micBtn"
-        );
-
-
-    const camera =
-        document.getElementById(
-            "cameraBtn"
-        );
-
-
-    const screen =
-        document.getElementById(
-            "screenBtn"
-        );
-
-
-    mic.classList.toggle(
-
-        "off",
-
-        !room.localParticipant
-            .isMicrophoneEnabled
-
-    );
-
-
-    camera.classList.toggle(
-
-        "off",
-
-        !room.localParticipant
-            .isCameraEnabled
-
-    );
-
-
-    screen.classList.toggle(
-
-        "off",
-
-        !room.localParticipant
-            .isScreenShareEnabled
-
-    );
-
-}
-
-
-
-/* =====================================================
-   SETTINGS
-===================================================== */
-
-function toggleSettings(){
-
-    document
-        .getElementById(
-            "settingsPanel"
-        )
-        .classList.toggle(
-            "show"
-        );
-
-}
-
-
-
-/* =====================================================
-   SETTINGS TABS
-===================================================== */
-
-function openTab(
-    element,
-    id
-){
-
-    document
-        .querySelectorAll(
-            ".tab"
-        )
-        .forEach(
-            tab =>
-                tab.classList.remove(
-                    "active"
-                )
-        );
-
-
-    element.classList.add(
-        "active"
-    );
-
-
-    document
-        .getElementById(
-            "audioTab"
-        ).style.display =
-        "none";
-
-
-    document
-        .getElementById(
-            "videoTab"
-        ).style.display =
-        "none";
-
-
-    document
-        .getElementById(
-            "generalTab"
-        ).style.display =
-        "none";
-
-
-    document
-        .getElementById(
-            id
-        ).style.display =
-        "block";
-
-}
-
-
-
-/* =====================================================
-   LOAD DEVICES
-===================================================== */
-
-async function loadDevices(){
-
-    try{
-
-        const devices =
-            await navigator
-                .mediaDevices
-                .enumerateDevices();
-
-
-        const mic =
-            document.getElementById(
-                "micSelect"
-            );
-
-
-        const camera =
-            document.getElementById(
-                "cameraSelect"
-            );
-
-
-        const micDevices =
-            devices.filter(
-                d =>
-                    d.kind ===
-                    "audioinput"
-            );
-
-
-        const cameraDevices =
-            devices.filter(
-                d =>
-                    d.kind ===
-                    "videoinput"
-            );
-
-
-        mic.innerHTML = "";
-
-
-        camera.innerHTML = "";
-
-
-        micDevices.forEach(
-            device => {
-
-                const option =
-                    document.createElement(
-                        "option"
-                    );
-
-
-                option.value =
-                    device.deviceId;
-
-
-                option.textContent =
-                    device.label ||
-                    "Microphone";
-
-
-                mic.appendChild(
-                    option
-                );
-
-            }
-        );
-
-
-        cameraDevices.forEach(
-            device => {
-
-                const option =
-                    document.createElement(
-                        "option"
-                    );
-
-
-                option.value =
-                    device.deviceId;
-
-
-                option.textContent =
-                    device.label ||
-                    "Camera";
-
-
-                camera.appendChild(
-                    option
-                );
-
-            }
-        );
-
-    }
-    catch(error){
-
-        console.log(
-            "Device list:",
-            error
-        );
-
-    }
-
-}
-
-
-
-/* =====================================================
-   LEAVE
-===================================================== */
-
-function leaveRoom(){
-
-    if(room){
-
-        room.disconnect();
-
-        room = null;
-
-    }
-
-
-    document
-        .getElementById(
-            "videoGrid"
-        )
-        .innerHTML =
-        "";
-
-
-    document
-        .getElementById(
-            "callPage"
-        )
-        .style.display =
-        "none";
-
-
-    document
-        .getElementById(
-            "loginPage"
-        )
-        .style.display =
-        "flex";
-
-
-    document
-        .getElementById(
-            "loginStatus"
-        )
-        .innerText =
-        "Kamu sudah keluar dari TNEX Voice Chat.";
-
-}
-
-
-
-/* =====================================================
-   REMOVE PARTICIPANT
-===================================================== */
-
-function removeParticipant(
-    identity
-){
-
-    const tile =
-        document.getElementById(
-            "user-" +
-            identity
-        );
-
-
-    if(tile){
-
-        tile.remove();
-
-    }
-
-}
-
-
-
-/* =====================================================
-   PARTICIPANT COUNT
-===================================================== */
-
-function updateCount(){
-
-    if(!room) return;
-
-
-    const count =
-        1 +
-        room.remoteParticipants.size;
-
-
-    document
-        .getElementById(
-            "participantCount"
-        )
-        .innerText =
-        "• " +
-        count +
-        " peserta";
-
-}
-
-
-
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
-
-function escapeHTML(
-    text
-){
-
-    return String(text)
-
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-
-        .replace(
-            /</g,
-            "&lt;"
-        )
-
-        .replace(
-            />/g,
-            "&gt;"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-
-}
-
-</script>
-
+        window.onload = function() { syncToPublic(); };
+    </script>
 </body>
 </html>
