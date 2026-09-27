@@ -131,14 +131,14 @@
             padding: 5px; border-radius: 6px; font-size: 10px; resize: vertical; height: 30px;
         }
 
-        /* Ukuran Bidak Diperkecil & Rapi */
+        /* Ukuran Bidak Diperkecil & Rapi (Dibuat Lebih Kecil) */
         .tactical-piece {
-            position: absolute; width: 24px; height: 24px; border: 1.5px solid #fff; border-radius: 50%;
+            position: absolute; width: 18px; height: 18px; border: 1px solid #fff; border-radius: 50%;
             display: flex; align-items: center; justify-content: center; cursor: pointer;
-            box-shadow: 0 0 5px rgba(0,0,0,0.8); z-index: 10; user-select: none; touch-action: none;
-            transform: translate(-50%, -50%); font-weight: bold; font-size: 8px; letter-spacing: 0.2px;
+            box-shadow: 0 0 4px rgba(0,0,0,0.8); z-index: 10; user-select: none; touch-action: none;
+            transform: translate(-50%, -50%); font-weight: bold; font-size: 7px; letter-spacing: 0.1px;
         }
-        .tactical-piece.active-selected { border-color: #f59e0b; box-shadow: 0 0 10px #f59e0b; transform: translate(-50%, -50%) scale(1.2); }
+        .tactical-piece.active-selected { border-color: #f59e0b; box-shadow: 0 0 8px #f59e0b; transform: translate(-50%, -50%) scale(1.15); }
 
         .piece-team { background: radial-gradient(circle, #38bdf8 0%, #0369a1 100%); color: #ffffff; }
         .piece-enemy { background: radial-gradient(circle, #f87171 0%, #b91c1c 100%); color: #ffffff; }
@@ -301,7 +301,6 @@
         let activeAdminPhase = 'early';
         let selectedPieceId = null;
 
-        // Load data dari LocalStorage jika sudah pernah disimpan, kalau belum pakai default
         let defaultDbData = {
             early: { notes: "• EARLY GAME:\n- Rotasi awal buff & Freeze Lane di Gold Lane.", pieces: [] },
             mid: { notes: "• MID GAME:\n- Kontes Turtle, Zoning musuh, & Invade Jungle.", pieces: [] },
@@ -325,7 +324,7 @@
             } else { alert('Password Salah!'); }
         }
         function saveAndCloseAdmin() {
-            saveToStorage(); // Simpan permanen ke browser
+            saveToStorage();
             document.getElementById('adminPanelContainer').style.display = 'none';
             syncToPublic();
         }
@@ -346,7 +345,7 @@
 
         function saveAdminNotes() {
             dbData[activeAdminPhase].notes = document.getElementById('adminNotesInput').value;
-            saveToStorage(); // Simpan permanen
+            saveToStorage();
             alert('Catatan makro tersimpan permanen!');
         }
 
@@ -371,7 +370,7 @@
             dbData[activeAdminPhase].pieces.push(newPiece);
             selectPiece(newPiece.id);
             renderAdminPiecesAndPaths();
-            saveToStorage(); // Simpan permanen
+            saveToStorage();
         }
 
         function selectPiece(id) {
@@ -405,7 +404,6 @@
                 headerItem.innerHTML = `<span><strong>Garis ${pathIdx + 1}</strong></span> <button onclick="deleteSpecificPath('${p.id}', ${pathIdx})" style="background:#ef4444;">Hapus Semua</button>`;
                 container.appendChild(headerItem);
 
-                // Tombol Hapus per Step / titik
                 pathObj.points.forEach((pt, ptIdx) => {
                     if(ptIdx % 3 === 0 || ptIdx === pathObj.points.length - 1) { 
                         const ptItem = document.createElement('div');
@@ -424,7 +422,7 @@
                 p.paths.splice(pathIdx, 1);
                 renderAdminPiecesAndPaths();
                 updateAdminPathListUI();
-                saveToStorage(); // Simpan permanen
+                saveToStorage();
             }
         }
 
@@ -437,7 +435,7 @@
                 }
                 renderAdminPiecesAndPaths();
                 updateAdminPathListUI();
-                saveToStorage(); // Simpan permanen
+                saveToStorage();
             }
         }
 
@@ -523,7 +521,7 @@
                 }
                 renderAdminPiecesAndPaths();
                 updateAdminPathListUI();
-                saveToStorage(); // Simpan permanen setelah selesai geser/tarik jalur
+                saveToStorage();
             }
 
             const onMouseMove = (e) => onMove(e.clientX, e.clientY);
@@ -556,7 +554,7 @@
                 selectedPieceId = null;
                 renderAdminPiecesAndPaths();
                 updateAdminPathListUI();
-                saveToStorage(); // Simpan permanen
+                saveToStorage();
             }
         }
 
@@ -586,8 +584,8 @@
             const pieces = dbData[currentPhase].pieces;
             const hasPaths = pieces.some(p => p.paths.length > 0);
             if(!hasPaths) {
-                alert('Belum ada jalur gerakan yang dibuat di fase ini.');
-                return;
+                // Walaupun tidak ada jalur, tetap render posisi awalnya agar kelihatan di publik
+                renderPublicPiecesAtProgress(0);
             }
             isPlaying = true;
             document.getElementById('playPauseBtn').innerText = "⏸ Pause";
@@ -666,7 +664,10 @@
             });
         }
 
-        window.onload = function() { syncToPublic(); };
+        // Pastikan langsung memanggil sync saat halaman selesai dimuat agar bidak publik langsung nampak
+        window.onload = function() { 
+            syncToPublic(); 
+        };
     </script>
 </body>
 </html>
